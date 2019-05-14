@@ -18,6 +18,12 @@ const translations = validateBaseTranslations({
     connectivityProblems: 'There are some connectivity problems',
     timeout: 'The operation has timed out. \nPlease check your internet connection',
   },
+  nav: {
+    passports: 'Passports',
+  },
+  footer: {
+    copyright: '© 2019 Monetha. All rights reserved.',
+  }
 });
 
 export default translations;
