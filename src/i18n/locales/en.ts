@@ -20,10 +20,13 @@ const translations = validateBaseTranslations({
   },
   nav: {
     passports: 'Passports',
+    passportChanges: 'Passport changes',
+    factProviders: 'Fact providers',
+    factProviderFacts: 'Fact provider facts',
   },
   footer: {
     copyright: '© 2019 Monetha. All rights reserved.',
-  }
+  },
 });
 
 export default translations;

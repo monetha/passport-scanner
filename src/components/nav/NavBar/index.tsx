@@ -33,7 +33,7 @@ interface IState {
 
 // #region -------------- Component ---------------------------------------------------------------
 
-class NavBar extends React.Component<IProps, IState> {
+class NavBar extends React.PureComponent<IProps, IState> {
 
   private navbar: HTMLDivElement;
 
@@ -199,7 +199,7 @@ class NavBar extends React.Component<IProps, IState> {
   private isCurrentRoute = (link: INavBarLink): boolean => {
     const { match } = this.props;
 
-    return link.path === match.path;
+    return match.url.startsWith(link.path);
   }
 
   // #endregion
@@ -216,8 +216,20 @@ export { historic as NavBar }
 const items: INavBarLink[] = [
   {
     title: translate(t => t.nav.passports),
-    path: routes.Root,
-  }
+    path: routes.Passports,
+  },
+  {
+    title: translate(t => t.nav.passportChanges),
+    path: routes.PassportChanges,
+  },
+  {
+    title: translate(t => t.nav.factProviders),
+    path: routes.FactProviders,
+  },
+  {
+    title: translate(t => t.nav.factProviderFacts),
+    path: routes.FactProviderFacts,
+  },
 ];
 
 // #endregion
