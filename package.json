@@ -17,7 +17,7 @@
         "build": "cross-env NODE_ENV=production webpack --config internals/webpack/webpack.prod.babel.js -p --hide-modules --display-optimization-bailout",
         "build:clean": "rimraf ./build",
         "build:dll": "node ./internals/scripts/dependencies.js",
-        "dist:build": "npm run build && TODO:zip-and-copy-to-dist",
+        "dist:prepare-archives": "node ./internals/scripts/prepare-archives.js",
         "dist:clean": "rimraf ./dist",
         "start": "cross-env NODE_ENV=development node server",
         "start:tunnel": "cross-env NODE_ENV=development ENABLE_TUNNEL=true node server",
