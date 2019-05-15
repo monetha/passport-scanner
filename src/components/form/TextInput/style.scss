@@ -1,0 +1,15 @@
+@import "vars/index.scss";
+
+.ca-text-input {
+  border-radius: $borderRadiusXs;
+  box-shadow: boxShadowMd($colorBlack);
+  width: 100%;
+  min-height: $minInputSize;
+  border: none;
+  background-color: $colorWhite;
+  padding: $spaceBetweenComponentsXxs;
+
+  &::placeholder {
+    color: $colorGrayB2;
+  }
+}

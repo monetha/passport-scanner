@@ -1,0 +1,10 @@
+@import "vars/index.scss";
+
+.mh-label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  word-break: break-word;
+  word-wrap: break-word;
+  color: $colorGray;
+}
