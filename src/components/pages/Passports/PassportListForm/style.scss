@@ -1,0 +1,11 @@
+@import "vars/index.scss";
+
+.mh-passport-list-form {
+  .mh-form-buttons {
+    text-align: center;
+  }
+
+  form > div + div {
+    margin-top: $spaceBetweenComponentsXs;
+  }
+}

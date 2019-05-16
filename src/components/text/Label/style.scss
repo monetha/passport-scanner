@@ -1,7 +1,8 @@
 @import "vars/index.scss";
 
 .mh-label {
-  font-weight: bold;
+  font-size: $fontSizeSm;
+  text-transform: uppercase;
   display: block;
   margin-bottom: 5px;
   word-break: break-word;

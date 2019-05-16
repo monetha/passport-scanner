@@ -4,6 +4,9 @@ import { ErrorMessage, Form, Formik } from 'formik';
 import { Label } from 'src/components/text/Label';
 import { TextInput } from 'src/components/form/TextInput';
 import queryString from 'query-string';
+import { Button } from 'src/components/form/Button';
+import { translate } from 'src/i18n';
+import './style.scss';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -55,23 +58,30 @@ class PassportListForm extends React.PureComponent<IProps> {
     return (
       <Form>
         <div>
-          <Label>Passport factory address</Label>
+          <Label>{translate(t => t.form.factoryAddress)}</Label>
           <TextInput
             name='factoryAddress'
             onChange={this.onFactoryAddressChange}
             value={values.factoryAddress}
+            placeholder='0x123456...'
           />
           <ErrorMessage name='factoryAddress' component='div' />
         </div>
 
         <div>
-          <Label>Start block</Label>
+        <Label>{translate(t => t.form.startBlock)}</Label>
           <TextInput
             name='startBlock'
             onChange={this.onStartBlockChange}
             value={values.startBlock}
           />
           <ErrorMessage name='startBlock' component='div' />
+        </div>
+
+        <div className='mh-form-buttons'>
+          <Button>
+            {translate(t => t.common.submit)}
+          </Button>
         </div>
       </Form>
     );

@@ -18,6 +18,9 @@ const translations = validateBaseTranslations({
     connectivityProblems: 'There are some connectivity problems',
     timeout: 'The operation has timed out. \nPlease check your internet connection',
   },
+  common: {
+    submit: 'Submit',
+  },
   nav: {
     passports: 'Passports',
     passportChanges: 'Passport changes',
@@ -26,6 +29,10 @@ const translations = validateBaseTranslations({
   },
   footer: {
     copyright: '© 2019 Monetha. All rights reserved.',
+  },
+  form: {
+    factoryAddress: 'Passport factory address',
+    startBlock: 'Start block',
   },
 });
 

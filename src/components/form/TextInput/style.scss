@@ -2,12 +2,18 @@
 
 .ca-text-input {
   border-radius: $borderRadiusXs;
-  box-shadow: boxShadowMd($colorBlack);
+  box-shadow: boxShadowSm($colorBlack);
   width: 100%;
   min-height: $minInputSize;
-  border: none;
-  background-color: $colorWhite;
+  border: 1px solid rgba($colorGrayB2, 1);
   padding: $spaceBetweenComponentsXxs;
+  outline: 0;
+  transition: border 0.3s;
+
+  &:focus {
+    border: 1px solid $colorBlue;
+    box-shadow: boxShadowMd($colorBlue);
+  }
 
   &::placeholder {
     color: $colorGrayB2;
