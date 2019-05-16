@@ -9,6 +9,7 @@ export interface IServices {
   reduxStore: Store<IState>;
   logger: ILoggingService;
   createErrorHandler: (error: Error) => ErrorHandler;
+  web3: any;
 }
 
 /**

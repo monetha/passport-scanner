@@ -1,16 +1,32 @@
 import React from 'react';
 import 'src/style/index.scss';
 import './style.scss';
-import { Switch, Route, Redirect } from 'react-router';
+import { Switch, Route, Redirect, RouteComponentProps, withRouter } from 'react-router';
 import { routes } from 'src/constants/routes';
 import { PassportsPage } from '../pages/Passports';
 import { PassportsChangesPage } from '../pages/PassportChanges';
 import { FactProvidersPage } from '../pages/FactProviders';
 import { FactProviderFactsPage } from '../pages/FactProviderFacts';
+import queryString from 'query-string';
+import { ethNetworkUrls } from 'src/constants/api';
+import { registerBlockchainServices } from 'src/ioc/bootstrapIOC';
+import { getServices } from 'src/ioc/services';
+
+// #region -------------- Interface -------------------------------------------------------------------
+
+export interface IProps extends RouteComponentProps<any> {
+}
+
+// #endregion
 
 // #region -------------- Component ---------------------------------------------------------------
 
-export default class App extends React.Component<{}> {
+class App extends React.Component<IProps> {
+
+  public componentDidMount() {
+    this.initBlockchainServices();
+  }
+
   public render() {
     return (
       <div id='mth-app'>
@@ -32,6 +48,30 @@ export default class App extends React.Component<{}> {
       </Switch>
     );
   }
+
+  private initBlockchainServices() {
+    const { location } = this.props;
+
+    // Default is ropsten
+    let network = ethNetworkUrls.ropsten;
+
+    // Take from query string if it was passed
+    const queryParams = queryString.parse(location.search);
+    if (queryParams.network) {
+      const queryNetwork = queryParams.network as string;
+
+      if (ethNetworkUrls[queryNetwork]) {
+        network = ethNetworkUrls[queryNetwork];
+      } else {
+        network = queryNetwork;
+      }
+    }
+
+    registerBlockchainServices(getServices(), network);
+  }
 }
 
 // #endregion
+
+const routedApp = withRouter(App);
+export default routedApp;

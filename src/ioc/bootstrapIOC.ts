@@ -5,6 +5,7 @@ import { LoggingService } from 'src/core/logging/ConsoleLoggingService';
 import { ILoggingService } from 'src/core/logging/ILoggingService';
 import { IState } from 'src/state/rootReducer';
 import { IServices, registerServices } from './services';
+import Web3 from 'web3';
 
 export const bootstrapIOC = (store: Store<IState>) => {
   const services: Partial<IServices> = {};
@@ -22,3 +23,7 @@ const errorHandlerCreatorFactory = (logger: ILoggingService) => (
       .addErrorCodeExtractor(connectivityErrorCodeExtractor);
   }
 );
+
+export const registerBlockchainServices = (services: IServices, networkUrl: string) => {
+  services.web3 = new Web3(new Web3.providers.HttpProvider(networkUrl));
+};
