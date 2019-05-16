@@ -1,0 +1,15 @@
+@import "vars/index.scss";
+
+.mh-alert {
+  padding: $paddingSm;
+  word-break: break-word;
+  word-wrap: break-word;
+  font-size: $fontSizeMd;
+  text-align: center;
+
+  &.mh-error {
+    background-color: $colorRed;
+    color: $colorWhite;
+    box-shadow: boxShadowGlow($colorRed);
+  }
+}

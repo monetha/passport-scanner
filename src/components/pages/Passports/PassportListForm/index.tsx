@@ -13,6 +13,7 @@ import './style.scss';
 
 export interface IProps extends RouteComponentProps<any> {
   onSubmit(values: ISubmitValues);
+  disabled: boolean;
 }
 
 interface IFormValues {
@@ -78,6 +79,8 @@ class PassportListForm extends React.PureComponent<IProps> {
   }
 
   private renderForm = ({ handleChange, values }) => {
+    const { disabled } = this.props;
+
     return (
       <Form>
         <FormikField
@@ -89,6 +92,7 @@ class PassportListForm extends React.PureComponent<IProps> {
             onChange={handleChange}
             value={values.factoryAddress}
             placeholder='0x123456...'
+            disabled={disabled}
           />
         </FormikField>
 
@@ -100,12 +104,14 @@ class PassportListForm extends React.PureComponent<IProps> {
             name='startBlock'
             onChange={handleChange}
             value={values.startBlock}
+            disabled={disabled}
           />
         </FormikField>
 
         <div className='mh-form-buttons'>
           <Button
             type='submit'
+            disabled={disabled}
           >
             {translate(t => t.common.load)}
           </Button>

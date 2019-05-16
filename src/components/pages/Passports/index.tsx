@@ -11,6 +11,8 @@ import { IState } from 'src/state/rootReducer';
 import { getPassports } from 'src/state/passport/actions';
 import { IAsyncState } from 'src/core/redux/asyncAction';
 import { IPassportList } from 'src/state/passport/models';
+import { Loader } from 'src/components/indicators/Loader';
+import { Alert, AlertType } from 'src/components/indicators/Alert';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 
@@ -35,18 +37,75 @@ class PassportsPage extends React.Component<IProps> {
     const { onLoadPassports } = this.props;
 
     return (
-      <MainTemplate>
-        <Content size={Size.Sm}>
-          <PageTitle>
-            {translate(t => t.nav.passports)}
-          </PageTitle>
+      <MainTemplate className='mh-passports-page'>
+        <div>
+          <Content size={Size.Sm}>
+            <PageTitle>
+              {translate(t => t.nav.passports)}
+            </PageTitle>
 
-          <PassportListForm
-            onSubmit={onLoadPassports}
-          />
-        </Content>
+            <PassportListForm
+              onSubmit={onLoadPassports}
+              disabled={this.isLoading()}
+            />
+          </Content>
+
+          <Content>
+            <div className='mh-list'>
+              {this.renderLoader()}
+              {this.renderError()}
+              {this.renderList()}
+            </div>
+          </Content>
+        </div>
       </MainTemplate>
     );
+  }
+
+  private renderList() {
+    const { passportList } = this.props;
+
+    if (this.isLoading() || !passportList.data) {
+      return null;
+    }
+
+    return (
+      <div className='mh-list-contents'>
+        {JSON.stringify(passportList.data)}
+      </div>
+    );
+  }
+
+  private renderLoader() {
+    if (!this.isLoading()) {
+      return null;
+    }
+
+    return (
+      <Loader />
+    );
+  }
+
+  private renderError() {
+    const { passportList } = this.props;
+
+    if (this.isLoading() || !passportList.error) {
+      return null;
+    }
+
+    return (
+      <Alert
+        type={AlertType.Error}
+      >
+        {passportList.error.friendlyMessage}
+      </Alert>
+    )
+  }
+
+  private isLoading() {
+    const { passportList } = this.props;
+
+    return passportList.isFetching;
   }
 }
 

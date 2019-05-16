@@ -1,7 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import { getPassports, IGetPassportsPayload } from '../actions';
 import { IAsyncAction } from 'src/core/redux/asyncAction';
 import { getServices } from 'src/ioc/services';
+import { getPassports, IGetPassportsPayload } from '../actions';
 import { IPassportList } from '../models';
 
 // #region -------------- Challenge lists retrieval -------------------------------------------------------------------
@@ -14,7 +14,7 @@ function* onGetPassports(action: IAsyncAction<IGetPassportsPayload>) {
     const passportList: IPassportList = {
       factoryAddress,
       startBlock,
-      passportRefs: []
+      passportRefs: [],
     };
 
     yield put(getPassports.success(passportList));
