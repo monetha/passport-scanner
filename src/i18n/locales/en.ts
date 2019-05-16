@@ -17,9 +17,17 @@ const translations = validateBaseTranslations({
     somethingUnexpectedHasHappended: 'Something unexpected has happened',
     connectivityProblems: 'There are some connectivity problems',
     timeout: 'The operation has timed out. \nPlease check your internet connection',
+    mustBeNCharsLengths: 'Must be {{length}} characters long',
+    required: 'Required',
+    mustBeNumber: 'Must be a number',
+    containsInvalidChars: 'Contains invalid characters',
+    invalidAddress: 'Address is invalid',
+    mustBePositiveNumber: 'Must be a positive number',
+    mustBeWholeNumber: 'Must be a whole number',
   },
   common: {
     submit: 'Submit',
+    load: 'Load',
   },
   nav: {
     passports: 'Passports',

@@ -1,16 +1,18 @@
-import React from 'react';
-import { withRouter, RouteComponentProps } from 'react-router';
-import { ErrorMessage, Form, Formik } from 'formik';
-import { Label } from 'src/components/text/Label';
-import { TextInput } from 'src/components/form/TextInput';
+import { Form, Formik } from 'formik';
 import queryString from 'query-string';
+import React from 'react';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { Button } from 'src/components/form/Button';
+import { FormikField } from 'src/components/form/FormikField';
+import { TextInput } from 'src/components/form/TextInput';
 import { translate } from 'src/i18n';
+import * as Yup from 'yup';
 import './style.scss';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
 export interface IProps extends RouteComponentProps<any> {
+  onSubmit(values: ISubmitValues);
 }
 
 interface IFormValues {
@@ -18,13 +20,34 @@ interface IFormValues {
   startBlock: string;
 }
 
+export interface ISubmitValues {
+  factoryAddress: string;
+  startBlock: number;
+}
+
+// #endregion
+
+// #region -------------- Form validation schema -------------------------------------------------------------------
+
+const validationSchema = Yup.object().shape({
+  factoryAddress: Yup.string()
+    .trim()
+    .required(translate(t => t.errors.required))
+    .length(42, translate(t => t.errors.mustBeNCharsLengths, { length: '${length}' }))
+    .matches(/^0x[a-f0-9]+$/i, translate(t => t.errors.invalidAddress)),
+  startBlock: Yup.number()
+    .typeError(translate(t => t.errors.mustBeNumber))
+    .notRequired()
+    .positive(translate(t => t.errors.mustBePositiveNumber))
+    .integer(translate(t => t.errors.mustBeWholeNumber)),
+});
+
 // #endregion
 
 // #region -------------- Component ---------------------------------------------------------------
 
 class PassportListForm extends React.PureComponent<IProps> {
   private initialValues: IFormValues;
-  private setFieldValue;
 
   public constructor(props: IProps) {
     super(props);
@@ -45,6 +68,8 @@ class PassportListForm extends React.PureComponent<IProps> {
         <Formik<IFormValues>
           initialValues={this.initialValues}
           onSubmit={this.onSubmit}
+          validationSchema={validationSchema}
+          validateOnChange
         >
           {this.renderForm}
         </Formik>
@@ -52,51 +77,50 @@ class PassportListForm extends React.PureComponent<IProps> {
     );
   }
 
-  private renderForm = ({ setFieldValue, values }) => {
-    this.setFieldValue = setFieldValue;
-
+  private renderForm = ({ handleChange, values }) => {
     return (
       <Form>
-        <div>
-          <Label>{translate(t => t.form.factoryAddress)}</Label>
+        <FormikField
+          name='factoryAddress'
+          label={translate(t => t.form.factoryAddress)}
+        >
           <TextInput
             name='factoryAddress'
-            onChange={this.onFactoryAddressChange}
+            onChange={handleChange}
             value={values.factoryAddress}
             placeholder='0x123456...'
           />
-          <ErrorMessage name='factoryAddress' component='div' />
-        </div>
+        </FormikField>
 
-        <div>
-        <Label>{translate(t => t.form.startBlock)}</Label>
+        <FormikField
+          name='startBlock'
+          label={translate(t => t.form.startBlock)}
+        >
           <TextInput
             name='startBlock'
-            onChange={this.onStartBlockChange}
+            onChange={handleChange}
             value={values.startBlock}
           />
-          <ErrorMessage name='startBlock' component='div' />
-        </div>
+        </FormikField>
 
         <div className='mh-form-buttons'>
-          <Button>
-            {translate(t => t.common.submit)}
+          <Button
+            type='submit'
+          >
+            {translate(t => t.common.load)}
           </Button>
         </div>
       </Form>
     );
   }
 
-  private onFactoryAddressChange = (value: React.ChangeEvent<HTMLInputElement>) => {
-    this.setFieldValue('factoryAddress', value.currentTarget.value);
-  }
+  private onSubmit = (values: IFormValues) => {
+    const outputValues: ISubmitValues = {
+      factoryAddress: values.factoryAddress.trim().toLowerCase(),
+      startBlock: values.startBlock.trim() ? parseInt(values.startBlock, undefined) : null,
+    };
 
-  private onStartBlockChange = (value: React.ChangeEvent<HTMLInputElement>) => {
-    this.setFieldValue('startBlock', value.currentTarget.value);
-  }
-
-  private onSubmit = () => {
-
+    this.props.onSubmit(outputValues);
   }
 }
 

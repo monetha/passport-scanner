@@ -1,0 +1,14 @@
+@import 'vars/index.scss';
+
+.mh-formik-field {
+  &.mh-with-error {
+    input {
+      border-color: $colorRed;
+    }
+  }
+
+  .mh-error-msg {
+    margin-top: 10px;
+    color: $colorRed;
+  }
+}
