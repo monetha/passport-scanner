@@ -1,0 +1,59 @@
+@import "vars/index.scss";
+
+.mh-table {
+  .responsiveTable {
+    word-wrap: break-word;
+    word-break: break-word;
+    border-spacing: 0;
+
+    @media screen and (min-width: 40em) {
+      td {
+        padding: 5px;
+        font-family: monospace;
+        vertical-align: top;
+      }
+
+      th {
+        text-align: left;
+      }
+
+      tr:hover {
+        background-color: rgba($colorBlueB3, 0.5);
+      }
+    }
+
+    @media screen and (max-width: 40em) {
+      font-size: $fontSizeSm;
+
+      tr {
+        padding: 7px;
+        border: 1px solid $colorGrayB3;
+        border-radius: $borderRadiusSm;
+        box-shadow: boxShadowSm($colorBlack);
+        margin-bottom: $paddingSm;
+      }
+
+      td {
+        &.pivoted {
+          padding: 0 !important;
+          width: 100%;
+          white-space: normal;
+          font-family: monospace;
+
+          .tdBefore {
+            font-family: $fontFamilyRegular;
+          }
+
+          + td.pivoted {
+            padding-top: $paddingSm !important;
+          }
+        }
+
+        .tdBefore {
+          position: static;
+          width: 100%;
+        }
+      }
+    }
+  }
+}

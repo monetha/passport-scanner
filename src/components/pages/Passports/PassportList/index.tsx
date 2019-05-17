@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
+import { Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import { IPassportRef } from 'src/models/passport';
 import './style.scss';
@@ -9,6 +9,7 @@ import { routes } from 'src/constants/routes';
 import { getServices } from 'src/ioc/services';
 import { ethNetworkUrls, etherscanUrls } from 'src/constants/api';
 import BigNumber from 'bignumber.js';
+import { Table } from 'src/components/layout/Table';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -74,7 +75,7 @@ export class PassportList extends React.PureComponent<IProps> {
       <Link to={`${routes.FactProviders}/${address}`}>
         {address}
       </Link>
-    )
+    );
   }
 
   private renderOwnerAddress(ownerAddress: string) {
@@ -138,7 +139,7 @@ export class PassportList extends React.PureComponent<IProps> {
         return etherscanUrls.mainnet;
 
       default:
-        return null;;
+        return null;
     }
   }
 }
