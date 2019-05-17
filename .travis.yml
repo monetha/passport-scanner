@@ -14,7 +14,7 @@ install:
 script:
   - npm run build
 
-after_success:
+before_deploy:
   - npm run dist:prepare-archives
   - pip install --user --upgrade awscli
 
