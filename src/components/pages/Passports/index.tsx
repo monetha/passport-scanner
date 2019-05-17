@@ -13,6 +13,7 @@ import { IAsyncState } from 'src/core/redux/asyncAction';
 import { IPassportList } from 'src/state/passport/models';
 import { Loader } from 'src/components/indicators/Loader';
 import { Alert, AlertType } from 'src/components/indicators/Alert';
+import { PassportList } from './PassportList';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 
@@ -50,7 +51,7 @@ class PassportsPage extends React.Component<IProps> {
             />
           </Content>
 
-          <Content>
+          <Content size={Size.Lg}>
             <div className='mh-list'>
               {this.renderLoader()}
               {this.renderError()}
@@ -71,7 +72,7 @@ class PassportsPage extends React.Component<IProps> {
 
     return (
       <div className='mh-list-contents'>
-        {JSON.stringify(passportList.data)}
+        <PassportList items={passportList.data.passportRefs} />
       </div>
     );
   }

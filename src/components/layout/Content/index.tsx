@@ -6,7 +6,8 @@ import './style.scss';
 
 export enum Size {
   Sm = 'mh-sm',
-  Lg = '',
+  Md = '',
+  Lg = 'mh-lg',
 }
 
 export interface IProps {

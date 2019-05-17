@@ -42,6 +42,12 @@ const translations = validateBaseTranslations({
     factoryAddress: 'Passport factory address',
     startBlock: 'Start block',
   },
+  passport: {
+    passportAddress: 'Passport address',
+    firstOwnerAddress: 'First owner address',
+    blockNumber: 'Block number',
+    txHash: 'Transaction hash',
+  },
 });
 
 export default translations;
