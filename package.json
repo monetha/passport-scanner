@@ -78,7 +78,7 @@
         "reduce-reducers": "^1.0.4",
         "redux": "4.0.1",
         "redux-saga": "1.0.2",
-        "reputation-sdk": "git+https://github.com/monetha/reputation-js-sdk.git#1.0.0",
+        "reputation-sdk": "git+https://github.com/monetha/reputation-js-sdk.git#1.0.1",
         "web3": "0.20.3",
         "whatwg-fetch": "3.0.0",
         "yup": "^0.27.0"

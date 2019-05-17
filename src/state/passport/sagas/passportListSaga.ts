@@ -16,7 +16,7 @@ function* onGetPassports(action: IAsyncAction<IGetPassportsPayload>) {
 
     let startBlockHex;
     if (startBlock) {
-      startBlockHex = new BigNumber(startBlock, 10).toString(16);
+      startBlockHex = `0x${new BigNumber(startBlock, 10).toString(16)}`;
     }
 
     const reader = new sdk.PassportReader(web3, ethNetworkUrl);

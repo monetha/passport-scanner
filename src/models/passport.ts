@@ -6,9 +6,9 @@ export interface IPassportRef {
   blockNumber: string;
 
   /**
-   * Block hash
+   * TX hash
    */
-  blockHash: string;
+  txHash: string;
 
   /**
    * Passport address
