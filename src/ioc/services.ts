@@ -10,6 +10,7 @@ export interface IServices {
   logger: ILoggingService;
   createErrorHandler: (error: Error) => ErrorHandler;
   web3: any;
+  ethNetworkUrl: string;
 }
 
 /**

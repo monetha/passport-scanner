@@ -8,6 +8,9 @@ import { TextInput } from 'src/components/form/TextInput';
 import { translate } from 'src/i18n';
 import * as Yup from 'yup';
 import './style.scss';
+import { getServices } from 'src/ioc/services';
+import { ethNetworkUrls } from 'src/constants/api';
+import { defaultAddresses } from 'src/constants/addresses';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -53,14 +56,31 @@ class PassportListForm extends React.PureComponent<IProps> {
   public constructor(props: IProps) {
     super(props);
 
-    const { passportFactoryAddress } = props.match.params;
+    let { passportFactoryAddress } = props.match.params;
 
     const queryParams = queryString.parse(props.location.search);
 
-    this.initialValues = {
-      factoryAddress: passportFactoryAddress || '',
-      startBlock: (queryParams.start_block as string) || '',
-    };
+    let startBlock = (queryParams.start_block as string);
+
+    if (!passportFactoryAddress) {
+      const { ethNetworkUrl } = getServices();
+
+      switch (ethNetworkUrl) {
+        case ethNetworkUrls.mainnet:
+          passportFactoryAddress = defaultAddresses.mainnet.factory;
+          startBlock = defaultAddresses.mainnet.startBlock.toString();
+          break;
+
+        case ethNetworkUrls.ropsten:
+          passportFactoryAddress = defaultAddresses.ropsten.factory;
+          break;
+      }
+
+      this.initialValues = {
+        factoryAddress: passportFactoryAddress || '',
+        startBlock: startBlock || '',
+      };
+    }
   }
 
   public render() {

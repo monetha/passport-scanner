@@ -26,4 +26,5 @@ const errorHandlerCreatorFactory = (logger: ILoggingService) => (
 
 export const registerBlockchainServices = (services: IServices, networkUrl: string) => {
   services.web3 = new Web3(new Web3.providers.HttpProvider(networkUrl));
+  services.ethNetworkUrl = networkUrl;
 };

@@ -23,7 +23,9 @@ export interface IProps extends RouteComponentProps<any> {
 
 class App extends React.Component<IProps> {
 
-  public componentDidMount() {
+  public constructor(props) {
+    super(props);
+
     this.initBlockchainServices();
   }
 
