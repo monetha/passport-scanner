@@ -9,6 +9,7 @@ import './style.scss';
 import { translate } from 'src/i18n';
 import BigNumber from 'bignumber.js';
 import translations from 'src/i18n/locales/en';
+import groupBy from 'lodash/groupBy';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -25,46 +26,69 @@ export class FactsList extends React.PureComponent<IProps> {
   public render() {
     return (
       <div className='mh-facts-list'>
-        <Table>
-          <Thead>
-            <Tr>
-              <Th>{translate(t => t.passport.factProviderAddress)}</Th>
-              <Th>{translate(t => t.passport.key)}</Th>
-              <Th>{translate(t => t.passport.dataType)}</Th>
-              <Th>{translate(t => t.passport.changeType)}</Th>
-              <Th>{translate(t => t.passport.value)}</Th>
-              <Th>{translate(t => t.passport.blockNumber)}</Th>
-              <Th>{translate(t => t.passport.txHash)}</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {this.renderItems()}
-          </Tbody>
-        </Table>
+        {this.renderGroups()}
       </div>
     );
   }
 
-  private renderItems() {
+  private renderGroups() {
     const { items } = this.props;
 
     if (!items) {
       return null;
     }
 
-    return items.map((item, index) => {
-      return (
-        <Fragment key={index}>
-          {this.renderItem(item)}
-        </Fragment>
-      );
-    });
+    // Group items by fact provider
+    const grouped = groupBy(items, i => i.factProviderAddress);
+
+    const renderedGroups = [];
+
+    for (const factProviderAddress in grouped) {
+      if (!grouped.hasOwnProperty(factProviderAddress)) {
+        continue;
+      }
+
+      const facts = grouped[factProviderAddress];
+
+      renderedGroups.push((
+        <div
+          className='mh-fact-group'
+          key={factProviderAddress}
+        >
+          <div className='mh-fact-provider-header'>
+            {`${translate(t => t.passport.factProvider)}: `}
+            {this.renderFactProviderAddress(factProviderAddress)}
+          </div>
+
+          <Table>
+            <Thead>
+              <Tr>
+                <Th>{translate(t => t.passport.key)}</Th>
+                <Th>{translate(t => t.passport.dataType)}</Th>
+                <Th>{translate(t => t.passport.changeType)}</Th>
+                <Th>{translate(t => t.passport.value)}</Th>
+                <Th>{translate(t => t.passport.blockNumber)}</Th>
+                <Th>{translate(t => t.passport.txHash)}</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {facts.map(f => (
+                <Fragment key={f.transactionHash}>
+                  {this.renderItem(f)}
+                </Fragment>
+              ))}
+            </Tbody>
+          </Table>
+        </div>
+      ));
+    }
+
+    return renderedGroups;
   }
 
   private renderItem(item: IFact) {
     return (
       <Tr>
-        <Td>{this.renderFactProviderAddress(item)}</Td>
         <Td>{item.key}</Td>
         <Td>{this.renderDataType(item)}</Td>
         <Td>{this.renderEventType(item)}</Td>
@@ -75,20 +99,18 @@ export class FactsList extends React.PureComponent<IProps> {
     );
   }
 
-  private renderFactProviderAddress(item: IFact) {
-    const { factProviderAddress } = item;
-
+  private renderFactProviderAddress(address: string) {
     const url = this.getEtherscanUrl();
     if (!url) {
-      return factProviderAddress;
+      return address;
     }
 
     return (
       <a
-        href={`${url}/address/${factProviderAddress}`}
+        href={`${url}/address/${address}`}
         target='_blank'
       >
-        {factProviderAddress}
+        {address}
       </a>
     );
   }

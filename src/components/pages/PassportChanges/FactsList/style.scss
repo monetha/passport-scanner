@@ -1,4 +1,17 @@
 @import "vars/index.scss";
 
 .mh-facts-list {
+  .mh-fact-provider-header {
+    margin-bottom: $spaceBetweenComponentsXxs;
+    font-family: $fontFamilyBold;
+    font-size: $fontSizeMd2;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .mh-fact-group {
+    + .mh-fact-group {
+      margin-top: $spaceBetweenComponentsLg;
+    }
+  }
 }

@@ -50,6 +50,7 @@ const translations = validateBaseTranslations({
     firstOwnerAddress: 'First owner address',
     blockNumber: 'Block number',
     txHash: 'Transaction hash',
+    factProvider: 'Fact provider',
     factProviderAddress: 'Fact provider address',
     key: 'Key',
     dataType: 'Data type',
