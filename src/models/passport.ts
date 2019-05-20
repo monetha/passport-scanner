@@ -1,3 +1,5 @@
+import { IHistoryEvent } from 'reputation-sdk';
+
 export interface IPassportRef {
 
   /**
@@ -19,4 +21,7 @@ export interface IPassportRef {
    * Passport owner address
    */
   ownerAddress: string;
+}
+
+export interface IFact extends IHistoryEvent {
 }

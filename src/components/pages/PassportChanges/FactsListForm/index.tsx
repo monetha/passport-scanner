@@ -8,9 +8,6 @@ import { TextInput } from 'src/components/form/TextInput';
 import { translate } from 'src/i18n';
 import * as Yup from 'yup';
 import './style.scss';
-import { getServices } from 'src/ioc/services';
-import { ethNetworkUrls } from 'src/constants/api';
-import { defaultAddresses } from 'src/constants/addresses';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -20,12 +17,12 @@ export interface IProps extends RouteComponentProps<any> {
 }
 
 interface IFormValues {
-  factoryAddress: string;
+  passportAddress: string;
   startBlock: string;
 }
 
 export interface ISubmitValues {
-  factoryAddress: string;
+  passportAddress: string;
   startBlock: number;
 }
 
@@ -34,7 +31,7 @@ export interface ISubmitValues {
 // #region -------------- Form validation schema -------------------------------------------------------------------
 
 const validationSchema = Yup.object().shape({
-  factoryAddress: Yup.string()
+  passportAddress: Yup.string()
     .trim()
     .required(translate(t => t.errors.required))
     .length(42, translate(t => t.errors.mustBeNCharsLengths, { length: '${length}' }))
@@ -50,42 +47,33 @@ const validationSchema = Yup.object().shape({
 
 // #region -------------- Component ---------------------------------------------------------------
 
-class PassportListForm extends React.PureComponent<IProps> {
+class FactsListForm extends React.PureComponent<IProps> {
   private initialValues: IFormValues;
 
   public constructor(props: IProps) {
     super(props);
 
-    let { passportFactoryAddress } = props.match.params;
+    const { passportAddress } = props.match.params;
 
     const queryParams = queryString.parse(props.location.search);
 
-    let startBlock = (queryParams.start_block as string);
-
-    if (!passportFactoryAddress) {
-      const { ethNetworkUrl } = getServices();
-
-      switch (ethNetworkUrl) {
-        case ethNetworkUrls.mainnet:
-          passportFactoryAddress = defaultAddresses.mainnet.factory;
-          startBlock = defaultAddresses.mainnet.startBlock.toString();
-          break;
-
-        case ethNetworkUrls.ropsten:
-          passportFactoryAddress = defaultAddresses.ropsten.factory;
-          break;
-      }
-    }
+    const startBlock = (queryParams.start_block as string);
 
     this.initialValues = {
-      factoryAddress: passportFactoryAddress || '',
+      passportAddress: passportAddress || '',
       startBlock: startBlock || '',
     };
   }
 
+  public componentDidMount() {
+    if (this.initialValues.passportAddress) {
+      this.onSubmit(this.initialValues);
+    }
+  }
+
   public render() {
     return (
-      <div className='mh-passport-list-form'>
+      <div className='mh-facts-form'>
         <Formik<IFormValues>
           initialValues={this.initialValues}
           onSubmit={this.onSubmit}
@@ -104,13 +92,13 @@ class PassportListForm extends React.PureComponent<IProps> {
     return (
       <Form>
         <FormikField
-          name='factoryAddress'
-          label={translate(t => t.form.factoryAddress)}
+          name='passportAddress'
+          label={translate(t => t.form.passportAddress)}
         >
           <TextInput
-            name='factoryAddress'
+            name='passportAddress'
             onChange={handleChange}
-            value={values.factoryAddress}
+            value={values.passportAddress}
             placeholder='0x123456...'
             disabled={disabled}
           />
@@ -142,7 +130,7 @@ class PassportListForm extends React.PureComponent<IProps> {
 
   private onSubmit = (values: IFormValues) => {
     const outputValues: ISubmitValues = {
-      factoryAddress: values.factoryAddress.trim().toLowerCase(),
+      passportAddress: values.passportAddress.trim().toLowerCase(),
       startBlock: values.startBlock.trim() ? parseInt(values.startBlock, undefined) : null,
     };
 
@@ -152,6 +140,6 @@ class PassportListForm extends React.PureComponent<IProps> {
 
 // #endregion
 
-const routed = withRouter(PassportListForm);
+const routed = withRouter(FactsListForm);
 
-export { routed as PassportListForm };
+export { routed as FactsListForm };

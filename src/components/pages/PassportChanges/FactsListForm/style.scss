@@ -1,0 +1,11 @@
+@import "vars/index.scss";
+
+.mh-facts-form {
+  .mh-form-buttons {
+    text-align: center;
+  }
+
+  form > div + div {
+    margin-top: $spaceBetweenComponentsXs;
+  }
+}

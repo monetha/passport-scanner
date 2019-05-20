@@ -1,3 +1,4 @@
+import { EventType, DataType } from 'reputation-sdk';
 
 // tslint:disable:max-line-length
 
@@ -24,6 +25,7 @@ const translations = validateBaseTranslations({
     invalidAddress: 'Address is invalid',
     mustBePositiveNumber: 'Must be a positive number',
     mustBeWholeNumber: 'Must be a whole number',
+    tooManyResults: 'Too many results',
   },
   common: {
     submit: 'Submit',
@@ -40,6 +42,7 @@ const translations = validateBaseTranslations({
   },
   form: {
     factoryAddress: 'Passport factory address',
+    passportAddress: 'Passport address',
     startBlock: 'Start block',
   },
   passport: {
@@ -47,6 +50,26 @@ const translations = validateBaseTranslations({
     firstOwnerAddress: 'First owner address',
     blockNumber: 'Block number',
     txHash: 'Transaction hash',
+    factProviderAddress: 'Fact provider address',
+    key: 'Key',
+    dataType: 'Data type',
+    changeType: 'Change',
+    value: 'Value',
+    eventTypes: {
+      [EventType.Deleted]: 'Deleted',
+      [EventType.Updated]: 'Update',
+    },
+    dataTypes: {
+      [DataType.Address]: 'Address',
+      [DataType.Bool]: 'Bool',
+      [DataType.Bytes]: 'Bytes',
+      [DataType.IPFSHash]: 'IPFS',
+      [DataType.Int]: 'Int',
+      [DataType.Uint]: 'UInt',
+      [DataType.String]: 'String',
+      [DataType.TxData]: 'TX data',
+      [DataType.PrivateData]: 'Private data',
+    },
   },
 });
 

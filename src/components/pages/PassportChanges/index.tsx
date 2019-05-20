@@ -1,18 +1,134 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
+import { Alert, AlertType } from 'src/components/indicators/Alert';
+import { Loader } from 'src/components/indicators/Loader';
+import { Content, Size } from 'src/components/layout/Content';
 import { MainTemplate } from 'src/components/layout/MainTemplate';
+import { PageTitle } from 'src/components/text/PageTitle';
+import { IAsyncState } from 'src/core/redux/asyncAction';
+import { translate } from 'src/i18n';
+import { getFacts } from 'src/state/passport/actions';
+import { IFactList } from 'src/state/passport/models';
+import { IState } from 'src/state/rootReducer';
+import { FactsList } from './FactsList';
+import { FactsListForm, ISubmitValues } from './FactsListForm';
 import './style.scss';
-import { Content } from 'src/components/layout/Content';
 
-export class PassportsChangesPage extends React.Component<RouteComponentProps<any>> {
+// #region -------------- Interfaces -------------------------------------------------------------------
+
+interface IStateProps {
+  factList: IAsyncState<IFactList>;
+}
+
+interface IDispatchProps {
+  onLoadFacts(values: ISubmitValues);
+}
+
+interface IProps extends RouteComponentProps<any>, IStateProps, IDispatchProps {
+}
+
+// #endregion
+
+// #region -------------- Component -------------------------------------------------------------------
+
+class PassportChangesPage extends React.Component<IProps> {
 
   public render() {
+    const { onLoadFacts } = this.props;
+
     return (
-      <MainTemplate>
-        <Content>
-          Passport changes
-        </Content>
+      <MainTemplate className='mh-passport-changes-page'>
+        <div>
+          <Content size={Size.Sm}>
+            <PageTitle>
+              {translate(t => t.nav.passportChanges)}
+            </PageTitle>
+
+            <FactsListForm
+              onSubmit={onLoadFacts}
+              disabled={this.isLoading()}
+            />
+          </Content>
+
+          <Content size={Size.Lg}>
+            <div className='mh-list'>
+              {this.renderLoader()}
+              {this.renderError()}
+              {this.renderList()}
+            </div>
+          </Content>
+        </div>
       </MainTemplate>
     );
   }
+
+  private renderList() {
+    const { factList } = this.props;
+
+    if (this.isLoading() || !factList.data) {
+      return null;
+    }
+
+    return (
+      <div className='mh-list-contents'>
+        <FactsList items={factList.data.facts} />
+      </div>
+    );
+  }
+
+  private renderLoader() {
+    if (!this.isLoading()) {
+      return null;
+    }
+
+    return (
+      <Loader />
+    );
+  }
+
+  private renderError() {
+    const { factList } = this.props;
+
+    if (this.isLoading() || !factList.error) {
+      return null;
+    }
+
+    return (
+      <Alert
+        type={AlertType.Error}
+      >
+        {factList.error.friendlyMessage}
+      </Alert>
+    );
+  }
+
+  private isLoading() {
+    const { factList } = this.props;
+
+    return factList.isFetching;
+  }
 }
+
+// #endregion
+
+// #region -------------- Connect -------------------------------------------------------------------
+
+const connected = connect<IStateProps, IDispatchProps>(
+  (state: IState) => {
+    return {
+      factList: state.passport.facts,
+    };
+  },
+  (dispatch) => {
+    return {
+      onLoadFacts(values: ISubmitValues) {
+        dispatch(getFacts.init(values));
+      },
+    };
+  },
+)(PassportChangesPage);
+
+export { connected as PassportChangesPage };
+
+// #endregion

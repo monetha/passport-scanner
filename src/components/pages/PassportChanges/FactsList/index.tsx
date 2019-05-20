@@ -1,36 +1,38 @@
 import React, { Fragment } from 'react';
-import { Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
+import { Tbody, Thead, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
-import { IPassportRef } from 'src/models/passport';
+import { Table } from 'src/components/layout/Table';
+import { etherscanUrls, ethNetworkUrls } from 'src/constants/api';
+import { getServices } from 'src/ioc/services';
+import { IFact } from 'src/models/passport';
 import './style.scss';
 import { translate } from 'src/i18n';
-import { Link } from 'react-router-dom';
-import { routes } from 'src/constants/routes';
-import { getServices } from 'src/ioc/services';
-import { ethNetworkUrls, etherscanUrls } from 'src/constants/api';
 import BigNumber from 'bignumber.js';
-import { Table } from 'src/components/layout/Table';
+import translations from 'src/i18n/locales/en';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
 export interface IProps {
-  items: IPassportRef[];
+  items: IFact[];
 }
 
 // #endregion
 
 // #region -------------- Component ---------------------------------------------------------------
 
-export class PassportList extends React.PureComponent<IProps> {
+export class FactsList extends React.PureComponent<IProps> {
 
   public render() {
     return (
-      <div className='mh-passport-list'>
+      <div className='mh-facts-list'>
         <Table>
           <Thead>
             <Tr>
-              <Th>{translate(t => t.passport.passportAddress)}</Th>
-              <Th>{translate(t => t.passport.firstOwnerAddress)}</Th>
+              <Th>{translate(t => t.passport.factProviderAddress)}</Th>
+              <Th>{translate(t => t.passport.key)}</Th>
+              <Th>{translate(t => t.passport.dataType)}</Th>
+              <Th>{translate(t => t.passport.changeType)}</Th>
+              <Th>{translate(t => t.passport.value)}</Th>
               <Th>{translate(t => t.passport.blockNumber)}</Th>
               <Th>{translate(t => t.passport.txHash)}</Th>
             </Tr>
@@ -59,46 +61,61 @@ export class PassportList extends React.PureComponent<IProps> {
     });
   }
 
-  private renderItem(item: IPassportRef) {
+  private renderItem(item: IFact) {
     return (
       <Tr>
-        <Td>{this.renderPassportAddress(item)}</Td>
-        <Td>{this.renderOwnerAddress(item)}</Td>
+        <Td>{this.renderFactProviderAddress(item)}</Td>
+        <Td>{item.key}</Td>
+        <Td>{this.renderDataType(item)}</Td>
+        <Td>{this.renderEventType(item)}</Td>
+        <Td>{this.renderValue(item)}</Td>
         <Td>{this.renderBlockNumber(item)}</Td>
         <Td>{this.renderTxHash(item)}</Td>
       </Tr>
     );
   }
 
-  private renderPassportAddress(item: IPassportRef) {
-    const { passportAddress, blockNumber } = item;
-
-    return (
-      <Link to={`${routes.PassportChanges}/${passportAddress}?start_block=${blockNumber}`}>
-        {passportAddress}
-      </Link>
-    );
-  }
-
-  private renderOwnerAddress(item: IPassportRef) {
-    const { ownerAddress } = item;
+  private renderFactProviderAddress(item: IFact) {
+    const { factProviderAddress } = item;
 
     const url = this.getEtherscanUrl();
     if (!url) {
-      return ownerAddress;
+      return factProviderAddress;
     }
 
     return (
       <a
-        href={`${url}/address/${ownerAddress}`}
+        href={`${url}/address/${factProviderAddress}`}
         target='_blank'
       >
-        {ownerAddress}
+        {factProviderAddress}
       </a>
     );
   }
 
-  private renderBlockNumber(item: IPassportRef) {
+  private renderDataType(item: IFact) {
+    const transKey = translations.passport.dataTypes[item.dataType];
+    if (!transKey) {
+      return item.dataType;
+    }
+
+    return translate(t => t.passport.dataTypes[item.dataType]);
+  }
+
+  private renderEventType(item: IFact) {
+    const transKey = translations.passport.eventTypes[item.eventType];
+    if (!transKey) {
+      return item.eventType;
+    }
+
+    return translate(t => t.passport.eventTypes[item.eventType]);
+  }
+
+  private renderValue(_: IFact) {
+    return 'Download';
+  }
+
+  private renderBlockNumber(item: IFact) {
     const { blockNumber } = item;
 
     const decBlockNr = new BigNumber(blockNumber, 16).toString(10);
@@ -118,20 +135,20 @@ export class PassportList extends React.PureComponent<IProps> {
     );
   }
 
-  private renderTxHash(item: IPassportRef) {
-    const { txHash } = item;
+  private renderTxHash(item: IFact) {
+    const { transactionHash } = item;
 
     const url = this.getEtherscanUrl();
     if (!url) {
-      return txHash;
+      return transactionHash;
     }
 
     return (
       <a
-        href={`${url}/tx/${txHash}`}
+        href={`${url}/tx/${transactionHash}`}
         target='_blank'
       >
-        {txHash}
+        {transactionHash}
       </a>
     );
   }

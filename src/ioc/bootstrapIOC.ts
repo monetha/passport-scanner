@@ -6,6 +6,7 @@ import { ILoggingService } from 'src/core/logging/ILoggingService';
 import { IState } from 'src/state/rootReducer';
 import { IServices, registerServices } from './services';
 import Web3 from 'web3';
+import { ethRpcErrorCodeExtractor } from 'src/core/error/errorCodeExtractors/ethRpcErrorCodeExtractor';
 
 export const bootstrapIOC = (store: Store<IState>) => {
   const services: Partial<IServices> = {};
@@ -20,7 +21,8 @@ export const bootstrapIOC = (store: Store<IState>) => {
 const errorHandlerCreatorFactory = (logger: ILoggingService) => (
   (error: Error) => {
     return new ErrorHandler(error, logger)
-      .addErrorCodeExtractor(connectivityErrorCodeExtractor);
+      .addErrorCodeExtractor(connectivityErrorCodeExtractor)
+      .addErrorCodeExtractor(ethRpcErrorCodeExtractor);
   }
 );
 

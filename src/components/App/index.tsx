@@ -4,7 +4,7 @@ import './style.scss';
 import { Switch, Route, Redirect, RouteComponentProps, withRouter } from 'react-router';
 import { routes } from 'src/constants/routes';
 import { PassportsPage } from '../pages/Passports';
-import { PassportsChangesPage } from '../pages/PassportChanges';
+import { PassportChangesPage } from '../pages/PassportChanges';
 import { FactProvidersPage } from '../pages/FactProviders';
 import { FactProviderFactsPage } from '../pages/FactProviderFacts';
 import queryString from 'query-string';
@@ -43,7 +43,7 @@ class App extends React.Component<IProps> {
     return (
       <Switch>
         <Route exact path={`${routes.Passports}/:passportFactoryAddress?`} component={PassportsPage} />
-        <Route exact path={`${routes.PassportChanges}/:passportAddress?`} component={PassportsChangesPage} />
+        <Route exact path={`${routes.PassportChanges}/:passportAddress?`} component={PassportChangesPage} />
         <Route exact path={`${routes.FactProviders}/:passportAddress?`} component={FactProvidersPage} />
         <Route exact path={`${routes.FactProviderFacts}/:passportAddress?/:factProviderAddress?`} component={FactProviderFactsPage} />
         <Redirect to={routes.Passports} />
