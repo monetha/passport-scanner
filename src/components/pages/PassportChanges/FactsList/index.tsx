@@ -10,6 +10,7 @@ import { translate } from 'src/i18n';
 import BigNumber from 'bignumber.js';
 import translations from 'src/i18n/locales/en';
 import groupBy from 'lodash/groupBy';
+import { knownFactProviders } from 'src/constants/factProviders';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -57,7 +58,7 @@ export class FactsList extends React.PureComponent<IProps> {
         >
           <div className='mh-fact-provider-header'>
             {`${translate(t => t.passport.factProvider)}: `}
-            {this.renderFactProviderAddress(factProviderAddress)}
+            {this.renderFactProviderName(factProviderAddress)}
           </div>
 
           <Table>
@@ -99,10 +100,15 @@ export class FactsList extends React.PureComponent<IProps> {
     );
   }
 
-  private renderFactProviderAddress(address: string) {
+  private renderFactProviderName(address: string) {
+    let name = address;
+    if (knownFactProviders[address.toLowerCase()]) {
+      name = knownFactProviders[address.toLowerCase()];
+    }
+
     const url = this.getEtherscanUrl();
     if (!url) {
-      return address;
+      return name;
     }
 
     return (
@@ -110,7 +116,7 @@ export class FactsList extends React.PureComponent<IProps> {
         href={`${url}/address/${address}`}
         target='_blank'
       >
-        {address}
+        {name}
       </a>
     );
   }
