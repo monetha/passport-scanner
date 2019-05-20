@@ -1,16 +1,14 @@
-import React from 'react';
-import 'src/style/index.scss';
-import './style.scss';
-import { Switch, Route, Redirect, RouteComponentProps, withRouter } from 'react-router';
-import { routes } from 'src/constants/routes';
-import { PassportsPage } from '../pages/Passports';
-import { PassportChangesPage } from '../pages/PassportChanges';
-import { FactProvidersPage } from '../pages/FactProviders';
-import { FactProviderFactsPage } from '../pages/FactProviderFacts';
 import queryString from 'query-string';
+import React from 'react';
+import { Redirect, Route, RouteComponentProps, Switch, withRouter } from 'react-router';
 import { ethNetworkUrls } from 'src/constants/api';
+import { routes } from 'src/constants/routes';
 import { registerBlockchainServices } from 'src/ioc/bootstrapIOC';
 import { getServices } from 'src/ioc/services';
+import 'src/style/index.scss';
+import { PassportChangesPage } from '../pages/PassportChanges';
+import { PassportsPage } from '../pages/Passports';
+import './style.scss';
 
 // #region -------------- Interface -------------------------------------------------------------------
 
@@ -44,8 +42,6 @@ class App extends React.Component<IProps> {
       <Switch>
         <Route exact path={`${routes.Passports}/:passportFactoryAddress?`} component={PassportsPage} />
         <Route exact path={`${routes.PassportChanges}/:passportAddress?`} component={PassportChangesPage} />
-        <Route exact path={`${routes.FactProviders}/:passportAddress?`} component={FactProvidersPage} />
-        <Route exact path={`${routes.FactProviderFacts}/:passportAddress?/:factProviderAddress?`} component={FactProviderFactsPage} />
         <Redirect to={routes.Passports} />
       </Switch>
     );

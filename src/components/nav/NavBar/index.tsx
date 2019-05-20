@@ -207,7 +207,7 @@ class NavBar extends React.PureComponent<IProps, IState> {
 
 const historic = withRouter(NavBar);
 
-export { historic as NavBar }
+export { historic as NavBar };
 
 // #endregion
 
@@ -221,14 +221,6 @@ const items: INavBarLink[] = [
   {
     title: translate(t => t.nav.passportChanges),
     path: routes.PassportChanges,
-  },
-  {
-    title: translate(t => t.nav.factProviders),
-    path: routes.FactProviders,
-  },
-  {
-    title: translate(t => t.nav.factProviderFacts),
-    path: routes.FactProviderFacts,
   },
 ];
 
