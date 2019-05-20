@@ -5,4 +5,4 @@ const version = process.env.TRAVIS_TAG || process.env.TRAVIS_BRANCH || `developm
 
 shell.exec('npm run dist:clean');
 shell.mkdir('dist');
-shell.exec(`cd build && tar cvzf ../dist/passport-scanner-${version}.tgz *`);
+shell.exec('cd build && tar cvzf ../dist/passport-scanner-${version}.tar.gz *');
