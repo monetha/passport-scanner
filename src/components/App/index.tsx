@@ -50,8 +50,8 @@ class App extends React.Component<IProps> {
   private initBlockchainServices() {
     const { location } = this.props;
 
-    // Default is ropsten
-    let network = ethNetworkUrls.ropsten;
+    // Default is mainnet
+    let network = ethNetworkUrls.mainnet;
 
     // Take from query string if it was passed
     const queryParams = queryString.parse(location.search);

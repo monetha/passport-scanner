@@ -3,8 +3,9 @@ import { IAsyncAction } from 'src/core/redux/asyncAction';
 import { getServices } from 'src/ioc/services';
 import { getPassports, IGetPassportsPayload } from '../actions';
 import { IPassportList } from '../models';
-import sdk from 'reputation-sdk';
+import sdk, { IPassportRef } from 'reputation-sdk';
 import { BigNumber } from 'bignumber.js';
+import orderBy from 'lodash/orderBy';
 
 // #region -------------- Challenge lists retrieval -------------------------------------------------------------------
 
@@ -20,12 +21,14 @@ function* onGetPassports(action: IAsyncAction<IGetPassportsPayload>) {
     }
 
     const reader = new sdk.PassportReader(web3, ethNetworkUrl);
-    const passportRefs = yield reader.getPassportsList(factoryAddress, startBlockHex);
+    const passportRefs: IPassportRef[] = yield reader.getPassportsList(factoryAddress, startBlockHex);
+
+    const sortedPassportRefs = orderBy(passportRefs, ['blockNumber'], ['desc']);
 
     const passportList: IPassportList = {
       factoryAddress,
       startBlock,
-      passportRefs,
+      passportRefs: sortedPassportRefs,
     };
 
     yield put(getPassports.success(passportList));
