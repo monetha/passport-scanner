@@ -13,5 +13,35 @@
     + .mh-fact-group {
       margin-top: $spaceBetweenComponentsLg;
     }
+
+    .mh-button-container {
+      text-align: center;
+    }
+
+    td {
+      .mh-loader .mh-spinner::before {
+        height: 15px;
+        width: 15px;
+      }
+
+      button {
+        font-family: monospace;
+        font-size: $fontSizeMd;
+        -webkit-appearance: none;
+        background: $colorGrayB3;
+        border: none;
+        border-radius: 5px;
+        color: $colorBlue;
+        cursor: pointer;
+        transition: opacity 0.3s;
+        word-wrap: normal;
+        word-break: normal;
+        width: 100%;
+
+        &:hover {
+          opacity: 0.5;
+        }
+      }
+    }
   }
 }

@@ -1,9 +1,9 @@
 export const defaultAddresses = {
   ropsten: {
-    factory: '0x5FD962855e9b327262F47594949fd6d742FE2A01',
+    factory: '0x35Cb95Db8E6d56D1CF8D5877EB13e9EE74e457F2',
   },
   mainnet: {
-    factory: '0xdbf780f836D8a22b56AcF9Fd266171fAFf31F521',
-    startBlock: 7398488,
+    factory: '0x53b21DC502b163Bcf3bD9a68d5db5e8E6110E1CC',
+    startBlock: 7797263,
   },
 };

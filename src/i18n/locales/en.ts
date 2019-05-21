@@ -30,6 +30,7 @@ const translations = validateBaseTranslations({
   common: {
     submit: 'Submit',
     load: 'Load',
+    download: 'Download',
   },
   nav: {
     passports: 'Passports',
@@ -56,7 +57,7 @@ const translations = validateBaseTranslations({
     value: 'Value',
     eventTypes: {
       [EventType.Deleted]: 'Deleted',
-      [EventType.Updated]: 'Update',
+      [EventType.Updated]: 'Updated',
     },
     dataTypes: {
       [DataType.Address]: 'Address',

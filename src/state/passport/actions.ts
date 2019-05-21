@@ -1,6 +1,7 @@
 import { getActionNameCreator } from 'src/core/redux/action';
 import { createAsyncAction } from 'src/core/redux/asyncAction';
-import { IPassportList, IFactList } from './models';
+import { IPassportList, IFactList, IFactValueWrapper } from './models';
+import { IFact } from 'src/models/passport';
 
 // #region -------------- Action types -------------------------------------------------------------------
 
@@ -9,6 +10,7 @@ const get = getActionNameCreator('passport');
 export const actionTypes = {
   getPassports: get('GET_PASSPORTS'),
   getFacts: get('GET_FACTS'),
+  loadFactValue: get('LOAD_FACT_VALUE'),
 };
 
 // #endregion
@@ -32,5 +34,12 @@ export interface IGetFactsPayload {
 }
 
 export const getFacts = createAsyncAction<IGetFactsPayload, IFactList>(actionTypes.getFacts);
+
+export interface ILoadFactPayload {
+  passportAddress: string;
+  fact: IFact;
+}
+
+export const loadFactValue = createAsyncAction<ILoadFactPayload, IFactValueWrapper>(actionTypes.loadFactValue);
 
 // #endregion

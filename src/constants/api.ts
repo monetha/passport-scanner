@@ -7,3 +7,5 @@ export const etherscanUrls = {
   ropsten: 'https://ropsten.etherscan.io',
   mainnet: 'https://etherscan.io',
 };
+
+export const ipfsGatewayUrl = 'https://ipfs.io/ipfs';

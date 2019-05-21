@@ -1,7 +1,7 @@
 import { IAsyncState, AsyncState } from 'src/core/redux/asyncAction';
-import { IPassportList, IFactList } from './models';
+import { IPassportList, IFactList, IFactValueWrapper } from './models';
 import { ReducerBuilder, createReducer } from 'src/core/redux/ReducerBuilder';
-import { getPassports, getFacts } from './actions';
+import { getPassports, getFacts, loadFactValue } from './actions';
 
 // #region -------------- State -------------------------------------------------------------------
 
@@ -16,11 +16,17 @@ export interface IPassportState {
    * List of facts for passport
    */
   facts: IAsyncState<IFactList>;
+
+  /**
+   * Fact values
+   */
+  factValues: { [txHash: string]: IAsyncState<IFactValueWrapper> };
 }
 
 const initialState: IPassportState = {
   list: new AsyncState(),
   facts: new AsyncState(),
+  factValues: {},
 };
 
 // #endregion
@@ -29,7 +35,8 @@ const initialState: IPassportState = {
 
 const builder = new ReducerBuilder<IPassportState>()
   .addAsync(getPassports, s => s.list)
-  .addAsync(getFacts, s => s.facts);
+  .addAsync(getFacts, s => s.facts)
+  .addAsync(loadFactValue, s => s.factValues, a => [a.fact.transactionHash]);
 
 export const passportReducer = createReducer(initialState, builder);
 

@@ -1,20 +1,35 @@
+import BigNumber from 'bignumber.js';
+import groupBy from 'lodash/groupBy';
 import React, { Fragment } from 'react';
-import { Tbody, Thead, Tr, Th, Td } from 'react-super-responsive-table';
+import { connect } from 'react-redux';
+import { Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+import { DataType, EventType, IFactValue } from 'reputation-sdk';
+import { Loader } from 'src/components/indicators/Loader';
 import { Table } from 'src/components/layout/Table';
-import { etherscanUrls, ethNetworkUrls } from 'src/constants/api';
+import { etherscanUrls, ethNetworkUrls, ipfsGatewayUrl } from 'src/constants/api';
+import { knownFactProviders } from 'src/constants/factProviders';
+import { IAsyncState } from 'src/core/redux/asyncAction';
+import { translate } from 'src/i18n';
+import translations from 'src/i18n/locales/en';
 import { getServices } from 'src/ioc/services';
 import { IFact } from 'src/models/passport';
+import { loadFactValue } from 'src/state/passport/actions';
+import { IFactValueWrapper } from 'src/state/passport/models';
+import { IState } from 'src/state/rootReducer';
 import './style.scss';
-import { translate } from 'src/i18n';
-import BigNumber from 'bignumber.js';
-import translations from 'src/i18n/locales/en';
-import groupBy from 'lodash/groupBy';
-import { knownFactProviders } from 'src/constants/factProviders';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
-export interface IProps {
+interface IStateProps {
+  factValues: { [txHash: string]: IAsyncState<IFactValueWrapper> };
+}
+
+interface IDispatchProps {
+  onLoadFactValue(fact: IFact);
+}
+
+export interface IProps extends IStateProps, IDispatchProps {
   items: IFact[];
 }
 
@@ -22,7 +37,7 @@ export interface IProps {
 
 // #region -------------- Component ---------------------------------------------------------------
 
-export class FactsList extends React.PureComponent<IProps> {
+class FactsList extends React.PureComponent<IProps> {
 
   public render() {
     return (
@@ -139,10 +154,6 @@ export class FactsList extends React.PureComponent<IProps> {
     return translate(t => t.passport.eventTypes[item.eventType]);
   }
 
-  private renderValue(_: IFact) {
-    return 'Download';
-  }
-
   private renderBlockNumber(item: IFact) {
     const { blockNumber } = item;
 
@@ -195,6 +206,144 @@ export class FactsList extends React.PureComponent<IProps> {
         return null;
     }
   }
+
+  // #region -------------- Fact value -------------------------------------------------------------------
+
+  private renderValue(item: IFact) {
+    if (item.eventType !== EventType.Updated) {
+      return null;
+    }
+
+    const { factValues } = this.props;
+    const value = factValues[item.transactionHash];
+
+    if (value) {
+      if (value.isFetching) {
+        return (
+          <Loader />
+        );
+      }
+
+      if (value.data !== undefined) {
+        return (
+          <div className='mh-value'>
+            {this.renderDownloadedValue(value.data)}
+          </div>
+        )
+      }
+    }
+
+    return (
+      <div className='mh-button-container'>
+        <button
+          type='button'
+          onClick={() => this.onLoadClick(item)}
+        >
+          {translate(t => t.common.load)}
+        </button>
+      </div>
+    );
+  }
+
+  private renderDownloadedValue(data: IFactValueWrapper) {
+    if (!data || !data.value || data.value.value === undefined || data.value.value === null) {
+      return '';
+    }
+
+    const { value } = data.value;
+
+    switch (data.dataType) {
+      case DataType.Address:
+        return this.renderAddressValue(value);
+
+      case DataType.Bytes:
+      case DataType.TxData:
+        return (
+          <div className='mh-button-container'>
+            <button
+              type='button'
+              onClick={() => this.onDownloadBytes(data.value)}
+            >
+              {translate(t => t.common.download)}
+            </button>
+          </div>
+        );
+
+      case DataType.IPFSHash:
+        return (
+          <a
+            href={`${ipfsGatewayUrl}/${value}`}
+            target='_blank'
+          >
+            {value}
+          </a>
+        );
+
+      case DataType.String:
+      case DataType.Int:
+      case DataType.Uint:
+        return value;
+
+      case DataType.Bool:
+      default:
+        return value.toString();
+    }
+  }
+
+  private renderAddressValue(address: string) {
+    const url = this.getEtherscanUrl();
+    if (!url) {
+      return address;
+    }
+
+    return (
+      <a
+        href={`${url}/address/${address}`}
+        target='_blank'
+      >
+        {address}
+      </a>
+    );
+  }
+
+  private onLoadClick = (fact: IFact) => {
+    this.props.onLoadFactValue(fact);
+  }
+
+  private onDownloadBytes = (factValue: IFactValue<number[]>) => {
+    const uintArray = new Uint8Array(factValue.value);
+    const blob = new Blob([uintArray], {
+      type: 'octet/stream',
+    });
+
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = `${factValue.factProviderAddress}_${factValue.key}`;
+    link.click();
+  }
+
+  // #endregion
 }
+
+// #endregion
+
+// #region -------------- Connect -------------------------------------------------------------------
+
+const connected = connect<IStateProps, IDispatchProps>(
+  (state: IState) => {
+    return {
+      factValues: state.passport.factValues,
+    };
+  },
+  (dispatch) => {
+    return {
+      onLoadFactValue(fact: IFact) {
+        dispatch(loadFactValue.init({ passportAddress: null, fact }));
+      },
+    };
+  },
+)(FactsList);
+
+export { connected as FactsList };
 
 // #endregion
