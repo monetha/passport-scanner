@@ -14,5 +14,6 @@ export const defaultErrorMessageHandlers: Map<ErrorCode, ErrorMessageRetriever> 
       [ErrorCode.UNKNOWN, () => translate(t => t.errors.somethingUnexpectedHasHappended)],
       [ErrorCode.VALIDATION_ERROR, () => translate(t => t.errors.somethingUnexpectedHasHappended)],
       [ErrorCode.TOO_MANY_RESULTS, () => translate(t => t.errors.tooManyResults)],
+      [ErrorCode.INVALID_ADDRESS, () => translate(t => t.errors.invalidAddress)],
     ],
   );

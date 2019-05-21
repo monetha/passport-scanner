@@ -4,17 +4,19 @@ import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import { IPassportRef } from 'src/models/passport';
 import './style.scss';
 import { translate } from 'src/i18n';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { routes } from 'src/constants/routes';
 import { getServices } from 'src/ioc/services';
 import { ethNetworkUrls, etherscanUrls } from 'src/constants/api';
 import BigNumber from 'bignumber.js';
 import { Table } from 'src/components/layout/Table';
 import { Alert, AlertType } from 'src/components/indicators/Alert';
+import { createRouteUrl } from 'src/utils/nav';
+import { RouteChildrenProps } from 'react-router';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
-export interface IProps {
+export interface IProps extends RouteChildrenProps<any> {
   items: IPassportRef[];
 }
 
@@ -22,7 +24,7 @@ export interface IProps {
 
 // #region -------------- Component ---------------------------------------------------------------
 
-export class PassportList extends React.PureComponent<IProps> {
+class PassportList extends React.PureComponent<IProps> {
 
   public render() {
     const { items } = this.props;
@@ -83,8 +85,12 @@ export class PassportList extends React.PureComponent<IProps> {
   private renderPassportAddress(item: IPassportRef) {
     const { passportAddress, blockNumber } = item;
 
+    const url = createRouteUrl(this.props.location, `${routes.PassportChanges}/${passportAddress}`, {
+      start_block: blockNumber,
+    });
+
     return (
-      <Link to={`${routes.PassportChanges}/${passportAddress}?start_block=${blockNumber}`}>
+      <Link to={url}>
         {passportAddress}
       </Link>
     );
@@ -163,3 +169,6 @@ export class PassportList extends React.PureComponent<IProps> {
 }
 
 // #endregion
+
+const routed = withRouter(PassportList);
+export { routed as PassportList };

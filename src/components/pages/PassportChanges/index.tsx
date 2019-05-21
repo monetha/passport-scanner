@@ -1,3 +1,4 @@
+import { replace } from 'connected-react-router';
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
@@ -6,11 +7,13 @@ import { Loader } from 'src/components/indicators/Loader';
 import { Content, Size } from 'src/components/layout/Content';
 import { MainTemplate } from 'src/components/layout/MainTemplate';
 import { PageTitle } from 'src/components/text/PageTitle';
+import { routes } from 'src/constants/routes';
 import { IAsyncState } from 'src/core/redux/asyncAction';
 import { translate } from 'src/i18n';
 import { getFacts } from 'src/state/passport/actions';
 import { IFactList } from 'src/state/passport/models';
 import { IState } from 'src/state/rootReducer';
+import { createRouteUrl } from 'src/utils/nav';
 import { FactsList } from './FactsList';
 import { FactsListForm, ISubmitValues } from './FactsListForm';
 import './style.scss';
@@ -33,6 +36,7 @@ interface IProps extends RouteComponentProps<any>, IStateProps, IDispatchProps {
 // #region -------------- Component -------------------------------------------------------------------
 
 class PassportChangesPage extends React.Component<IProps> {
+  private showErrorsSince = new Date();
 
   public render() {
     const { onLoadFacts } = this.props;
@@ -94,6 +98,10 @@ class PassportChangesPage extends React.Component<IProps> {
       return null;
     }
 
+    if (factList.errorTimestamp < this.showErrorsSince) {
+      return null;
+    }
+
     return (
       <Alert
         type={AlertType.Error}
@@ -114,15 +122,22 @@ class PassportChangesPage extends React.Component<IProps> {
 
 // #region -------------- Connect -------------------------------------------------------------------
 
-const connected = connect<IStateProps, IDispatchProps>(
-  (state: IState) => {
+const connected = connect<IStateProps, IDispatchProps, RouteComponentProps<any>, IState>(
+  (state) => {
     return {
       factList: state.passport.facts,
     };
   },
-  (dispatch) => {
+  (dispatch, ownProps) => {
     return {
       onLoadFacts(values: ISubmitValues) {
+
+        const newUrl = createRouteUrl(ownProps.location, `${routes.PassportChanges}/${values.passportAddress}`, {
+          start_block: values.startBlock && values.startBlock.toString(),
+          fact_provider: values.factProviderAddress,
+        });
+
+        dispatch(replace(newUrl));
         dispatch(getFacts.init(values));
       },
     };

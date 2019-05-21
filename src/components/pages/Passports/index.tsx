@@ -14,6 +14,9 @@ import { IPassportList } from 'src/state/passport/models';
 import { Loader } from 'src/components/indicators/Loader';
 import { Alert, AlertType } from 'src/components/indicators/Alert';
 import { PassportList } from './PassportList';
+import { createRouteUrl } from 'src/utils/nav';
+import { routes } from 'src/constants/routes';
+import { replace } from 'connected-react-router';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 
@@ -33,6 +36,8 @@ interface IProps extends RouteComponentProps<any>, IStateProps, IDispatchProps {
 // #region -------------- Component -------------------------------------------------------------------
 
 class PassportsPage extends React.Component<IProps> {
+
+  private showErrorsSince = new Date();
 
   public render() {
     const { onLoadPassports } = this.props;
@@ -94,13 +99,17 @@ class PassportsPage extends React.Component<IProps> {
       return null;
     }
 
+    if (passportList.errorTimestamp < this.showErrorsSince) {
+      return null;
+    }
+
     return (
       <Alert
         type={AlertType.Error}
       >
         {passportList.error.friendlyMessage}
       </Alert>
-    )
+    );
   }
 
   private isLoading() {
@@ -114,15 +123,20 @@ class PassportsPage extends React.Component<IProps> {
 
 // #region -------------- Connect -------------------------------------------------------------------
 
-const connected = connect<IStateProps, IDispatchProps>(
+const connected = connect<IStateProps, IDispatchProps, RouteComponentProps<any>, IState>(
   (state: IState) => {
     return {
       passportList: state.passport.list,
     };
   },
-  (dispatch) => {
+  (dispatch, ownProps) => {
     return {
       onLoadPassports(values: ISubmitValues) {
+        const newUrl = createRouteUrl(ownProps.location, `${routes.Passports}/${values.factoryAddress}`, {
+          start_block: values.startBlock && values.startBlock.toString(),
+        });
+
+        dispatch(replace(newUrl));
         dispatch(getPassports.init(values));
       },
     };

@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { translate } from 'src/i18n';
 import { routes } from 'src/constants/routes';
 import { Content } from 'src/components/layout/Content';
+import { createRouteUrl } from 'src/utils/nav';
 
 const logoImgUrl = require('src/assets/images/logo-white.svg');
 
@@ -176,6 +177,8 @@ class NavBar extends React.PureComponent<IProps, IState> {
         );
       }
 
+      const url = createRouteUrl(this.props.location, item.path);
+
       return (
         <div
           key={item.path}
@@ -184,7 +187,7 @@ class NavBar extends React.PureComponent<IProps, IState> {
             'mh-active': isCurrentRoute,
           })}
         >
-          <Link to={item.path}>
+          <Link to={url}>
             {isMobile ? (
               <Content>
                 {item.title}
