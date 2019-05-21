@@ -19,6 +19,7 @@ import { loadFactValue } from 'src/state/passport/actions';
 import { IFactValueWrapper } from 'src/state/passport/models';
 import { IState } from 'src/state/rootReducer';
 import './style.scss';
+import { Alert, AlertType } from 'src/components/indicators/Alert';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -102,6 +103,10 @@ class FactsList extends React.PureComponent<IProps> {
           </Table>
         </div>
       ));
+    }
+
+    if (renderedGroups.length === 0) {
+      return <Alert type={AlertType.Info}>{translate(t => t.common.noData)}</Alert>;
     }
 
     return renderedGroups;
@@ -234,7 +239,7 @@ class FactsList extends React.PureComponent<IProps> {
           <div className='mh-value'>
             {this.renderDownloadedValue(value.data)}
           </div>
-        )
+        );
       }
     }
 

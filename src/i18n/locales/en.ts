@@ -31,6 +31,7 @@ const translations = validateBaseTranslations({
     submit: 'Submit',
     load: 'Load',
     download: 'Download',
+    noData: 'No data',
   },
   nav: {
     passports: 'Passports',

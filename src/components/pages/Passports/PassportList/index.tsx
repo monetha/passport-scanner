@@ -10,6 +10,7 @@ import { getServices } from 'src/ioc/services';
 import { ethNetworkUrls, etherscanUrls } from 'src/constants/api';
 import BigNumber from 'bignumber.js';
 import { Table } from 'src/components/layout/Table';
+import { Alert, AlertType } from 'src/components/indicators/Alert';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -24,6 +25,15 @@ export interface IProps {
 export class PassportList extends React.PureComponent<IProps> {
 
   public render() {
+    const { items } = this.props;
+    if (!items) {
+      return null;
+    }
+
+    if (items.length === 0) {
+      return <Alert type={AlertType.Info}>{translate(t => t.common.noData)}</Alert>;
+    }
+
     return (
       <div className='mh-passport-list'>
         <Table>

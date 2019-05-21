@@ -12,4 +12,10 @@
     color: $colorWhite;
     box-shadow: boxShadowGlow($colorRed);
   }
+
+  &.mh-info {
+    background-color: $colorBlueB3;
+    color: $colorBlue;
+    box-shadow: boxShadowGlow($colorBlueB2);
+  }
 }
