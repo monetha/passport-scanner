@@ -86,7 +86,7 @@ class PassportList extends React.PureComponent<IProps> {
     const { passportAddress, blockNumber } = item;
 
     const url = createRouteUrl(this.props.location, `${routes.PassportChanges}/${passportAddress}`, {
-      start_block: blockNumber,
+      start_block: new BigNumber(blockNumber).toString(10),
     });
 
     return (
