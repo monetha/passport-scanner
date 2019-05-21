@@ -31,6 +31,7 @@ export const getPassports = createAsyncAction<IGetPassportsPayload, IPassportLis
 export interface IGetFactsPayload {
   passportAddress: string;
   startBlock: number;
+  factProviderAddress: string;
 }
 
 export const getFacts = createAsyncAction<IGetFactsPayload, IFactList>(actionTypes.getFacts);

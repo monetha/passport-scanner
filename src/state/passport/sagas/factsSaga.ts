@@ -15,7 +15,7 @@ import { IFactList } from '../models';
 
 function* onGetFacts(action: IAsyncAction<IGetFactsPayload>) {
   try {
-    const { passportAddress, startBlock } = action.payload;
+    const { passportAddress, startBlock, factProviderAddress } = action.payload;
 
     const { web3, ethNetworkUrl } = getServices();
 
@@ -27,6 +27,7 @@ function* onGetFacts(action: IAsyncAction<IGetFactsPayload>) {
     const reader = new PassportReader(web3, ethNetworkUrl);
     const facts: IHistoryEvent[] = yield reader.readPassportHistory(passportAddress, {
       startBlock: startBlockHex,
+      factProviderAddress: factProviderAddress || undefined,
     });
 
     const factList: IFactList = {

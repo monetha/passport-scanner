@@ -19,11 +19,13 @@ export interface IProps extends RouteComponentProps<any> {
 interface IFormValues {
   passportAddress: string;
   startBlock: string;
+  factProvider: string;
 }
 
 export interface ISubmitValues {
   passportAddress: string;
   startBlock: number;
+  factProviderAddress: string;
 }
 
 // #endregion
@@ -41,6 +43,11 @@ const validationSchema = Yup.object().shape({
     .notRequired()
     .positive(translate(t => t.errors.mustBePositiveNumber))
     .integer(translate(t => t.errors.mustBeWholeNumber)),
+  factProvider: Yup.string()
+    .trim()
+    .notRequired()
+    .length(42, translate(t => t.errors.mustBeNCharsLengths, { length: '${length}' }))
+    .matches(/^0x[a-f0-9]+$/i, translate(t => t.errors.invalidAddress)),
 });
 
 // #endregion
@@ -58,10 +65,12 @@ class FactsListForm extends React.PureComponent<IProps> {
     const queryParams = queryString.parse(props.location.search);
 
     const startBlock = (queryParams.start_block as string);
+    const factProvider = (queryParams.fact_provider as string);
 
     this.initialValues = {
       passportAddress: passportAddress || '',
       startBlock: startBlock || '',
+      factProvider: factProvider || '',
     };
   }
 
@@ -116,6 +125,18 @@ class FactsListForm extends React.PureComponent<IProps> {
           />
         </FormikField>
 
+        <FormikField
+          name='factProvider'
+          label={translate(t => t.passport.factProvider)}
+        >
+          <TextInput
+            name='factProvider'
+            onChange={handleChange}
+            value={values.factProvider}
+            disabled={disabled}
+          />
+        </FormikField>
+
         <div className='mh-form-buttons'>
           <Button
             type='submit'
@@ -132,6 +153,7 @@ class FactsListForm extends React.PureComponent<IProps> {
     const outputValues: ISubmitValues = {
       passportAddress: values.passportAddress.trim().toLowerCase(),
       startBlock: values.startBlock.trim() ? parseInt(values.startBlock, undefined) : null,
+      factProviderAddress: values.factProvider.trim().toLowerCase(),
     };
 
     this.props.onSubmit(outputValues);
