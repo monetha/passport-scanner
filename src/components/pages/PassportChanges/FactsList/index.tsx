@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
 import groupBy from 'lodash/groupBy';
+import pickBy from 'lodash/pickBy';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
@@ -38,6 +39,10 @@ export interface IProps extends IStateProps, IDispatchProps {
 // #region -------------- Component ---------------------------------------------------------------
 
 class FactsList extends React.PureComponent<IProps> {
+
+  public componentDidUpdate(prevProps: IProps) {
+    this.onFactValueLoaded(prevProps);
+  }
 
   public render() {
     return (
@@ -320,6 +325,54 @@ class FactsList extends React.PureComponent<IProps> {
     link.href = window.URL.createObjectURL(blob);
     link.download = `${factValue.factProviderAddress}_${factValue.key}`;
     link.click();
+  }
+
+  private onFactValueLoaded = (prevProps: IProps) => {
+    const { factValues } = this.props;
+
+    // No change in fact values? exit
+    if (prevProps.factValues === factValues || !prevProps.factValues) {
+      return;
+    }
+
+    // Get fact types that needs action
+    const actionableDataTypes = {
+      [DataType.IPFSHash]: true,
+      [DataType.TxData]: true,
+      [DataType.Bytes]: true,
+    };
+
+    const filteredFactValues = pickBy(factValues, v => v.data && actionableDataTypes[v.data.dataType]);
+
+    for (const txHash in filteredFactValues) {
+      if (!filteredFactValues.hasOwnProperty(txHash)) {
+        continue;
+      }
+
+      const valueState = filteredFactValues[txHash];
+
+      // Value must be retrieved
+      if (!valueState.data || valueState.isFetching) {
+        continue;
+      }
+
+      // Value must transition from isFetching state
+      const prevValue = prevProps.factValues[txHash];
+      if (!prevValue || !prevValue.isFetching) {
+        continue;
+      }
+
+      // Data was just fetched. Do action on it
+      const { dataType, value } = valueState.data;
+      if (dataType === DataType.IPFSHash) {
+        const win = window.open(`${ipfsGatewayUrl}/${value.value}`, '_blank');
+        win.focus();
+        return;
+      }
+
+      this.onDownloadBytes(value);
+      return;
+    }
   }
 
   // #endregion
