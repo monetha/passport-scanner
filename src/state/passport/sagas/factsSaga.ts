@@ -10,7 +10,7 @@ import { takeEveryLatest } from 'src/core/redux/saga';
 import { getServices } from 'src/ioc/services';
 import { getFacts, IGetFactsPayload, ILoadFactPayload, loadFactValue } from '../actions';
 import { IFactList } from '../models';
-import orderBy from 'lodash/orderBy';
+import reverse from 'lodash/reverse';
 
 // #region -------------- Facts retreival -------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ function* onGetFacts(action: IAsyncAction<IGetFactsPayload>) {
       factProviderAddress: factProviderAddress || undefined,
     });
 
-    const sortedFacts = orderBy(facts, ['blockNumber', 'transactionIndex'], ['desc', 'desc']);
+    const sortedFacts = reverse(facts);
 
     const factList: IFactList = {
       passportAddress,
