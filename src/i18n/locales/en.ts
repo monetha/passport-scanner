@@ -45,6 +45,11 @@ const translations = validateBaseTranslations({
     passportAddress: 'Passport address',
     startBlock: 'Start block',
   },
+  ethereum: {
+    network: 'Network',
+    ropsten: 'Ropsten',
+    mainnet: 'Mainnet',
+  },
   passport: {
     passportAddress: 'Passport address',
     firstOwnerAddress: 'First owner address',

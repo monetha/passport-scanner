@@ -10,6 +10,7 @@ import { translate } from 'src/i18n';
 import { routes } from 'src/constants/routes';
 import { Content } from 'src/components/layout/Content';
 import { createRouteUrl } from 'src/utils/nav';
+import { NetworkPicker } from '../NetworkPicker';
 
 const logoImgUrl = require('src/assets/images/logo-white.svg');
 
@@ -77,7 +78,10 @@ class NavBar extends React.PureComponent<IProps, IState> {
       <MediaQuery query={screenQuery.lgUp}>
         <Content className='mh-desktop-navbar'>
           {this.renderLogo()}
-          {this.renderNavItems()}
+          <div className='mh-nav-items-container'>
+            {this.renderNavItems()}
+          </div>
+          {this.renderNetworkPicker()}
         </Content>
       </MediaQuery>
     );
@@ -110,6 +114,12 @@ class NavBar extends React.PureComponent<IProps, IState> {
             <div className='mh-mobile-menu'>
               <SmoothCollapse expanded={this.state.isOpen}>
                 {this.renderNavItems(true)}
+
+                <div className='mh-navbar-item'>
+                  <Content>
+                    {this.renderNetworkPicker()}
+                  </Content>
+                </div>
               </SmoothCollapse>
             </div>
           </div>
@@ -203,6 +213,16 @@ class NavBar extends React.PureComponent<IProps, IState> {
     const { match } = this.props;
 
     return match.url.startsWith(link.path);
+  }
+
+  // #endregion
+
+  // #region -------------- Network picker -------------------------------------------------------------------
+
+  private renderNetworkPicker() {
+    return (
+      <NetworkPicker />
+    );
   }
 
   // #endregion

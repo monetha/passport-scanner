@@ -1,0 +1,47 @@
+@import "vars/index.scss";
+
+.mh-network-picker {
+  .mh-selected-network-box {
+    padding: 3px 7px;
+    background: $colorBlueB1;
+    text-align: left;
+    border-radius: $borderRadiusXs;
+    font-size: $fontSizeSm;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+
+    > div:first-child {
+      flex: auto;
+      max-width: 200px;
+    }
+
+    > div:last-child {
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+      padding-right: 5px;
+    }
+
+    .mh-dropdown-indicator {
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 6px 6px 0 6px;
+      border-color: $colorWhite transparent transparent transparent;
+    }
+
+    .mh-label {
+      color: $colorBlueB2;
+      font-size: 10px;
+      margin-bottom: 2px;
+    }
+
+    .mh-value {
+      color: $colorWhite;
+      font-family: $fontFamilyMedium;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
