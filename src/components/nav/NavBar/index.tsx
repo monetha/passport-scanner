@@ -158,9 +158,11 @@ class NavBar extends React.PureComponent<IProps, IState> {
   // #region -------------- Logo -------------------------------------------------------------------
 
   private renderLogo() {
+    const url = createRouteUrl(this.props.location, routes.Passports);
+
     return (
       <div className='mh-logo'>
-        <Link to={routes.Root}>
+        <Link to={url}>
           <img src={logoImgUrl} />
         </Link>
       </div>
