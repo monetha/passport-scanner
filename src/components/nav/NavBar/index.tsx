@@ -146,8 +146,9 @@ class NavBar extends React.PureComponent<IProps, IState> {
 
   private onWindowClick = (event) => {
     const isClickOutsideMenu = !this.navbar.contains(event.target);
+    const isClickOutsideTooltip = !event.target.matches('[role="tooltip"], [role="tooltip"] *');
 
-    if (isClickOutsideMenu) {
+    if (isClickOutsideMenu && isClickOutsideTooltip) {
       this.toggleMenu(false);
     }
   }

@@ -10,6 +10,7 @@
     cursor: pointer;
     display: flex;
     flex-direction: row;
+    transition: background-color 0.3s;
 
     > div:first-child {
       flex: auto;
@@ -29,6 +30,15 @@
       border-style: solid;
       border-width: 6px 6px 0 6px;
       border-color: $colorWhite transparent transparent transparent;
+      transition: transform 0.3s;
+    }
+
+    &.mh-is-open {
+      background-color: lighten($color: $colorBlueB1, $amount: 10);
+
+      .mh-dropdown-indicator {
+        transform: rotateZ(180deg);
+      }
     }
 
     .mh-label {
@@ -43,5 +53,59 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+  }
+}
+
+.mh-network-picker-popup-content {
+  color: $colorGray;
+  font-size: $fontSizeMd;
+  width: 300px;
+  max-width: 100%;
+
+  .mh-title {
+    color: $colorBlack;
+    font-family: $fontFamilyBold;
+    text-align: center;
+    margin-bottom: $spaceBetweenComponentsXxs;
+  }
+
+  button {
+    background-color: $colorBlue;
+    color: $colorWhite;
+    border: none;
+    display: block;
+    width: 100%;
+    min-height: 40px;
+    cursor: pointer;
+    border-radius: $borderRadiusXs;
+    box-shadow: boxShadowGlow($colorBlue);
+    transition: opacity 0.3s;
+    margin-bottom: $spaceBetweenComponentsXxs;
+
+    &:disabled {
+      opacity: 0.2;
+      cursor: default;
+    }
+
+    &:hover:not(:disabled) {
+      opacity: 0.8;
+    }
+  }
+
+  input {
+    padding: $paddingSm;
+    min-height: 40px;
+  }
+}
+
+.tippy-popper {
+  &[x-placement^=bottom] [x-arrow].arrow-regular {
+    border-bottom-color: $colorWhite;
+  }
+
+  .tippy-tooltip {
+    background-color: $colorWhite;
+    box-shadow: -7px 7px 20px 2px rgba($colorBlack, 0.3);
+    padding: $spaceBetweenComponentsXxs;
   }
 }
