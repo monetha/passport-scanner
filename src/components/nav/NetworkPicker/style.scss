@@ -52,6 +52,9 @@
       font-family: $fontFamilyMedium;
       overflow: hidden;
       text-overflow: ellipsis;
+      word-break: keep-all;
+      word-wrap: none;
+      white-space: nowrap;
     }
   }
 }

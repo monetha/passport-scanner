@@ -158,6 +158,7 @@ class NetworkPicker extends React.Component<IProps, IState> {
             onBlur={this.onNetworkInputBlur}
             onKeyUp={this.onNetworkInputKeyUp}
             placeholder={`${translate(t => t.ethereum.customUrl)}...`}
+            max={128}
           />
         </div>
       </div>
