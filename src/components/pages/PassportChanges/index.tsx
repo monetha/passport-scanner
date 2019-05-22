@@ -70,7 +70,7 @@ class PassportChangesPage extends React.Component<IProps> {
   private renderList() {
     const { factList } = this.props;
 
-    if (this.isLoading() || !factList.data) {
+    if (this.isLoading() || !factList.data || factList.error) {
       return null;
     }
 

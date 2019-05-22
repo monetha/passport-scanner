@@ -71,7 +71,7 @@ class PassportsPage extends React.Component<IProps> {
   private renderList() {
     const { passportList } = this.props;
 
-    if (this.isLoading() || !passportList.data) {
+    if (this.isLoading() || !passportList.data || passportList.error) {
       return null;
     }
 
