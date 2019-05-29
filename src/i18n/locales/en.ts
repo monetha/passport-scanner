@@ -34,7 +34,7 @@ const translations = validateBaseTranslations({
     noData: 'No data',
   },
   nav: {
-    passports: 'Passports',
+    passportRegistry: 'Passport registry',
     passportChanges: 'Passport changes',
   },
   footer: {

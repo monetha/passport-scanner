@@ -47,7 +47,7 @@ class PassportsPage extends React.Component<IProps> {
         <div>
           <Content size={Size.Sm}>
             <PageTitle>
-              {translate(t => t.nav.passports)}
+              {translate(t => t.nav.passportRegistry)}
             </PageTitle>
 
             <PassportListForm
