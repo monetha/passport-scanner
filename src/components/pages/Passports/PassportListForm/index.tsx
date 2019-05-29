@@ -5,6 +5,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Button } from 'src/components/form/Button';
 import { FormikField } from 'src/components/form/FormikField';
 import { TextInput } from 'src/components/form/TextInput';
+import { TextInputWithButton } from 'src/components/form/TextInputWithButton';
 import { translate } from 'src/i18n';
 import * as Yup from 'yup';
 import './style.scss';
@@ -29,6 +30,10 @@ export interface ISubmitValues {
   startBlock: number;
 }
 
+export interface IState {
+  isAdvancedSearchOpened: boolean;
+}
+
 // #endregion
 
 // #region -------------- Form validation schema -------------------------------------------------------------------
@@ -50,7 +55,7 @@ const validationSchema = Yup.object().shape({
 
 // #region -------------- Component ---------------------------------------------------------------
 
-class PassportListForm extends React.PureComponent<IProps> {
+class PassportListForm extends React.PureComponent<IProps, IState> {
   private initialValues: IFormValues;
 
   public constructor(props: IProps) {
@@ -81,6 +86,10 @@ class PassportListForm extends React.PureComponent<IProps> {
       factoryAddress: passportFactoryAddress || '',
       startBlock: startBlock || '',
     };
+
+    this.state = {
+      isAdvancedSearchOpened: false,
+    };
   }
 
   public render() {
@@ -105,37 +114,39 @@ class PassportListForm extends React.PureComponent<IProps> {
       <Form>
         <FormikField
           name='factoryAddress'
-          label={translate(t => t.form.factoryAddress)}
         >
-          <TextInput
+          <TextInputWithButton
             name='factoryAddress'
             onChange={handleChange}
             value={values.factoryAddress}
-            placeholder='0x123456...'
+            placeholder={translate(t => t.form.factoryAddress)}
             disabled={disabled}
+            customButton={
+              <Button
+                type='submit'
+                disabled={disabled}
+              >
+                {translate(t => t.common.load)}
+              </Button>}
           />
         </FormikField>
 
+        <div
+          onClick={() => this.setState(({isAdvancedSearchOpened}) => ({ isAdvancedSearchOpened: !isAdvancedSearchOpened }))}
+        >{translate(t => t.form.advancedSearch)}</div>
+
+        {this.state.isAdvancedSearchOpened &&
         <FormikField
           name='startBlock'
-          label={translate(t => t.form.startBlock)}
         >
           <TextInput
             name='startBlock'
             onChange={handleChange}
             value={values.startBlock}
             disabled={disabled}
+            placeholder={translate(t => t.form.startBlock)}
           />
-        </FormikField>
-
-        <div className='mh-form-buttons'>
-          <Button
-            type='submit'
-            disabled={disabled}
-          >
-            {translate(t => t.common.load)}
-          </Button>
-        </div>
+        </FormikField>}
       </Form>
     );
   }

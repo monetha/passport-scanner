@@ -44,6 +44,7 @@ const translations = validateBaseTranslations({
     factoryAddress: 'Passport factory address',
     passportAddress: 'Passport address',
     startBlock: 'Start block',
+    advancedSearch: 'Advanced search',
   },
   ethereum: {
     ropsten: 'Ropsten',
