@@ -66,10 +66,6 @@ class NetworkPicker extends React.Component<IProps, IState> {
           onClick={this.onSelectedBoxClick}
         >
           <div>
-            <div className='mh-label'>
-              {translate(t => t.ethereum.network)}
-            </div>
-
             <div className='mh-value'>
               {this.getSelectedNetworkInfo().name}
             </div>
@@ -128,8 +124,6 @@ class NetworkPicker extends React.Component<IProps, IState> {
 
     return (
       <div className='mh-network-picker-popup-content'>
-        <div className='mh-title'>{translate(t => t.form.selectNetwork)}</div>
-
         <div>
           <button
             type='button'

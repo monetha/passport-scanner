@@ -44,10 +44,8 @@ const translations = validateBaseTranslations({
     factoryAddress: 'Passport factory address',
     passportAddress: 'Passport address',
     startBlock: 'Start block',
-    selectNetwork: 'Select network',
   },
   ethereum: {
-    network: 'Network',
     ropsten: 'Ropsten',
     mainnet: 'Mainnet',
     customUrl: 'Custom url',
