@@ -40,3 +40,4 @@ deploy:
     on:
       repo: ${TRAVIS_REPO_SLUG}
       tags: true
+      condition: $TRAVIS_TAG = release
