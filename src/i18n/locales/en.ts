@@ -52,6 +52,7 @@ const translations = validateBaseTranslations({
     customUrl: 'Custom url',
   },
   passport: {
+    passports: 'Passports',
     passportAddress: 'Passport address',
     firstOwnerAddress: 'First owner address',
     blockNumber: 'Block number',
@@ -62,6 +63,7 @@ const translations = validateBaseTranslations({
     dataType: 'Data type',
     changeType: 'Change',
     value: 'Value',
+    viewChanges: 'View changes',
     eventTypes: {
       [EventType.Deleted]: 'Deleted',
       [EventType.Updated]: 'Updated',

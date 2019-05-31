@@ -9,7 +9,6 @@
     @media screen and (min-width: 40em) {
       td {
         padding: 5px;
-        font-family: monospace;
         vertical-align: top;
         min-width: 80px;
       }
@@ -41,7 +40,6 @@
           padding: 0 !important;
           width: 100%;
           white-space: normal;
-          font-family: monospace;
 
           .tdBefore {
             font-family: $fontFamilyRegular;

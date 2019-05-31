@@ -1,4 +1,28 @@
 @import "vars/index.scss";
 
 .mh-passport-list {
+  background-color: $colorWhite;
+  padding: 15px;
+  border-radius: 5px;
+
+  a {
+    word-break: break-all;
+  }
+
+  th {
+    text-transform: uppercase;
+  }
+
+  h2, tbody {
+    color: $colorDarkGrayTable;
+  }
+
+  .view-changes {
+    background-color: $colorViewButton;
+    border: none;
+    font-family: $fontFamilyRegular;
+    padding: 5px;
+    border-radius: 5px;
+    margin-left: 5px;
+  }
 }
