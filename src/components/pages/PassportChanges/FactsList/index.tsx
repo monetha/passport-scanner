@@ -20,6 +20,8 @@ import { IFactValueWrapper } from 'src/state/passport/models';
 import { IState } from 'src/state/rootReducer';
 import './style.scss';
 import { Alert, AlertType } from 'src/components/indicators/Alert';
+import { Share } from 'src/components/pages/PassportChanges/Share/index.tsx';
+import { getShortId } from 'src/helpers';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -78,7 +80,7 @@ class FactsList extends React.PureComponent<IProps> {
           key={factProviderAddress}
         >
           <div className='mh-fact-provider-header'>
-            {`${translate(t => t.passport.factProvider)}: `}
+            <span className="fact-provider">{`${translate(t => t.passport.factProvider)}: `}</span>
             {this.renderFactProviderName(factProviderAddress)}
           </div>
 
@@ -175,17 +177,21 @@ class FactsList extends React.PureComponent<IProps> {
     }
 
     return (
-      <a
-        href={`${url}/block/${decBlockNr}`}
-        target='_blank'
-      >
-        {decBlockNr}
-      </a>
+      <>
+        <Share />
+        <a
+          href={`${url}/block/${decBlockNr}`}
+          target='_blank'
+        >
+          {decBlockNr}
+        </a>
+      </>
     );
   }
 
   private renderTxHash(item: IFact) {
-    const { transactionHash } = item;
+    const { transactionHash: transactionHashOriginal } = item;
+    const transactionHash = getShortId(transactionHashOriginal);
 
     const url = this.getEtherscanUrl();
     if (!url) {
@@ -193,12 +199,15 @@ class FactsList extends React.PureComponent<IProps> {
     }
 
     return (
-      <a
-        href={`${url}/tx/${transactionHash}`}
-        target='_blank'
-      >
-        {transactionHash}
-      </a>
+      <>
+        <Share />
+        <a
+          href={`${url}/tx/${transactionHashOriginal}`}
+          target='_blank'
+        >
+          {transactionHash}
+        </a>
+      </>
     );
   }
 
@@ -248,8 +257,9 @@ class FactsList extends React.PureComponent<IProps> {
         <button
           type='button'
           onClick={() => this.onLoadClick(item)}
+          className='view-value'
         >
-          {translate(t => t.common.load)}
+          {translate(t => t.common.view)}
         </button>
       </div>
     );
@@ -273,6 +283,7 @@ class FactsList extends React.PureComponent<IProps> {
             <button
               type='button'
               onClick={() => this.onDownloadBytes(data.value)}
+              className='download'
             >
               {translate(t => t.common.download)}
             </button>

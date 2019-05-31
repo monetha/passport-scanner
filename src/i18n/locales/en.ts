@@ -30,11 +30,12 @@ const translations = validateBaseTranslations({
   common: {
     submit: 'Submit',
     load: 'Load',
+    view: 'View',
     download: 'Download',
     noData: 'No data',
   },
   nav: {
-    passportRegistry: 'Passport registry',
+    passportSearch: 'Passport search',
     passportChanges: 'Passport changes',
   },
   footer: {

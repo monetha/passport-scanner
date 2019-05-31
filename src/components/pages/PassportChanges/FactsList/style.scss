@@ -3,10 +3,14 @@
 .mh-facts-list {
   .mh-fact-provider-header {
     margin-bottom: $spaceBetweenComponentsXxs;
-    font-family: $fontFamilyBold;
-    font-size: $fontSizeMd2;
+    font-family: $fontFamilyRegular;
+    font-size: $fontSizeLg;
     word-wrap: break-word;
     word-break: break-word;
+
+    .fact-provider {
+      color: $colorDarkGrayTable;
+    }
   }
 
   .mh-fact-group {
@@ -22,24 +26,6 @@
       .mh-loader .mh-spinner::before {
         height: 15px;
         width: 15px;
-      }
-
-      button {
-        font-size: $fontSizeMd;
-        -webkit-appearance: none;
-        background: $colorGrayB3;
-        border: none;
-        border-radius: 5px;
-        color: $colorBlue;
-        cursor: pointer;
-        transition: opacity 0.3s;
-        word-wrap: normal;
-        word-break: normal;
-        width: 100%;
-
-        &:hover {
-          opacity: 0.5;
-        }
       }
     }
   }

@@ -4,15 +4,15 @@ import { TextInput, IProps } from 'src/components/form/TextInput';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
-export interface IWithButtonProps extends IProps {
-  button: React.ReactNode;
+export interface IPropsTextInputWithButton extends IProps {
+  customButton: React.ReactNode;
 }
 
 // #endregion
 
 // #region -------------- Component ---------------------------------------------------------------
 
-export class TextInputWithButton extends TextInput {
+export class TextInputWithButton extends React.PureComponent<IPropsTextInputWithButton> {
 
   public render() {
     const { customButton, ...rest } = this.props;
@@ -22,10 +22,8 @@ export class TextInputWithButton extends TextInput {
         <TextInput
           {...rest}
           className='with-button'
-          style={{ borderRadius: '5px 0 0 5px'   }}
         />
         {customButton}
-        {/*<button>hello</button>*/}
       </>
     );
   }

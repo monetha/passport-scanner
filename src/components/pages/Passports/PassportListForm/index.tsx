@@ -132,8 +132,11 @@ class PassportListForm extends React.PureComponent<IProps, IState> {
         </FormikField>
 
         <div
-          onClick={() => this.setState(({isAdvancedSearchOpened}) => ({ isAdvancedSearchOpened: !isAdvancedSearchOpened }))}
-        >{translate(t => t.form.advancedSearch)}</div>
+          onClick={() => this.setState(({ isAdvancedSearchOpened }) => ({ isAdvancedSearchOpened: !isAdvancedSearchOpened }))}
+        >
+          {translate(t => t.form.advancedSearch)}
+          <div className={`mh-dropdown-indicator advanced-search ${this.state.isAdvancedSearchOpened ? 'is-opened' : ''}`} />
+        </div>
 
         {this.state.isAdvancedSearchOpened &&
         <FormikField

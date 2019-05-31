@@ -14,6 +14,7 @@ import { Share } from 'src/components/pages/PassportChanges/Share';
 import { Alert, AlertType } from 'src/components/indicators/Alert';
 import { createRouteUrl } from 'src/utils/nav';
 import { RouteChildrenProps } from 'react-router';
+import { getShortId } from 'src/helpers';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -87,7 +88,7 @@ class PassportList extends React.PureComponent<IProps> {
 
   private renderPassportAddress(item: IPassportRef) {
     const { passportAddress: passportAddressOriginal, blockNumber } = item;
-    const passportAddress = this.getShortWalletAddress(passportAddressOriginal);
+    const passportAddress = getShortId(passportAddressOriginal);
 
     const url = createRouteUrl(this.props.location, `${routes.PassportChanges}/${passportAddressOriginal}`, {
       start_block: new BigNumber(blockNumber).toString(10),
@@ -108,7 +109,7 @@ class PassportList extends React.PureComponent<IProps> {
 
   private renderOwnerAddress(item: IPassportRef) {
     const { ownerAddress: ownerAddressOriginal } = item;
-    const ownerAddress =  this.getShortWalletAddress(ownerAddressOriginal);
+    const ownerAddress =  getShortId(ownerAddressOriginal);
 
     const url = this.getEtherscanUrl();
     if (!url) {
@@ -149,7 +150,7 @@ class PassportList extends React.PureComponent<IProps> {
 
   private renderTxHash(item: IPassportRef) {
     const { txHash: txHashOriginal } = item;
-    const txHash = this.getShortWalletAddress(txHashOriginal);
+    const txHash = getShortId(txHashOriginal);
 
     const url = this.getEtherscanUrl();
     if (!url) {
@@ -180,17 +181,6 @@ class PassportList extends React.PureComponent<IProps> {
       default:
         return null;
     }
-  }
-
-  private getShortWalletAddress = walletAddress => {
-    if (!walletAddress) {
-      return null;
-    }
-
-    const startStr = walletAddress.substr(0, 16);
-    const endStr = walletAddress.substring(walletAddress.length - 6);
-
-    return `${startStr}...${endStr}`;
   }
 }
 

@@ -1,8 +1,8 @@
 @import "vars/index.scss";
 
-.mh-passport-list {
+.mh-passport-list, .mh-facts-list {
   background-color: $colorWhite;
-  padding: 15px;
+  padding: 20px;
   border-radius: 5px;
 
   a {
@@ -13,16 +13,11 @@
     text-transform: uppercase;
   }
 
-  h2, tbody {
-    color: $colorDarkGrayTable;
+  h2 {
+    margin-top: 0;
   }
 
-  .view-changes {
-    background-color: $colorViewButton;
-    border: none;
-    font-family: $fontFamilyRegular;
-    padding: 5px;
-    border-radius: 5px;
-    margin-left: 5px;
+  h2, tbody {
+    color: $colorDarkGrayTable;
   }
 }

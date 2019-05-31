@@ -9,7 +9,8 @@
   padding: $spaceBetweenComponentsXxs;
   outline: 0;
   transition: border 0.3s;
-  font-family: monospace;
+  font-family: $fontFamilyRegular;
+  font-size: 16px;
 
   &:focus {
     border: 1px solid $colorBlue;

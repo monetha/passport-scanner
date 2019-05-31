@@ -21,7 +21,7 @@ export class PassportRegistryFormWrapper extends React.PureComponent<IProps> {
         {...rest}
         className={classnames('mh-passport-registry-form-wrapper', className)}
       >
-        <h1>{translate(t => t.nav.passportRegistry)}</h1>
+        <h1>{translate(t => t.nav.passportSearch)}</h1>
         {children}
       </div>
     );
