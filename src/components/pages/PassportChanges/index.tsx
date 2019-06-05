@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Alert, AlertType } from 'src/components/indicators/Alert';
 import { Loader } from 'src/components/indicators/Loader';
-import { Content, Size } from 'src/components/layout/Content';
 import { MainTemplate } from 'src/components/layout/MainTemplate';
 import { PageTitle } from 'src/components/text/PageTitle';
 import { routes } from 'src/constants/routes';
@@ -16,6 +15,7 @@ import { IState } from 'src/state/rootReducer';
 import { createRouteUrl } from 'src/utils/nav';
 import { FactsList } from './FactsList';
 import { FactsListForm, ISubmitValues } from './FactsListForm';
+import { Grid, Row, Col } from 'react-flexbox-grid';
 import './style.scss';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
@@ -43,26 +43,31 @@ class PassportChangesPage extends React.Component<IProps> {
 
     return (
       <MainTemplate className='mh-passport-changes-page'>
-        <div>
-          <Content size={Size.Lg}>
+        <Grid>
+          <Row>
             <PageTitle>
               {translate(t => t.nav.passportChanges)}
             </PageTitle>
+          </Row>
 
+          <Row>
             <FactsListForm
               onSubmit={onLoadFacts}
               disabled={this.isLoading()}
             />
-          </Content>
+          </Row>
 
-          <Content size={Size.Lg}>
-            <div className='mh-list'>
-              {this.renderLoader()}
-              {this.renderError()}
-              {this.renderList()}
-            </div>
-          </Content>
-        </div>
+          <Row>
+            <Col xs={12}>
+              <div className='mh-list'>
+                {this.renderLoader()}
+                {this.renderError()}
+                {this.renderList()}
+              </div>
+            </Col>
+
+          </Row>
+        </Grid>
       </MainTemplate>
     );
   }
