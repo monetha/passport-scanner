@@ -104,7 +104,7 @@ class FactsListForm extends React.PureComponent<IProps> {
     return (
       <Form>
         <Row>
-          <Col xs={12} md={4}>
+          <Col xs={12} md={4} className='col'>
             <FormikField
               name='passportAddress'
               label={translate(t => t.form.passportAddress)}
@@ -119,7 +119,7 @@ class FactsListForm extends React.PureComponent<IProps> {
             </FormikField>
           </Col>
 
-          <Col xs={12} md={2}>
+          <Col xs={12} md={2} className='col'>
             <FormikField
               name='startBlock'
               label={translate(t => t.form.startBlock)}
@@ -133,7 +133,7 @@ class FactsListForm extends React.PureComponent<IProps> {
             </FormikField>
           </Col>
 
-          <Col xs={12} md={4}>
+          <Col xs={12} md={4} className='col'>
             <FormikField
               name='factProvider'
               label={translate(t => t.passport.factProvider)}
@@ -147,7 +147,7 @@ class FactsListForm extends React.PureComponent<IProps> {
             </FormikField>
           </Col>
 
-          <Col xs={12} md={2}>
+          <Col xs={12} md={2} className='col'>
             <div className='mh-form-buttons'>
               <Button
                 type='submit'

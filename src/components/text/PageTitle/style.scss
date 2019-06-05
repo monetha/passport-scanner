@@ -8,4 +8,8 @@
   word-break: break-word;
   word-wrap: break-word;
   color: $colorBlack;
+
+  @media #{$smDown} {
+    margin-left: 10px;
+  }
 }
