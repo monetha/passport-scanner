@@ -23,9 +23,7 @@
     }
 
     table {
-      display: block;
-      overflow-x: auto;
-      white-space: nowrap;
+      width: 100%;
 
       td {
         .mh-loader .mh-spinner::before {
@@ -36,6 +34,12 @@
 
       th {
         text-align: left;
+      }
+
+      @media #{$mdDown} {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
       }
     }
   }
