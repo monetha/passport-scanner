@@ -9,7 +9,7 @@
   word-wrap: break-word;
   color: $colorBlack;
 
-  @media #{$smDown} {
+  @media #{$mdDown} {
     margin-left: 10px;
   }
 }
