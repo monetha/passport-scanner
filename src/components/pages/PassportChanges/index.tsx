@@ -42,8 +42,8 @@ class PassportChangesPage extends React.Component<IProps> {
     const { onLoadFacts } = this.props;
 
     return (
-      <MainTemplate className='mh-passport-changes-page'>
-        <Grid>
+      <Grid>
+        <MainTemplate className='mh-passport-changes-page'>
           <Row>
             <PageTitle>
               {translate(t => t.nav.passportChanges)}
@@ -67,8 +67,8 @@ class PassportChangesPage extends React.Component<IProps> {
             </Col>
 
           </Row>
-        </Grid>
-      </MainTemplate>
+        </MainTemplate>
+      </Grid>
     );
   }
 

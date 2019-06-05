@@ -22,10 +22,20 @@
       text-align: center;
     }
 
-    td {
-      .mh-loader .mh-spinner::before {
-        height: 15px;
-        width: 15px;
+    table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+
+      td {
+        .mh-loader .mh-spinner::before {
+          height: 15px;
+          width: 15px;
+        }
+      }
+
+      th {
+        text-align: left;
       }
     }
   }
