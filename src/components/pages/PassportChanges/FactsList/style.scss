@@ -5,11 +5,13 @@
     margin-bottom: $spaceBetweenComponentsXxs;
     font-family: $fontFamilyRegular;
     font-size: $fontSizeLg;
-    word-wrap: break-word;
-    word-break: break-word;
 
     .fact-provider {
       color: $colorDarkGrayTable;
+    }
+
+    .fact-provider-name {
+      word-break: normal;
     }
   }
 

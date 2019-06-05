@@ -139,6 +139,7 @@ class FactsList extends React.PureComponent<IProps> {
       <a
         href={`${url}/address/${address}`}
         target='_blank'
+        className='fact-provider-name'
       >
         {name}
       </a>
