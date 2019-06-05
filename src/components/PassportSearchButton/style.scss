@@ -1,0 +1,14 @@
+@import "vars/index.scss";
+
+.passport-search-button {
+  box-shadow: unset;
+
+  &:after {
+    border-bottom-right-radius: unset;
+    border-top-left-radius: unset;
+  }
+
+  &:disabled {
+    opacity: unset;
+  }
+}

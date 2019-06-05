@@ -3,34 +3,13 @@
 .mh-network-picker {
   .mh-selected-network-box {
     padding: 10px 18px;
-    background: $colorBlueB1;
+    background-color: lighten($color: $colorBlueB1, $amount: 10);
     text-align: left;
     border-radius: $borderRadiusXs;
     font-size: $fontSizeSm;
     cursor: pointer;
     display: flex;
     flex-direction: row;
-    transition: background-color 0.3s;
-
-    > div:first-child {
-      flex: auto;
-      max-width: 200px;
-    }
-
-    > div:last-child {
-      display: flex;
-      align-items: center;
-      padding-left: 10px;
-      padding-right: 5px;
-    }
-
-    &.mh-is-open {
-      background-color: lighten($color: $colorBlueB1, $amount: 10);
-
-      .mh-dropdown-indicator {
-        transform: rotateZ(180deg);
-      }
-    }
 
     .mh-value {
       color: $colorWhite;

@@ -2,7 +2,6 @@ import { Form, Formik } from 'formik';
 import queryString from 'query-string';
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { Button } from 'src/components/form/Button';
 import { FormikField } from 'src/components/form/FormikField';
 import { TextInput } from 'src/components/form/TextInput';
 import { TextInputWithButton } from 'src/components/form/TextInputWithButton';
@@ -13,6 +12,7 @@ import { getServices } from 'src/ioc/services';
 import { ethNetworkUrls } from 'src/constants/api';
 import { defaultAddresses } from 'src/constants/addresses';
 import { DropdownIndicator } from 'src/components/DropdownIndicator';
+import { PassportSearchButton } from 'src/components/PassportSearchButton';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -123,12 +123,11 @@ class PassportListForm extends React.PureComponent<IProps, IState> {
             placeholder={translate(t => t.form.factoryAddress)}
             disabled={disabled}
             customButton={
-              <Button
-                type='submit'
+              <PassportSearchButton
                 disabled={disabled}
               >
                 {translate(t => t.common.load)}
-              </Button>}
+              </PassportSearchButton>}
           />
         </FormikField>
 
