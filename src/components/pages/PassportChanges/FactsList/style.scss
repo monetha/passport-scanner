@@ -28,14 +28,28 @@
       width: 100%;
 
       td {
+        padding-top: 7px;
+        padding-bottom: 7px;
+        padding-right: 18px;
+        border-bottom: 1px $colorGrayB3 solid;
+
         .mh-loader .mh-spinner::before {
           height: 15px;
           width: 15px;
+        }
+
+        @media #{$xlUp} {
+          padding-right: 40px;
+        }
+
+        @media #{$smDown} {
+          border-bottom: none;
         }
       }
 
       th {
         text-align: left;
+        font-size: $fontSizeSm;
       }
 
       @media #{$mdDown} {

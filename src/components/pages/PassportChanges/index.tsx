@@ -15,7 +15,7 @@ import { IState } from 'src/state/rootReducer';
 import { createRouteUrl } from 'src/utils/nav';
 import { FactsList } from './FactsList';
 import { FactsListForm, ISubmitValues } from './FactsListForm';
-import { Grid, Row, Col } from 'react-flexbox-grid';
+import { Row, Col } from 'react-flexbox-grid';
 import './style.scss';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
@@ -49,7 +49,7 @@ class PassportChangesPage extends React.Component<IProps> {
           </PageTitle>
         </Row>
 
-        <Row>
+        <Row className='facts-list-form'>
           <FactsListForm
             onSubmit={onLoadFacts}
             disabled={this.isLoading()}

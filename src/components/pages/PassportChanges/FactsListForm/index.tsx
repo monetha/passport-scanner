@@ -136,7 +136,7 @@ class FactsListForm extends React.PureComponent<IProps> {
           <Col xs={12} md={4} className='col'>
             <FormikField
               name='factProvider'
-              label={translate(t => t.passport.factProvider)}
+              label={translate(t => t.passport.factProviderAddress)}
             >
               <TextInput
                 name='factProvider'
