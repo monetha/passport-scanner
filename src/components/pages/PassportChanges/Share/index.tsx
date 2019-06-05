@@ -1,5 +1,4 @@
 import React from 'react';
-import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import './style.scss';
 
 // #region -------------- Component ---------------------------------------------------------------

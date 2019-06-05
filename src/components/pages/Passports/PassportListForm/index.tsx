@@ -12,6 +12,7 @@ import './style.scss';
 import { getServices } from 'src/ioc/services';
 import { ethNetworkUrls } from 'src/constants/api';
 import { defaultAddresses } from 'src/constants/addresses';
+import { DropdownIndicator } from 'src/components/DropdownIndicator';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -135,7 +136,7 @@ class PassportListForm extends React.PureComponent<IProps, IState> {
           onClick={() => this.setState(({ isAdvancedSearchOpened }) => ({ isAdvancedSearchOpened: !isAdvancedSearchOpened }))}
         >
           {translate(t => t.form.advancedSearch)}
-          <div className={`mh-dropdown-indicator advanced-search ${this.state.isAdvancedSearchOpened ? 'is-opened' : ''}`} />
+          <DropdownIndicator isOpened={this.state.isAdvancedSearchOpened} />
         </div>
 
         {this.state.isAdvancedSearchOpened &&

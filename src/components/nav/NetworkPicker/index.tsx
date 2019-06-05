@@ -10,6 +10,7 @@ import { Tooltip } from 'react-tippy';
 import { TextInput } from 'src/components/form/TextInput';
 import { registerBlockchainServices } from 'src/ioc/bootstrapIOC';
 import queryString from 'query-string';
+import { DropdownIndicator } from 'src/components/DropdownIndicator';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 
@@ -70,10 +71,7 @@ class NetworkPicker extends React.Component<IProps, IState> {
               {this.getSelectedNetworkInfo().name}
             </div>
           </div>
-
-          <div>
-            <div className='mh-dropdown-indicator' />
-          </div>
+          <DropdownIndicator isOpened={isOpen} />
         </div>
       </Tooltip>
     );

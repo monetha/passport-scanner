@@ -106,15 +106,15 @@
       width: 100%;
     }
 
-    .mh-selected-network-box {
-      margin-top: $paddingSm;
-      margin-bottom: $paddingSm;
-
-      > div:first-child {
-        max-width: none;
-        min-width: 0;
-      }
-    }
+    //.mh-selected-network-box {
+    //  margin-top: $paddingSm;
+    //  margin-bottom: $paddingSm;
+    //
+    //  > div:first-child {
+    //    max-width: none;
+    //    min-width: 0;
+    //  }
+    //}
 
     .mh-navbar-item {
       border-top: 1px solid rgba($colorBlueB2, 0.3);
