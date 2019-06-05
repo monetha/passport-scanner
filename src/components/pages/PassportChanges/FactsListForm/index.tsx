@@ -8,6 +8,7 @@ import { TextInput } from 'src/components/form/TextInput';
 import { translate } from 'src/i18n';
 import * as Yup from 'yup';
 import './style.scss';
+import { Grid, Row, Col } from 'react-flexbox-grid';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -82,16 +83,18 @@ class FactsListForm extends React.PureComponent<IProps> {
 
   public render() {
     return (
-      <div className='mh-facts-form'>
-        <Formik<IFormValues>
-          initialValues={this.initialValues}
-          onSubmit={this.onSubmit}
-          validationSchema={validationSchema}
-          validateOnChange
-        >
-          {this.renderForm}
-        </Formik>
-      </div>
+      <Grid>
+        <div className='mh-facts-form'>
+          <Formik<IFormValues>
+            initialValues={this.initialValues}
+            onSubmit={this.onSubmit}
+            validationSchema={validationSchema}
+            validateOnChange
+          >
+            {this.renderForm}
+          </Formik>
+        </div>
+      </Grid>
     );
   }
 
@@ -100,51 +103,61 @@ class FactsListForm extends React.PureComponent<IProps> {
 
     return (
       <Form>
-        <FormikField
-          name='passportAddress'
-          label={translate(t => t.form.passportAddress)}
-        >
-          <TextInput
-            name='passportAddress'
-            onChange={handleChange}
-            value={values.passportAddress}
-            placeholder='0x123456...'
-            disabled={disabled}
-          />
-        </FormikField>
+        <Row>
+          <Col xs={4}>
+            <FormikField
+              name='passportAddress'
+              label={translate(t => t.form.passportAddress)}
+            >
+              <TextInput
+                name='passportAddress'
+                onChange={handleChange}
+                value={values.passportAddress}
+                placeholder='0x123456...'
+                disabled={disabled}
+              />
+            </FormikField>
+          </Col>
 
-        <FormikField
-          name='startBlock'
-          label={translate(t => t.form.startBlock)}
-        >
-          <TextInput
-            name='startBlock'
-            onChange={handleChange}
-            value={values.startBlock}
-            disabled={disabled}
-          />
-        </FormikField>
+          <Col xs={2}>
+            <FormikField
+              name='startBlock'
+              label={translate(t => t.form.startBlock)}
+            >
+              <TextInput
+                name='startBlock'
+                onChange={handleChange}
+                value={values.startBlock}
+                disabled={disabled}
+              />
+            </FormikField>
+          </Col>
 
-        <FormikField
-          name='factProvider'
-          label={translate(t => t.passport.factProvider)}
-        >
-          <TextInput
-            name='factProvider'
-            onChange={handleChange}
-            value={values.factProvider}
-            disabled={disabled}
-          />
-        </FormikField>
+          <Col xs={4}>
+            <FormikField
+              name='factProvider'
+              label={translate(t => t.passport.factProvider)}
+            >
+              <TextInput
+                name='factProvider'
+                onChange={handleChange}
+                value={values.factProvider}
+                disabled={disabled}
+              />
+            </FormikField>
+          </Col>
 
-        <div className='mh-form-buttons'>
-          <Button
-            type='submit'
-            disabled={disabled}
-          >
-            {translate(t => t.common.load)}
-          </Button>
-        </div>
+          <Col xs={2}>
+            <div className='mh-form-buttons'>
+              <Button
+                type='submit'
+                disabled={disabled}
+              >
+                {translate(t => t.common.load)}
+              </Button>
+            </div>
+          </Col>
+        </Row>
       </Form>
     );
   }

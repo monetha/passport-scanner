@@ -44,7 +44,7 @@ class PassportChangesPage extends React.Component<IProps> {
     return (
       <MainTemplate className='mh-passport-changes-page'>
         <div>
-          <Content size={Size.Sm}>
+          <Content size={Size.Lg}>
             <PageTitle>
               {translate(t => t.nav.passportChanges)}
             </PageTitle>
