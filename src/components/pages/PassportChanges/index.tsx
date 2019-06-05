@@ -42,33 +42,30 @@ class PassportChangesPage extends React.Component<IProps> {
     const { onLoadFacts } = this.props;
 
     return (
-      <Grid>
-        <MainTemplate className='mh-passport-changes-page'>
-          <Row>
-            <PageTitle>
-              {translate(t => t.nav.passportChanges)}
-            </PageTitle>
-          </Row>
+      <MainTemplate className='mh-passport-changes-page'>
+        <Row>
+          <PageTitle>
+            {translate(t => t.nav.passportChanges)}
+          </PageTitle>
+        </Row>
 
-          <Row>
-            <FactsListForm
-              onSubmit={onLoadFacts}
-              disabled={this.isLoading()}
-            />
-          </Row>
+        <Row>
+          <FactsListForm
+            onSubmit={onLoadFacts}
+            disabled={this.isLoading()}
+          />
+        </Row>
 
-          <Row>
-            <Col xs={12}>
-              <div className='mh-list'>
-                {this.renderLoader()}
-                {this.renderError()}
-                {this.renderList()}
-              </div>
-            </Col>
-
-          </Row>
-        </MainTemplate>
-      </Grid>
+        <Row>
+          <Col xs={12}>
+            <div className='mh-list'>
+              {this.renderLoader()}
+              {this.renderError()}
+              {this.renderList()}
+            </div>
+          </Col>
+        </Row>
+      </MainTemplate>
     );
   }
 

@@ -8,8 +8,5 @@
   word-break: break-word;
   word-wrap: break-word;
   color: $colorBlack;
-
-  @media #{$mdDown} {
-    margin-left: 10px;
-  }
+  margin-left: 10px;
 }
