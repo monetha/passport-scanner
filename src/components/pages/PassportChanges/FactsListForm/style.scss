@@ -9,6 +9,17 @@
       position: relative;
       top: 22px;
       border-radius: 5px;
+
+      @media #{$smDown} {
+        top: unset;
+      }
+    }
+  }
+
+  .col-xs-12 {
+    @media #{$smDown} {
+      padding-top: 5px;
+      padding-bottom: 15px;
     }
   }
 
