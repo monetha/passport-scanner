@@ -16,15 +16,15 @@
   width: 130px;
   height: 55px;
   position: absolute;
-  right: 37px;
+  margin-left: -130px;
 
   @media #{$smDown} {
     width: 55px;
-    right: 37px;
     background-image: url('~images/search.png');
     background-size: 25px;
     background-repeat: no-repeat;
     background-position: center;
+    margin-left: -55px;
   }
 
   .search-text {
