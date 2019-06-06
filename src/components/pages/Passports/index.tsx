@@ -44,7 +44,7 @@ class PassportsPage extends React.Component<IProps> {
     return (
       <MainTemplate className='mh-passports-page'>
         <div>
-          <Content size={Size.Sm}>
+          <Content size={Size.Md}>
             <PassportRegistryFormWrapper>
               <PassportListForm
                 onSubmit={onLoadPassports}
@@ -53,7 +53,7 @@ class PassportsPage extends React.Component<IProps> {
             </PassportRegistryFormWrapper>
           </Content>
 
-          <Content size={Size.Lg}>
+          <Content size={Size.Md}>
             <div className='mh-list'>
               {this.renderLoader()}
               {this.renderError()}

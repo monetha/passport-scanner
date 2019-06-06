@@ -47,8 +47,8 @@
     font-family: $fontFamilyRegular;
 
     &:disabled {
-      opacity: 0.2;
       cursor: default;
+      color: $colorDarkGrayTable;
     }
 
     &:hover:not(:disabled) {

@@ -133,23 +133,26 @@ class PassportListForm extends React.PureComponent<IProps, IState> {
 
         <div
           onClick={() => this.setState(({ isAdvancedSearchOpened }) => ({ isAdvancedSearchOpened: !isAdvancedSearchOpened }))}
+          className='advanced-search'
         >
           {translate(t => t.form.advancedSearch)}
           <DropdownIndicator isOpened={this.state.isAdvancedSearchOpened} />
         </div>
 
         {this.state.isAdvancedSearchOpened &&
-        <FormikField
-          name='startBlock'
-        >
-          <TextInput
+        <div className='start-block'>
+          <FormikField
             name='startBlock'
-            onChange={handleChange}
-            value={values.startBlock}
-            disabled={disabled}
-            placeholder={translate(t => t.form.startBlock)}
-          />
-        </FormikField>}
+          >
+            <TextInput
+              name='startBlock'
+              onChange={handleChange}
+              value={values.startBlock}
+              disabled={disabled}
+              placeholder={translate(t => t.form.startBlock)}
+            />
+          </FormikField>
+        </div>}
       </Form>
     );
   }

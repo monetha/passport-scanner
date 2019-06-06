@@ -6,7 +6,7 @@ import './style.scss';
 
 export enum Size {
   Sm = 'mh-sm',
-  Md = '',
+  Md = 'mh-md',
   Lg = 'mh-lg',
 }
 

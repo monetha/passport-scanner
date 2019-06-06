@@ -8,4 +8,22 @@
   form > div + div {
     margin-top: $spaceBetweenComponentsXs;
   }
+
+  .advanced-search {
+    color: $colorBlueB4;
+    font-size: $fontSizeSm;
+    margin-left: 20px;
+  }
+
+  .start-block {
+    margin-bottom: 10px;
+  }
+
+  .advanced-search, .start-block {
+    margin-top: 10px;
+  }
+
+  .mh-dropdown-indicator {
+    border-color: $colorBlueB4 transparent transparent transparent;
+  }
 }

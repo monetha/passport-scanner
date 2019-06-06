@@ -12,11 +12,14 @@
     opacity: unset;
   }
 
+  padding: 0;
+  width: 130px;
+  height: 55px;
+  position: absolute;
+  right: 37px;
+
   @media #{$smDown} {
-    padding: 0;
     width: 55px;
-    height: 55px;
-    position: absolute;
     right: 37px;
     background-image: url('~images/search.png');
     background-size: 25px;

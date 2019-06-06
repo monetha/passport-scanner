@@ -1,14 +1,10 @@
 @import "vars/index.scss";
 
 .ca-text-input.with-button {
-  width: 84%;
+  width: 100%;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px  ;
   font-size: 16px;
-
-  @media #{$smDown} {
-    width: 100%;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px  ;
-  }
 }
 
 .mh-btn {
