@@ -7,9 +7,10 @@
 
     @media screen and (min-width: 40em) {
       td {
-        padding: 5px;
+        padding: 12px;
         vertical-align: top;
         min-width: 80px;
+        border-bottom: 1px $colorGrayB3 solid;
       }
 
       th {
