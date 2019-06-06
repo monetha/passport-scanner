@@ -31,10 +31,7 @@
         padding-top: 7px;
         padding-bottom: 7px;
         padding-right: 18px;
-
-        &:not(:last-child) {
-          border-bottom: 1px $colorGrayB3 solid;
-        }
+        border-bottom: 1px $colorGrayB3 solid;
 
         .mh-loader .mh-spinner::before {
           height: 15px;
