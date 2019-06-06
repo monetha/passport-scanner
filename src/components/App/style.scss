@@ -4,7 +4,7 @@
   border-radius: 5px 0 0 5px;
 }
 
-.view-changes, .view-value, .download {
+.view-value, .download {
   background-color: $colorViewButton;
   border: none;
   font-family: $fontFamilyRegular;
@@ -24,9 +24,5 @@
 
 .view-value, .download {
   float: left;
-  margin-left: 0;
-}
-
-.view-changes {
   margin-left: 0;
 }

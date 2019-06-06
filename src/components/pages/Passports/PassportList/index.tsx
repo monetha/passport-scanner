@@ -95,15 +95,9 @@ class PassportList extends React.PureComponent<IProps> {
     });
 
     return (
-      <>
-        <span className='passport-address'>{passportAddress}</span>
-        <button className='view-changes'>
-          <Link to={url}>
-            {translate(t => t.passport.viewChanges)}
-          </Link>
-        </button>
-      </>
-
+      <Link to={url}>
+        {passportAddress}
+      </Link>
     );
   }
 
