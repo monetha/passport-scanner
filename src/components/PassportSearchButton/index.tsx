@@ -15,7 +15,7 @@ export class PassportSearchButton extends React.PureComponent<IProps> {
         disabled={this.props.disabled}
         className='mh-btn passport-search-button'
       >
-        {translate(t => t.common.load)}
+        <span className='search-text'>{translate(t => t.common.load)}</span>
       </button>
     );
   }

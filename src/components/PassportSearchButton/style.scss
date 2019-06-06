@@ -11,4 +11,22 @@
   &:disabled {
     opacity: unset;
   }
+
+  @media #{$smDown} {
+    padding: 0;
+    width: 55px;
+    height: 55px;
+    position: absolute;
+    right: 37px;
+    background-image: url('~images/search.png');
+    background-size: 25px;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .search-text {
+    @media #{$smDown} {
+      display: none;
+    }
+  }
 }

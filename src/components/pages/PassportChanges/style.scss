@@ -13,4 +13,24 @@
     max-width: 1300px;
     width: 100%;
   }
+
+  //.facts-list-header {
+  //  max-height: 100px;
+  //  @media #{$mdUp} {
+  //    max-height: 87px;
+  //  }
+  //}
+  //
+  //.facts-list-form {
+  //
+  //  @media #{$mdUp} {
+  //    max-height: 113px;
+  //  }
+  //}
+
+  .facts-list-header, .facts-list-form {
+    //@media #{$smUp} {
+    //  max-height: unset;
+    //}
+  }
 }
