@@ -15,7 +15,7 @@ import { IState } from 'src/state/rootReducer';
 import { createRouteUrl } from 'src/utils/nav';
 import { FactsList } from './FactsList';
 import { FactsListForm, ISubmitValues } from './FactsListForm';
-import { Row, Col } from 'react-flexbox-grid';
+import { Grid, Row, Col } from 'react-flexbox-grid';
 import './style.scss';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
@@ -43,28 +43,32 @@ class PassportChangesPage extends React.Component<IProps> {
 
     return (
       <MainTemplate className='mh-passport-changes-page'>
-        <Row className='facts-list-header'>
-          <PageTitle>
-            {translate(t => t.nav.passportChanges)}
-          </PageTitle>
-        </Row>
+        <div>
+          <Grid>
+            <Row className='facts-list-header'>
+              <PageTitle>
+                {translate(t => t.nav.passportChanges)}
+              </PageTitle>
+            </Row>
 
-        <Row className='facts-list-form'>
-          <FactsListForm
-            onSubmit={onLoadFacts}
-            disabled={this.isLoading()}
-          />
-        </Row>
+            <Row className='facts-list-form'>
+              <FactsListForm
+                onSubmit={onLoadFacts}
+                disabled={this.isLoading()}
+              />
+            </Row>
 
-        <Row>
-          <Col xs={12}>
-            <div className='mh-list'>
-              {this.renderLoader()}
-              {this.renderError()}
-              {this.renderList()}
-            </div>
-          </Col>
-        </Row>
+            <Row className='facts-list'>
+              <Col xs={12}>
+                <div className='mh-list'>
+                  {this.renderLoader()}
+                  {this.renderError()}
+                  {this.renderList()}
+                </div>
+              </Col>
+            </Row>
+          </Grid>
+        </div>
       </MainTemplate>
     );
   }

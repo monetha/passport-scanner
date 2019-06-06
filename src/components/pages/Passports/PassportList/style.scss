@@ -6,7 +6,15 @@
     border: unset;
     border-radius: unset;
     box-shadow: unset;
-    border-bottom: 1px $colorGrayB1 solid;
+
+    &:not(:last-child) {
+      border-bottom: 1px $colorGrayB1 solid;
+    }
+
+    .passport-address {
+      display: inline-block;
+      margin-right: 5px;
+    }
   }
 }
 
