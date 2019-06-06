@@ -241,11 +241,11 @@ export { historic as NavBar };
 
 const items: INavBarLink[] = [
   {
-    title: translate(t => t.nav.passportSearch),
+    title: translate(t => t.nav.passportRegistry),
     path: routes.Passports,
   },
   {
-    title: translate(t => t.nav.passportChanges),
+    title: translate(t => t.nav.passportSearch),
     path: routes.PassportChanges,
   },
 ];

@@ -47,7 +47,7 @@ class PassportChangesPage extends React.Component<IProps> {
           <Grid>
             <Row className='facts-list-header'>
               <PageTitle>
-                {translate(t => t.nav.passportChanges)}
+                {translate(t => t.nav.passportSearch)}
               </PageTitle>
             </Row>
 

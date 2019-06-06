@@ -36,7 +36,7 @@ const translations = validateBaseTranslations({
   },
   nav: {
     passportSearch: 'Passport search',
-    passportChanges: 'Passport changes',
+    passportRegistry: 'Passport registry',
   },
   footer: {
     copyright: '© 2019 Monetha. All rights reserved.',
