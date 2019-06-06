@@ -1,8 +1,9 @@
 @import "vars/index.scss";
 
 .mh-passport-list {
+  padding: 20px 20px 0 20px;
+
   .mh-table .responsiveTable tr {
-    padding-bottom: 25px;
     border: unset;
     border-radius: unset;
     box-shadow: unset;
@@ -13,9 +14,12 @@
   }
 }
 
+.mh-facts-list {
+  padding: 20px;
+}
+
 .mh-passport-list, .mh-facts-list {
   background-color: $colorWhite;
-  padding: 20px;
   border-radius: 5px;
 
   a {

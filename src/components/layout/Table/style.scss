@@ -32,9 +32,10 @@
 
       td {
         &.pivoted {
-          padding: 0 !important;
+          padding-left: 0 !important;
           width: 100%;
           white-space: normal;
+          padding-bottom: 12px;
 
           .tdBefore {
             font-family: $fontFamilyRegular;
