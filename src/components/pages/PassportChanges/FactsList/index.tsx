@@ -84,11 +84,11 @@ class FactsList extends React.PureComponent<IProps> {
           <table>
             <thead>
               <tr>
+                <th>{translate(t => t.passport.blockNumber)}</th>
                 <th>{translate(t => t.passport.key)}</th>
+                <th>{translate(t => t.passport.value)}</th>
                 <th>{translate(t => t.passport.dataType)}</th>
                 <th>{translate(t => t.passport.changeType)}</th>
-                <th>{translate(t => t.passport.value)}</th>
-                <th>{translate(t => t.passport.blockNumber)}</th>
                 <th>{translate(t => t.passport.txHash)}</th>
               </tr>
             </thead>
@@ -114,11 +114,11 @@ class FactsList extends React.PureComponent<IProps> {
   private renderItem(item: IFact) {
     return (
       <tr>
+        <td>{this.renderBlockNumber(item)}</td>
         <td>{item.key}</td>
+        <td>{this.renderValue(item)}</td>
         <td>{this.renderDataType(item)}</td>
         <td>{this.renderEventType(item)}</td>
-        <td>{this.renderValue(item)}</td>
-        <td>{this.renderBlockNumber(item)}</td>
         <td>{this.renderTxHash(item)}</td>
       </tr>
     );
