@@ -1,6 +1,6 @@
 import { BigNumber } from 'bignumber.js';
 import { put, takeLatest } from 'redux-saga/effects';
-import { FactHistoryReader, PassportReader } from 'reputation-sdk';
+import { FactHistoryReader, PassportReader, PassportOwnership } from 'reputation-sdk';
 import { DataType, IHistoryEvent } from 'reputation-sdk/dist/lib/models/IHistoryEvent';
 import { ErrorCode } from 'src/core/error/ErrorCode';
 import { createFriendlyError } from 'src/core/error/FriendlyError';
@@ -8,7 +8,7 @@ import { IPFSPathReaderClient } from 'src/core/ipfs/IPFSPathReaderClient';
 import { IAsyncAction } from 'src/core/redux/asyncAction';
 import { takeEveryLatest } from 'src/core/redux/saga';
 import { getServices } from 'src/ioc/services';
-import { getFacts, IGetFactsPayload, ILoadFactPayload, loadFactValue } from '../actions';
+import { getFacts, IGetFactsPayload, ILoadFactPayload, loadFactValue, getPassportOwner, IGetPassportOwnerPayload } from '../actions';
 import { IFactList } from '../models';
 import reverse from 'lodash/reverse';
 
@@ -44,6 +44,29 @@ function* onGetFacts(action: IAsyncAction<IGetFactsPayload>) {
     yield getServices().createErrorHandler(error)
       .onAnyError(function* (friendlyError) {
         yield put(getFacts.failure(friendlyError));
+      })
+      .process();
+  }
+}
+
+function* onGetPassportOwner(action: IAsyncAction<IGetPassportOwnerPayload>) {
+  try {
+    const { passportAddress } = action.payload;
+
+    const { web3 } = getServices();
+
+    const passportOwnership = new PassportOwnership(web3, passportAddress);
+    const address: string = yield passportOwnership.getOwnerAddress();
+
+    yield put(getPassportOwner.success(address));
+
+    const po = new PassportOwnership(web3, passportAddress);
+    po.getOwnerAddress().then(console.log);
+
+  } catch (error) {
+    yield getServices().createErrorHandler(error)
+      .onAnyError(function* (friendlyError) {
+        yield put(getPassportOwner.failure(friendlyError));
       })
       .process();
   }
@@ -118,6 +141,7 @@ function* onLoadFactValue(action: IAsyncAction<ILoadFactPayload>) {
 
 export const factsSaga = [
   takeLatest(getFacts.request.type, onGetFacts),
+  takeLatest(getPassportOwner.request.type, onGetPassportOwner),
   takeEveryLatest<IAsyncAction<ILoadFactPayload>, any>(
     loadFactValue.request.type, a => `${a.type}_${a.payload.fact.transactionHash}`, onLoadFactValue),
 ];
