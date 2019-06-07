@@ -4,7 +4,6 @@ import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { FormikField } from 'src/components/form/FormikField';
 import { TextInput } from 'src/components/form/TextInput';
-import { TextInputWithButton } from 'src/components/form/TextInputWithButton';
 import { translate } from 'src/i18n';
 import * as Yup from 'yup';
 import './style.scss';
@@ -116,19 +115,19 @@ class PassportListForm extends React.PureComponent<IProps, IState> {
         <FormikField
           name='factoryAddress'
         >
-          <TextInputWithButton
+          <TextInput
             name='factoryAddress'
             onChange={handleChange}
             value={values.factoryAddress}
             placeholder={translate(t => t.form.factoryAddress)}
             disabled={disabled}
-            customButton={
-              <PassportSearchButton
-                disabled={disabled}
-              >
-                {translate(t => t.common.load)}
-              </PassportSearchButton>}
+            className='with-button'
           />
+          <PassportSearchButton
+            disabled={disabled}
+          >
+            {translate(t => t.common.load)}
+          </PassportSearchButton>
         </FormikField>
 
         <div

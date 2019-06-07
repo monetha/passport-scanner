@@ -20,4 +20,17 @@
   &::placeholder {
     color: $colorGrayB2;
   }
+
+  &.with-button {
+    width: 100%;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px  ;
+    font-size: 16px;
+    padding-right: 130px;
+
+    @media #{$smDown} {
+      padding-right: 55px;
+    }
+  }
 }
+

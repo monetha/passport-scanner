@@ -1,7 +1,15 @@
 @import "vars/index.scss";
 
 .passport-search-button {
+  width: 130px;
+  height: 55px;
+  margin-left: -130px;
+  background-color: $colorLightBlue;
+  border-radius: 0 5px 5px 0;
+  color: $colorBlue;
   box-shadow: unset;
+  position: absolute;
+  font-size: 16px;
 
   &:after {
     border-bottom-right-radius: unset;
@@ -11,12 +19,6 @@
   &:disabled {
     opacity: unset;
   }
-
-  padding: 0;
-  width: 130px;
-  height: 55px;
-  position: absolute;
-  margin-left: -130px;
 
   @media #{$smDown} {
     width: 55px;
