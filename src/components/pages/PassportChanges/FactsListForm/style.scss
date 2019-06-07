@@ -1,6 +1,14 @@
 @import "vars/index.scss";
 
 .mh-facts-form {
+  .mh-dropdown-indicator {
+    border-color: $colorBlueB4 transparent transparent transparent;
+  }
+
+  .fact-provider-address {
+    margin-bottom: 8px;
+  }
+
   form > div + div {
     margin-top: $spaceBetweenComponentsXs;
   }

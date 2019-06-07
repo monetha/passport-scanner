@@ -143,6 +143,7 @@ class FactsListForm extends React.PureComponent<IProps> {
                 value={values.factProvider}
                 disabled={disabled}
                 placeholder={translate(t => t.passport.factProviderAddress)}
+                className='fact-provider-address'
               />
             </FormikField>
         </ShowAdvanced>
