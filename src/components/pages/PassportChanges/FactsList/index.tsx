@@ -257,7 +257,7 @@ class FactsList extends React.PureComponent<IProps> {
           onClick={() => this.onLoadClick(item)}
           className='view-value'
         >
-          {translate(t => t.common.view)}
+          {translate(item.dataType === DataType.TxData ? t => t.common.download : t => t.common.view)}
         </button>
       </div>
     );
