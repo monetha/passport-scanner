@@ -106,7 +106,6 @@ class FactsListForm extends React.PureComponent<IProps> {
       <Form>
           <FormikField
             name='passportAddress'
-            label={translate(t => t.form.passportAddress)}
           >
             <TextInput
               name='passportAddress'
@@ -125,25 +124,25 @@ class FactsListForm extends React.PureComponent<IProps> {
         <ShowAdvanced>
             <FormikField
               name='startBlock'
-              label={translate(t => t.form.startBlock)}
             >
               <TextInput
                 name='startBlock'
                 onChange={handleChange}
                 value={values.startBlock}
                 disabled={disabled}
+                placeholder={translate(t => t.form.startBlock)}
               />
             </FormikField>
 
             <FormikField
               name='factProvider'
-              label={translate(t => t.passport.factProviderAddress)}
             >
               <TextInput
                 name='factProvider'
                 onChange={handleChange}
                 value={values.factProvider}
                 disabled={disabled}
+                placeholder={translate(t => t.passport.factProviderAddress)}
               />
             </FormikField>
         </ShowAdvanced>
