@@ -110,6 +110,7 @@ class FactsListForm extends React.PureComponent<IProps> {
               value={values.passportAddress}
               placeholder='0x123456...'
               disabled={disabled}
+              className='with-button'
             />
             <SearchButton
               disabled={disabled}
