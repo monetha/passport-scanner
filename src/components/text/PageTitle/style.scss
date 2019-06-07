@@ -1,13 +1,13 @@
 @import "vars/index.scss";
 
 .mh-page-title {
-  font-size: 28px;
+  color: $colorLightestBlue;
   font-weight: bold;
   display: block;
+  margin: 0 0 20px 0;
+  font-size: $fontSizeLg0;
   word-break: break-word;
   word-wrap: break-word;
-  color: $colorDarkGrayTable;
-  margin: 16px 0 0 10px;
 
   @media #{$smDown} {
     margin-bottom: 15px;

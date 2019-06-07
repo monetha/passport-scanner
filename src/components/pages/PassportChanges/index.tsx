@@ -5,7 +5,7 @@ import { RouteComponentProps } from 'react-router';
 import { Alert, AlertType } from 'src/components/indicators/Alert';
 import { Loader } from 'src/components/indicators/Loader';
 import { MainTemplate } from 'src/components/layout/MainTemplate';
-import { PageTitle } from 'src/components/text/PageTitle';
+import { FormWrapper } from 'src/components/text/FormWrapper';
 import { routes } from 'src/constants/routes';
 import { IAsyncState } from 'src/core/redux/asyncAction';
 import { translate } from 'src/i18n';
@@ -47,18 +47,16 @@ class PassportChangesPage extends React.Component<IProps> {
         <Content size={Size.Md}>
           <div>
             <Grid>
-              <Row className='facts-list-header'>
-                <PageTitle>
-                  {translate(t => t.nav.passportSearch)}
-                </PageTitle>
-              </Row>
-
-              <Row className='facts-list-form'>
-                <FactsListForm
-                  onSubmit={onLoadFacts}
-                  disabled={this.isLoading()}
-                />
-              </Row>
+              <FormWrapper
+                header={translate(t => t.nav.passportSearch)}
+              >
+                <Row className='facts-list-form'>
+                  <FactsListForm
+                    onSubmit={onLoadFacts}
+                    disabled={this.isLoading()}
+                  />
+                </Row>
+              </FormWrapper>
 
               <Row className='facts-list'>
                 <Col xs={12}>

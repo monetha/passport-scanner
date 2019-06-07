@@ -1,6 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import './style.scss';
+import { PageTitle } from 'src/components/text/PageTitle';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -21,7 +22,7 @@ export class FormWrapper extends React.PureComponent<IProps> {
         {...rest}
         className={classnames('mh-form-wrapper', className)}
       >
-        <h1>{header}</h1>
+        <PageTitle>{header}</PageTitle>
         {children}
       </div>
     );
