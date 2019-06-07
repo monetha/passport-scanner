@@ -2,15 +2,14 @@
 
 .passport-search-button {
   width: 130px;
-  height: 55px;
+  height: 54px;
   margin-left: -130px;
   background-color: $colorLightBlue;
+  border: none;
   border-radius: 0 5px 5px 0;
   color: $colorBlue;
   box-shadow: unset;
-  position: absolute;
   font-size: 16px;
-  border: unset;
   font-family: $fontFamilyBold;
 
   &:after {
