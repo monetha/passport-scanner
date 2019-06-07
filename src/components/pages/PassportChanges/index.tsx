@@ -16,6 +16,7 @@ import { createRouteUrl } from 'src/utils/nav';
 import { FactsList } from './FactsList';
 import { FactsListForm, ISubmitValues } from './FactsListForm';
 import { Grid, Row, Col } from 'react-flexbox-grid';
+import { Content, Size } from 'src/components/layout/Content';
 import './style.scss';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
@@ -43,32 +44,34 @@ class PassportChangesPage extends React.Component<IProps> {
 
     return (
       <MainTemplate className='mh-passport-changes-page'>
-        <div>
-          <Grid>
-            <Row className='facts-list-header'>
-              <PageTitle>
-                {translate(t => t.nav.passportSearch)}
-              </PageTitle>
-            </Row>
+        <Content size={Size.Md}>
+          <div>
+            <Grid>
+              <Row className='facts-list-header'>
+                <PageTitle>
+                  {translate(t => t.nav.passportSearch)}
+                </PageTitle>
+              </Row>
 
-            <Row className='facts-list-form'>
-              <FactsListForm
-                onSubmit={onLoadFacts}
-                disabled={this.isLoading()}
-              />
-            </Row>
+              <Row className='facts-list-form'>
+                <FactsListForm
+                  onSubmit={onLoadFacts}
+                  disabled={this.isLoading()}
+                />
+              </Row>
 
-            <Row className='facts-list'>
-              <Col xs={12}>
-                <div className='mh-list'>
-                  {this.renderLoader()}
-                  {this.renderError()}
-                  {this.renderList()}
-                </div>
-              </Col>
-            </Row>
-          </Grid>
-        </div>
+              <Row className='facts-list'>
+                <Col xs={12}>
+                  <div className='mh-list'>
+                    {this.renderLoader()}
+                    {this.renderError()}
+                    {this.renderList()}
+                  </div>
+                </Col>
+              </Row>
+            </Grid>
+          </div>
+        </Content>
       </MainTemplate>
     );
   }
