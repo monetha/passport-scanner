@@ -4,14 +4,14 @@ import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { FormikField } from 'src/components/form/FormikField';
 import { TextInput } from 'src/components/form/TextInput';
+import { ShowAdvanced } from 'src/components/ShowAdvanced';
 import { translate } from 'src/i18n';
 import * as Yup from 'yup';
 import './style.scss';
 import { getServices } from 'src/ioc/services';
 import { ethNetworkUrls } from 'src/constants/api';
 import { defaultAddresses } from 'src/constants/addresses';
-import { DropdownIndicator } from 'src/components/DropdownIndicator';
-import { PassportSearchButton } from 'src/components/PassportSearchButton';
+import { SearchButton } from 'src/components/SearchButton';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -28,10 +28,6 @@ interface IFormValues {
 export interface ISubmitValues {
   factoryAddress: string;
   startBlock: number;
-}
-
-export interface IState {
-  isAdvancedSearchOpened: boolean;
 }
 
 // #endregion
@@ -55,7 +51,7 @@ const validationSchema = Yup.object().shape({
 
 // #region -------------- Component ---------------------------------------------------------------
 
-class PassportListForm extends React.PureComponent<IProps, IState> {
+class PassportListForm extends React.PureComponent<IProps> {
   private initialValues: IFormValues;
 
   public constructor(props: IProps) {
@@ -85,10 +81,6 @@ class PassportListForm extends React.PureComponent<IProps, IState> {
     this.initialValues = {
       factoryAddress: passportFactoryAddress || '',
       startBlock: startBlock || '',
-    };
-
-    this.state = {
-      isAdvancedSearchOpened: false,
     };
   }
 
@@ -123,35 +115,28 @@ class PassportListForm extends React.PureComponent<IProps, IState> {
             disabled={disabled}
             className='with-button'
           />
-          <PassportSearchButton
+          <SearchButton
             disabled={disabled}
           >
             {translate(t => t.common.load)}
-          </PassportSearchButton>
+          </SearchButton>
         </FormikField>
 
-        <div
-          onClick={() => this.setState(({ isAdvancedSearchOpened }) => ({ isAdvancedSearchOpened: !isAdvancedSearchOpened }))}
-          className='advanced-search'
-        >
-          {translate(t => t.form.advancedSearch)}
-          <DropdownIndicator isOpened={this.state.isAdvancedSearchOpened} />
-        </div>
-
-        {this.state.isAdvancedSearchOpened &&
-        <div className='start-block'>
-          <FormikField
-            name='startBlock'
-          >
-            <TextInput
+        <ShowAdvanced>
+          <div className='start-block'>
+            <FormikField
               name='startBlock'
-              onChange={handleChange}
-              value={values.startBlock}
-              disabled={disabled}
-              placeholder={translate(t => t.form.startBlock)}
-            />
-          </FormikField>
-        </div>}
+            >
+              <TextInput
+                name='startBlock'
+                onChange={handleChange}
+                value={values.startBlock}
+                disabled={disabled}
+                placeholder={translate(t => t.form.startBlock)}
+              />
+            </FormikField>
+          </div>
+        </ShowAdvanced>
       </Form>
     );
   }

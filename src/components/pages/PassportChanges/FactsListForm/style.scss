@@ -1,33 +1,6 @@
 @import "vars/index.scss";
 
 .mh-facts-form {
-  .mh-form-buttons {
-    text-align: center;
-
-    .mh-btn {
-      width: 100%;
-      position: relative;
-      top: 22px;
-      border-radius: 5px;
-      background-color: $colorLightBlue;
-      color: $colorBlue;
-      box-shadow: unset;
-      font-size: 16px;
-      line-height: 33px;
-
-      @media #{$smDown} {
-        top: unset;
-      }
-    }
-  }
-
-  .col {
-    @media #{$smDown} {
-      padding-top: 5px;
-      padding-bottom: 15px;
-    }
-  }
-
   form > div + div {
     margin-top: $spaceBetweenComponentsXs;
   }

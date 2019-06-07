@@ -6,7 +6,7 @@ interface IProps {
   disabled: boolean;
 }
 
-export class PassportSearchButton extends React.PureComponent<IProps> {
+export class SearchButton extends React.PureComponent<IProps> {
 
   public render() {
     return (

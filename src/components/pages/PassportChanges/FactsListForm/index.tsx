@@ -2,13 +2,14 @@ import { Form, Formik } from 'formik';
 import queryString from 'query-string';
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { Button } from 'src/components/form/Button';
 import { FormikField } from 'src/components/form/FormikField';
 import { TextInput } from 'src/components/form/TextInput';
+import { ShowAdvanced } from 'src/components/ShowAdvanced';
 import { translate } from 'src/i18n';
 import * as Yup from 'yup';
 import './style.scss';
-import { Grid, Row, Col } from 'react-flexbox-grid';
+import { Grid } from 'react-flexbox-grid';
+import { SearchButton } from 'src/components/SearchButton';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -103,23 +104,25 @@ class FactsListForm extends React.PureComponent<IProps> {
 
     return (
       <Form>
-        <Row>
-          <Col xs={12} md={4} className='col'>
-            <FormikField
+          <FormikField
+            name='passportAddress'
+            label={translate(t => t.form.passportAddress)}
+          >
+            <TextInput
               name='passportAddress'
-              label={translate(t => t.form.passportAddress)}
+              onChange={handleChange}
+              value={values.passportAddress}
+              placeholder='0x123456...'
+              disabled={disabled}
+            />
+            <SearchButton
+              disabled={disabled}
             >
-              <TextInput
-                name='passportAddress'
-                onChange={handleChange}
-                value={values.passportAddress}
-                placeholder='0x123456...'
-                disabled={disabled}
-              />
-            </FormikField>
-          </Col>
+              {translate(t => t.common.load)}
+            </SearchButton>
+          </FormikField>
 
-          <Col xs={12} md={2} className='col'>
+        <ShowAdvanced>
             <FormikField
               name='startBlock'
               label={translate(t => t.form.startBlock)}
@@ -131,9 +134,7 @@ class FactsListForm extends React.PureComponent<IProps> {
                 disabled={disabled}
               />
             </FormikField>
-          </Col>
 
-          <Col xs={12} md={4} className='col'>
             <FormikField
               name='factProvider'
               label={translate(t => t.passport.factProviderAddress)}
@@ -145,19 +146,7 @@ class FactsListForm extends React.PureComponent<IProps> {
                 disabled={disabled}
               />
             </FormikField>
-          </Col>
-
-          <Col xs={12} md={2} className='col'>
-            <div className='mh-form-buttons'>
-              <Button
-                type='submit'
-                disabled={disabled}
-              >
-                {translate(t => t.common.load)}
-              </Button>
-            </div>
-          </Col>
-        </Row>
+        </ShowAdvanced>
       </Form>
     );
   }
