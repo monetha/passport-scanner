@@ -56,7 +56,7 @@ const translations = validateBaseTranslations({
     passports: 'Passports',
     passportAddress: 'Passport address',
     firstOwnerAddress: 'First owner address',
-    blockNumber: 'Block number',
+    blockNumber: 'Block #',
     txHash: 'Transaction hash',
     factProvider: 'Fact provider',
     factProviderAddress: 'Fact provider address',

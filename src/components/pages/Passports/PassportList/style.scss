@@ -1,35 +1,16 @@
 @import "vars/index.scss";
 
-.mh-passport-list {
-  padding: 20px 20px 0 20px;
-
-  .mh-table .responsiveTable tr {
-    border: unset;
-    border-radius: unset;
-    box-shadow: unset;
-
-    &:not(:last-child) {
-      border-bottom: 1px $colorGrayB1 solid;
-    }
-  }
-}
-
 .mh-facts-list {
   padding: 20px;
 }
 
 .mh-passport-list, .mh-facts-list {
+  padding: 20px 20px 5px   20px;
   background-color: $colorWhite;
   border-radius: 5px;
 
   a {
     word-break: break-all;
-  }
-
-  th, .tdBefore {
-    text-transform: uppercase;
-    color: $colorGrayB1;
-    font-size: $fontSizeSm;
   }
 
   h2 {
