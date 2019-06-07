@@ -3,8 +3,11 @@ import groupBy from 'lodash/groupBy';
 import pickBy from 'lodash/pickBy';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import { Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import { DataType, EventType, IFactValue } from 'reputation-sdk';
 import { Loader } from 'src/components/indicators/Loader';
+import { Table } from 'src/components/layout/Table';
 import { etherscanUrls, ethNetworkUrls, ipfsGatewayUrl } from 'src/constants/api';
 import { knownFactProviders } from 'src/constants/factProviders';
 import { IAsyncState } from 'src/core/redux/asyncAction';
@@ -81,25 +84,25 @@ class FactsList extends React.PureComponent<IProps> {
             {this.renderFactProviderName(factProviderAddress)}
           </div>
 
-          <table>
-            <thead>
-              <tr>
-                <th>{translate(t => t.passport.blockNumber)}</th>
-                <th>{translate(t => t.passport.key)}</th>
-                <th>{translate(t => t.passport.value)}</th>
-                <th>{translate(t => t.passport.dataType)}</th>
-                <th>{translate(t => t.passport.changeType)}</th>
-                <th>{translate(t => t.passport.txHash)}</th>
-              </tr>
-            </thead>
-            <tbody>
+          <Table>
+            <Thead>
+              <Tr>
+                <Th>{translate(t => t.passport.blockNumber)}</Th>
+                <Th>{translate(t => t.passport.key)}</Th>
+                <Th>{translate(t => t.passport.value)}</Th>
+                <Th>{translate(t => t.passport.dataType)}</Th>
+                <Th>{translate(t => t.passport.changeType)}</Th>
+                <Th>{translate(t => t.passport.txHash)}</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
               {facts.map(f => (
                 <Fragment key={f.transactionHash}>
                   {this.renderItem(f)}
                 </Fragment>
               ))}
-            </tbody>
-          </table>
+            </Tbody>
+          </Table>
         </div>
       ));
     }
@@ -113,14 +116,14 @@ class FactsList extends React.PureComponent<IProps> {
 
   private renderItem(item: IFact) {
     return (
-      <tr>
-        <td>{this.renderBlockNumber(item)}</td>
-        <td>{item.key}</td>
-        <td>{this.renderValue(item)}</td>
-        <td>{this.renderDataType(item)}</td>
-        <td>{this.renderEventType(item)}</td>
-        <td>{this.renderTxHash(item)}</td>
-      </tr>
+      <Tr>
+        <Td>{this.renderBlockNumber(item)}</Td>
+        <Td>{item.key}</Td>
+        <Td>{this.renderValue(item)}</Td>
+        <Td>{this.renderDataType(item)}</Td>
+        <Td>{this.renderEventType(item)}</Td>
+        <Td>{this.renderTxHash(item)}</Td>
+      </Tr>
     );
   }
 

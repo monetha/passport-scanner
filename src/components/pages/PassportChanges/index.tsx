@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Alert, AlertType } from 'src/components/indicators/Alert';
 import { Loader } from 'src/components/indicators/Loader';
+import { Content, Size } from 'src/components/layout/Content';
 import { MainTemplate } from 'src/components/layout/MainTemplate';
 import { FormWrapper } from 'src/components/text/FormWrapper';
 import { routes } from 'src/constants/routes';
@@ -15,8 +16,6 @@ import { IState } from 'src/state/rootReducer';
 import { createRouteUrl } from 'src/utils/nav';
 import { FactsList } from './FactsList';
 import { FactsListForm, ISubmitValues } from './FactsListForm';
-import { Grid, Row, Col } from 'react-flexbox-grid';
-import { Content, Size } from 'src/components/layout/Content';
 import './style.scss';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
@@ -46,28 +45,24 @@ class PassportChangesPage extends React.Component<IProps> {
       <MainTemplate className='mh-passport-changes-page'>
         <Content size={Size.Md}>
           <div>
-            <Grid>
-              <FormWrapper
-                header={translate(t => t.nav.passportSearch)}
-              >
-                <Row className='facts-list-form'>
-                  <FactsListForm
-                    onSubmit={onLoadFacts}
-                    disabled={this.isLoading()}
-                  />
-                </Row>
-              </FormWrapper>
+            <FormWrapper
+              header={translate(t => t.nav.passportSearch)}
+            >
+              <div className='facts-list-form'>
+                <FactsListForm
+                  onSubmit={onLoadFacts}
+                  disabled={this.isLoading()}
+                />
+              </div>
+            </FormWrapper>
 
-              <Row className='facts-list'>
-                <Col xs={12}>
-                  <div className='mh-list'>
-                    {this.renderLoader()}
-                    {this.renderError()}
-                    {this.renderList()}
-                  </div>
-                </Col>
-              </Row>
-            </Grid>
+            <div className='facts-list'>
+              <div className='mh-list'>
+                {this.renderLoader()}
+                {this.renderError()}
+                {this.renderList()}
+              </div>
+            </div>
           </div>
         </Content>
       </MainTemplate>

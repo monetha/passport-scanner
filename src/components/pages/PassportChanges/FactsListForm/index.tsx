@@ -8,7 +8,6 @@ import { ShowAdvanced } from 'src/components/ShowAdvanced';
 import { translate } from 'src/i18n';
 import * as Yup from 'yup';
 import './style.scss';
-import { Grid } from 'react-flexbox-grid';
 import { SearchButton } from 'src/components/SearchButton';
 
 // #region -------------- Interfaces --------------------------------------------------------------
@@ -84,18 +83,16 @@ class FactsListForm extends React.PureComponent<IProps> {
 
   public render() {
     return (
-      <Grid>
-        <div className='mh-facts-form'>
-          <Formik<IFormValues>
-            initialValues={this.initialValues}
-            onSubmit={this.onSubmit}
-            validationSchema={validationSchema}
-            validateOnChange
-          >
-            {this.renderForm}
-          </Formik>
-        </div>
-      </Grid>
+      <div className='mh-facts-form'>
+        <Formik<IFormValues>
+          initialValues={this.initialValues}
+          onSubmit={this.onSubmit}
+          validationSchema={validationSchema}
+          validateOnChange
+        >
+          {this.renderForm}
+        </Formik>
+      </div>
     );
   }
 
