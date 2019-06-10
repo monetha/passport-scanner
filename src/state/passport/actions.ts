@@ -11,7 +11,6 @@ export const actionTypes = {
   getPassports: get('GET_PASSPORTS'),
   getFacts: get('GET_FACTS'),
   loadFactValue: get('LOAD_FACT_VALUE'),
-  loadIpfsFactValue: get('LOAD_IPFS_FACT_VALUE'),
 };
 
 // #endregion
@@ -42,11 +41,6 @@ export interface ILoadFactPayload {
   fact: IFact;
 }
 
-export interface ILoadIpfsFactPayload extends ILoadFactPayload {
-
-}
-
 export const loadFactValue = createAsyncAction<ILoadFactPayload, IFactValueWrapper>(actionTypes.loadFactValue);
-export const loadIpfsFactValue = createAsyncAction<ILoadIpfsFactPayload, IFactValueWrapper>(actionTypes.loadIpfsFactValue);
 
 // #endregion

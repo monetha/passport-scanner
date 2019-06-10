@@ -8,7 +8,7 @@ import { IPFSPathReaderClient } from 'src/core/ipfs/IPFSPathReaderClient';
 import { IAsyncAction } from 'src/core/redux/asyncAction';
 import { takeEveryLatest } from 'src/core/redux/saga';
 import { getServices } from 'src/ioc/services';
-import { getFacts, IGetFactsPayload, ILoadFactPayload, loadFactValue, loadIpfsFactValue, ILoadIpfsFactPayload } from '../actions';
+import { getFacts, IGetFactsPayload, ILoadFactPayload, loadFactValue } from '../actions';
 import { IFactList } from '../models';
 import reverse from 'lodash/reverse';
 
@@ -76,6 +76,10 @@ function* onLoadFactValue(action: IAsyncAction<ILoadFactPayload>) {
         factValue = yield reader.getBytes(transactionHash);
         break;
 
+      case DataType.IPFSHash:
+        factValue = yield reader.getIPFSData(transactionHash, new IPFSPathReaderClient());
+        break;
+
       case DataType.Int:
         factValue = yield reader.getInt(transactionHash);
         break;
@@ -110,40 +114,10 @@ function* onLoadFactValue(action: IAsyncAction<ILoadFactPayload>) {
   }
 }
 
-function* onLoadIpfsFactValue(action: IAsyncAction<ILoadFactPayload>) {
-  try {
-    const { web3} = getServices();
-
-    const reader = new FactHistoryReader(web3);
-
-    const { dataType, transactionHash } = action.payload.fact;
-
-    if (dataType !== DataType.IPFSHash) {
-      throw createFriendlyError(ErrorCode.NOT_SUPPORTED, `Fact type "${dataType}" `);
-    }
-
-    const factValue = yield reader.getIPFSData(transactionHash, new IPFSPathReaderClient());
-
-    yield put(loadIpfsFactValue.success({
-      dataType,
-      value: factValue,
-    }, action.subpath));
-
-  } catch (error) {
-    yield getServices().createErrorHandler(error)
-      .onAnyError(function* (friendlyError) {
-        yield put(loadIpfsFactValue.failure(friendlyError, action.payload, action.subpath));
-      })
-      .process();
-  }
-}
-
 // #endregion
 
 export const factsSaga = [
   takeLatest(getFacts.request.type, onGetFacts),
   takeEveryLatest<IAsyncAction<ILoadFactPayload>, any>(
     loadFactValue.request.type, a => `${a.type}_${a.payload.fact.transactionHash}`, onLoadFactValue),
-  takeEveryLatest<IAsyncAction<ILoadIpfsFactPayload>, any>(
-    loadIpfsFactValue.request.type, a => `${a.type}_${a.payload.fact.transactionHash}`, onLoadIpfsFactValue),
 ];

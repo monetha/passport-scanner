@@ -15,7 +15,7 @@ import { translate } from 'src/i18n';
 import translations from 'src/i18n/locales/en';
 import { getServices } from 'src/ioc/services';
 import { IFact } from 'src/models/passport';
-import { loadFactValue, loadIpfsFactValue } from 'src/state/passport/actions';
+import { loadFactValue } from 'src/state/passport/actions';
 import { IFactValueWrapper } from 'src/state/passport/models';
 import { IState } from 'src/state/rootReducer';
 import './style.scss';
@@ -23,8 +23,13 @@ import { Alert, AlertType } from 'src/components/indicators/Alert';
 import { Share } from 'src/components/pages/PassportChanges/Share';
 import { ActionButton } from 'src/components/pages/PassportChanges/ActionButton';
 import { getShortId } from 'src/helpers';
+import { routes } from 'src/constants/routes';
 
 // #region -------------- Interfaces --------------------------------------------------------------
+
+interface ILocalState {
+  popup: any;
+}
 
 interface IStateProps {
   factValues: { [txHash: string]: IAsyncState<IFactValueWrapper> };
@@ -32,7 +37,6 @@ interface IStateProps {
 
 interface IDispatchProps {
   onLoadFactValue(fact: IFact);
-  onLoadIpfsFactValue(fact: IFact);
 }
 
 export interface IProps extends IStateProps, IDispatchProps {
@@ -43,7 +47,7 @@ export interface IProps extends IStateProps, IDispatchProps {
 
 // #region -------------- Component ---------------------------------------------------------------
 
-class FactsList extends React.PureComponent<IProps> {
+class FactsList extends React.PureComponent<IProps, ILocalState> {
 
   public componentDidUpdate(prevProps: IProps) {
     this.onFactValueLoaded(prevProps);
@@ -321,11 +325,9 @@ class FactsList extends React.PureComponent<IProps> {
     );
   }
 
-  private onLoadClick = async (fact: IFact) => {
+  private onLoadClick = (fact: IFact) => {
     if (fact.dataType === DataType.IPFSHash) {
-      this.props.onLoadIpfsFactValue(fact);
-
-      return;
+      this.setState({ popup: window.open(routes.Loading, '_blank') });
     }
 
     this.props.onLoadFactValue(fact);
@@ -381,8 +383,7 @@ class FactsList extends React.PureComponent<IProps> {
       // Data was just fetched. Do action on it
       const { dataType, value } = valueState.data;
       if (dataType === DataType.IPFSHash) {
-        const win = window.open(`${ipfsGatewayUrl}/${value.value}`, '_blank');
-        win.focus();
+        this.state.popup.location.replace(`${ipfsGatewayUrl}/${value.value}`);
         return;
       }
 
@@ -408,9 +409,6 @@ const connected = connect<IStateProps, IDispatchProps>(
     return {
       onLoadFactValue(fact: IFact) {
         dispatch(loadFactValue.init({ passportAddress: null, fact }));
-      },
-      onLoadIpfsFactValue(fact: IFact) {
-        dispatch(loadIpfsFactValue.init({ passportAddress: null, fact }));
       },
     };
   },
