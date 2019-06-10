@@ -32,7 +32,7 @@ class NetworkPicker extends React.Component<IProps, IState> {
 
     this.state = {
       isOpen: false,
-    }
+    };
   }
 
   public render() {
@@ -51,12 +51,16 @@ class NetworkPicker extends React.Component<IProps, IState> {
 
     return (
       <Tooltip
-        position='bottom center'
+        position='bottom'
+        distance={-3}
+        offset={-70}
+        theme='light'
+        animateFill={false}
         trigger='click'
         open={this.state.isOpen}
         onRequestClose={() => this.onOpenToggle(false)}
         interactive={true}
-        arrow={true}
+        arrow={false}
         hideOnClick={true}
         html={this.renderPopupContents()}
       >

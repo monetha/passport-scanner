@@ -28,7 +28,7 @@
 .mh-network-picker-popup-content {
   color: $colorGray;
   font-size: $fontSizeMd;
-  width: 250px;
+  width: 225px;
   max-width: 100%;
 
   button {
@@ -43,7 +43,6 @@
     cursor: pointer;
     border-radius: $borderRadiusXs;
     transition: opacity 0.3s;
-    margin-bottom: $spaceBetweenComponentsXxs;
     font-family: $fontFamilyRegular;
 
     &:disabled {
@@ -59,6 +58,8 @@
   input {
     padding: $paddingSm;
     min-height: 40px;
+    margin-top: 12px;
+    text-align: center;
   }
 }
 
