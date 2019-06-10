@@ -5,10 +5,11 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Button } from 'src/components/form/Button';
 import { FormikField } from 'src/components/form/FormikField';
 import { TextInput } from 'src/components/form/TextInput';
+import { ShowAdvanced } from 'src/components/ShowAdvanced';
 import { translate } from 'src/i18n';
 import * as Yup from 'yup';
 import './style.scss';
-import { Grid, Row, Col } from 'react-flexbox-grid';
+import { SearchButton } from 'src/components/SearchButton';
 import { IGetPassportOwnerPayload } from 'src/state/passport/actions';
 
 // #region -------------- Interfaces --------------------------------------------------------------
@@ -88,18 +89,16 @@ class FactsListForm extends React.PureComponent<IProps> {
 
   public render() {
     return (
-      <Grid>
-        <div className='mh-facts-form'>
-          <Formik<IFormValues>
-            initialValues={this.initialValues}
-            onSubmit={this.onSubmit}
-            validationSchema={validationSchema}
-            validateOnChange
-          >
-            {this.renderForm}
-          </Formik>
-        </div>
-      </Grid>
+      <div className='mh-facts-form'>
+        <Formik<IFormValues>
+          initialValues={this.initialValues}
+          onSubmit={this.onSubmit}
+          validationSchema={validationSchema}
+          validateOnChange
+        >
+          {this.renderForm}
+        </Formik>
+      </div>
     );
   }
 
@@ -108,61 +107,50 @@ class FactsListForm extends React.PureComponent<IProps> {
 
     return (
       <Form>
-        <Row>
-          <Col xs={12} md={4} className='col'>
-            <FormikField
+          <FormikField
+            name='passportAddress'
+          >
+            <TextInput
               name='passportAddress'
-              label={translate(t => t.form.passportAddress)}
+              onChange={handleChange}
+              value={values.passportAddress}
+              placeholder='0x123456...'
+              disabled={disabled}
+              className='with-button'
+            />
+            <SearchButton
+              disabled={disabled}
             >
-              <TextInput
-                name='passportAddress'
-                onChange={handleChange}
-                value={values.passportAddress}
-                placeholder='0x123456...'
-                disabled={disabled}
-              />
-            </FormikField>
-          </Col>
+              {translate(t => t.common.load)}
+            </SearchButton>
+          </FormikField>
 
-          <Col xs={12} md={2} className='col'>
+        <ShowAdvanced>
             <FormikField
               name='startBlock'
-              label={translate(t => t.form.startBlock)}
             >
               <TextInput
                 name='startBlock'
                 onChange={handleChange}
                 value={values.startBlock}
                 disabled={disabled}
+                placeholder={translate(t => t.form.startBlock)}
               />
             </FormikField>
-          </Col>
 
-          <Col xs={12} md={4} className='col'>
             <FormikField
               name='factProvider'
-              label={translate(t => t.passport.factProviderAddress)}
             >
               <TextInput
                 name='factProvider'
                 onChange={handleChange}
                 value={values.factProvider}
                 disabled={disabled}
+                placeholder={translate(t => t.passport.factProviderAddress)}
+                className='fact-provider-address'
               />
             </FormikField>
-          </Col>
-
-          <Col xs={12} md={2} className='col'>
-            <div className='mh-form-buttons'>
-              <Button
-                type='submit'
-                disabled={disabled}
-              >
-                {translate(t => t.common.load)}
-              </Button>
-            </div>
-          </Col>
-        </Row>
+        </ShowAdvanced>
       </Form>
     );
   }

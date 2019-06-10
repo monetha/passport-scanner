@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Alert, AlertType } from 'src/components/indicators/Alert';
 import { Loader } from 'src/components/indicators/Loader';
+import { Content, Size } from 'src/components/layout/Content';
 import { MainTemplate } from 'src/components/layout/MainTemplate';
-import { PageTitle } from 'src/components/text/PageTitle';
+import { FormWrapper } from 'src/components/text/FormWrapper';
 import { routes } from 'src/constants/routes';
 import { IAsyncState } from 'src/core/redux/asyncAction';
 import { translate } from 'src/i18n';
@@ -15,8 +16,6 @@ import { IState } from 'src/state/rootReducer';
 import { createRouteUrl } from 'src/utils/nav';
 import { FactsList } from './FactsList';
 import { FactsListForm, ISubmitValues } from './FactsListForm';
-import { Grid, Row, Col } from 'react-flexbox-grid';
-import { Content, Size } from 'src/components/layout/Content';
 import './style.scss';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
@@ -48,31 +47,25 @@ class PassportChangesPage extends React.Component<IProps> {
       <MainTemplate className='mh-passport-changes-page'>
         <Content size={Size.Md}>
           <div>
-            <Grid>
-              <Row className='facts-list-header'>
-                <PageTitle>
-                  {translate(t => t.nav.passportSearch)}
-                </PageTitle>
-              </Row>
-
-              <Row className='facts-list-form'>
+            <FormWrapper
+              header={translate(t => t.nav.passportSearch)}
+            >
+              <div className='facts-list-form'>
                 <FactsListForm
                   onSubmit={onLoadFacts}
                   onLoadPassportOwnerAddress={onLoadPassportOwnerAddress}
                   disabled={this.isLoading()}
                 />
-              </Row>
+              </div>
+            </FormWrapper>
 
-              <Row className='facts-list'>
-                <Col xs={12}>
-                  <div className='mh-list'>
-                    {this.renderLoader()}
-                    {this.renderError()}
-                    {this.renderList()}
-                  </div>
-                </Col>
-              </Row>
-            </Grid>
+            <div className='facts-list'>
+              <div className='mh-list'>
+                {this.renderLoader()}
+                {this.renderError()}
+                {this.renderList()}
+              </div>
+            </div>
           </div>
         </Content>
       </MainTemplate>

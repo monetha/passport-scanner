@@ -1,14 +1,9 @@
 @import "vars/index.scss";
 
-.mh-passport-registry-form-wrapper {
+.mh-form-wrapper {
   background-color: $colorBlue;
   color: $colorWhite;
   padding: 25px 25px 18px 25px;
   border-radius: 7px;
-
-  h1 {
-    color: $colorLightestBlue;
-    margin: 0 0 20px 0;
-    font-size: $fontSizeLg0;
-  }
+  margin-bottom: $spaceBetweenComponentsMd;
 }

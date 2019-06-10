@@ -4,19 +4,38 @@
   .responsiveTable {
     overflow-x: auto;
     border-spacing: 0;
+    white-space: nowrap;
+
+    th, .tdBefore {
+      text-transform: uppercase;
+      color: $colorGrayB1;
+      font-size: $fontSizeSm;
+    }
+
+    tr {
+      border: unset;
+      &:not(:last-child) {
+        border-bottom: 1px $colorGrayB3 solid;
+      }
+    }
+
+    td {
+      border-bottom: 1px $colorGrayB3 solid;
+    }
+
+    td.pivoted {
+      padding: 8px 10px 8px 0 !important;
+    }
 
     @media screen and (min-width: 40em) {
       td {
-        padding: 12px;
         vertical-align: top;
         min-width: 80px;
-        border-bottom: 1px $colorGrayB3 solid;
       }
 
       th {
-        padding: 5px;
         text-align: left;
-        white-space: nowrap;
+        padding-bottom: 10px;
       }
     }
 
@@ -24,26 +43,21 @@
       font-size: $fontSizeSm;
 
       tr {
-        padding: 7px;
-        border: 1px solid $colorGrayB3;
-        border-radius: $borderRadiusSm;
-        box-shadow: boxShadowSm($colorBlack);
         margin-bottom: $paddingSm;
       }
 
       td {
         &.pivoted {
-          padding-left: 0 !important;
           width: 100%;
           white-space: normal;
-          padding-bottom: 12px;
 
           .tdBefore {
             font-family: $fontFamilyRegular;
+            padding-bottom: 5px;
           }
 
-          + td.pivoted {
-            padding-top: $paddingSm !important;
+          &:last-child {
+            padding-bottom: 20px !important;
           }
         }
 
@@ -52,6 +66,10 @@
           width: 100%;
         }
       }
+    }
+
+    @media #{$mdDown} {
+      display: block;
     }
   }
 

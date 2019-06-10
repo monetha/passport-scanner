@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router';
 import { MainTemplate } from 'src/components/layout/MainTemplate';
 import './style.scss';
 import { Content, Size } from 'src/components/layout/Content';
-import { PassportRegistryFormWrapper } from 'src/components/text/PassportRegistryFormWrapper';
+import { FormWrapper } from 'src/components/text/FormWrapper';
 import { PassportListForm, ISubmitValues } from './PassportListForm';
 import { connect } from 'react-redux';
 import { IState } from 'src/state/rootReducer';
@@ -16,6 +16,7 @@ import { PassportList } from './PassportList';
 import { createRouteUrl } from 'src/utils/nav';
 import { routes } from 'src/constants/routes';
 import { replace } from 'connected-react-router';
+import { translate } from 'src/i18n';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 
@@ -45,12 +46,14 @@ class PassportsPage extends React.Component<IProps> {
       <MainTemplate className='mh-passports-page'>
         <div>
           <Content size={Size.Md}>
-            <PassportRegistryFormWrapper>
+            <FormWrapper
+              header={translate(t => t.nav.passportRegistry)}
+            >
               <PassportListForm
                 onSubmit={onLoadPassports}
                 disabled={this.isLoading()}
               />
-            </PassportRegistryFormWrapper>
+            </FormWrapper>
           </Content>
 
           <Content size={Size.Md}>

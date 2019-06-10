@@ -3,8 +3,11 @@ import groupBy from 'lodash/groupBy';
 import pickBy from 'lodash/pickBy';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import { Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import { DataType, EventType, IFactValue } from 'reputation-sdk';
 import { Loader } from 'src/components/indicators/Loader';
+import { Table } from 'src/components/layout/Table';
 import { etherscanUrls, ethNetworkUrls, ipfsGatewayUrl } from 'src/constants/api';
 import { knownFactProviders } from 'src/constants/factProviders';
 import { IAsyncState } from 'src/core/redux/asyncAction';
@@ -17,7 +20,8 @@ import { IFactValueWrapper } from 'src/state/passport/models';
 import { IState } from 'src/state/rootReducer';
 import './style.scss';
 import { Alert, AlertType } from 'src/components/indicators/Alert';
-import { Share } from 'src/components/pages/PassportChanges/Share/index.tsx';
+import { Share } from 'src/components/pages/PassportChanges/Share';
+import { ActionButton } from 'src/components/pages/PassportChanges/ActionButton';
 import { getShortId } from 'src/helpers';
 
 // #region -------------- Interfaces --------------------------------------------------------------
@@ -77,29 +81,29 @@ class FactsList extends React.PureComponent<IProps> {
           key={factProviderAddress}
         >
           <div className='mh-fact-provider-header'>
-            <span className="fact-provider">{`${translate(t => t.passport.factProvider)}: `}</span>
+            <span className='fact-provider'>{`${translate(t => t.passport.factProvider)}: `}</span>
             {this.renderFactProviderName(factProviderAddress)}
           </div>
 
-          <table>
-            <thead>
-              <tr>
-                <th>{translate(t => t.passport.blockNumber)}</th>
-                <th>{translate(t => t.passport.key)}</th>
-                <th>{translate(t => t.passport.value)}</th>
-                <th>{translate(t => t.passport.dataType)}</th>
-                <th>{translate(t => t.passport.changeType)}</th>
-                <th>{translate(t => t.passport.txHash)}</th>
-              </tr>
-            </thead>
-            <tbody>
+          <Table>
+            <Thead>
+              <Tr>
+                <Th>{translate(t => t.passport.blockNumber)}</Th>
+                <Th>{translate(t => t.passport.key)}</Th>
+                <Th>{translate(t => t.passport.value)}</Th>
+                <Th>{translate(t => t.passport.dataType)}</Th>
+                <Th>{translate(t => t.passport.changeType)}</Th>
+                <Th>{translate(t => t.passport.txHash)}</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
               {facts.map(f => (
                 <Fragment key={f.transactionHash}>
                   {this.renderItem(f)}
                 </Fragment>
               ))}
-            </tbody>
-          </table>
+            </Tbody>
+          </Table>
         </div>
       ));
     }
@@ -113,14 +117,14 @@ class FactsList extends React.PureComponent<IProps> {
 
   private renderItem(item: IFact) {
     return (
-      <tr>
-        <td>{this.renderBlockNumber(item)}</td>
-        <td>{item.key}</td>
-        <td>{this.renderValue(item)}</td>
-        <td>{this.renderDataType(item)}</td>
-        <td>{this.renderEventType(item)}</td>
-        <td>{this.renderTxHash(item)}</td>
-      </tr>
+      <Tr>
+        <Td>{this.renderBlockNumber(item)}</Td>
+        <Td>{item.key}</Td>
+        <Td>{this.renderValue(item)}</Td>
+        <Td>{this.renderDataType(item)}</Td>
+        <Td>{this.renderEventType(item)}</Td>
+        <Td>{this.renderTxHash(item)}</Td>
+      </Tr>
     );
   }
 
@@ -251,15 +255,11 @@ class FactsList extends React.PureComponent<IProps> {
     }
 
     return (
-      <div className='mh-button-container'>
-        <button
-          type='button'
-          onClick={() => this.onLoadClick(item)}
-          className='view-value'
-        >
-          {translate(item.dataType === DataType.TxData ? t => t.common.download : t => t.common.view)}
-        </button>
-      </div>
+      <ActionButton
+        onClick={() => this.onLoadClick(item)}
+        className='view-value'
+        text={translate(item.dataType === DataType.TxData ? t => t.common.download : t => t.common.view)}
+      />
     );
   }
 
@@ -277,25 +277,20 @@ class FactsList extends React.PureComponent<IProps> {
       case DataType.Bytes:
       case DataType.TxData:
         return (
-          <div className='mh-button-container'>
-            <button
-              type='button'
-              onClick={() => this.onDownloadBytes(data.value)}
-              className='download'
-            >
-              {translate(t => t.common.download)}
-            </button>
-          </div>
+          <ActionButton
+            onClick={() => this.onDownloadBytes(data.value)}
+            className='download'
+            text={translate(t => t.common.download)}
+          />
         );
 
       case DataType.IPFSHash:
         return (
-          <a
-            href={`${ipfsGatewayUrl}/${value}`}
-            target='_blank'
-          >
-            {value}
-          </a>
+          <ActionButton
+            onClick={() => window.open(`${ipfsGatewayUrl}/${value}`, '_blank')}
+            className='view-value'
+            text={translate(t => t.common.view)}
+          />
         );
 
       case DataType.String:
