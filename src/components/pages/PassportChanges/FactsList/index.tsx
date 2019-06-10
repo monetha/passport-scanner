@@ -15,7 +15,7 @@ import { translate } from 'src/i18n';
 import translations from 'src/i18n/locales/en';
 import { getServices } from 'src/ioc/services';
 import { IFact } from 'src/models/passport';
-import { loadFactValue } from 'src/state/passport/actions';
+import { loadFactValue, loadIpfsFactValue } from 'src/state/passport/actions';
 import { IFactValueWrapper } from 'src/state/passport/models';
 import { IState } from 'src/state/rootReducer';
 import './style.scss';
@@ -32,6 +32,7 @@ interface IStateProps {
 
 interface IDispatchProps {
   onLoadFactValue(fact: IFact);
+  onLoadIpfsFactValue(fact: IFact);
 }
 
 export interface IProps extends IStateProps, IDispatchProps {
@@ -320,7 +321,13 @@ class FactsList extends React.PureComponent<IProps> {
     );
   }
 
-  private onLoadClick = (fact: IFact) => {
+  private onLoadClick = async (fact: IFact) => {
+    if (fact.dataType === DataType.IPFSHash) {
+      this.props.onLoadIpfsFactValue(fact);
+
+      return;
+    }
+
     this.props.onLoadFactValue(fact);
   }
 
@@ -401,6 +408,9 @@ const connected = connect<IStateProps, IDispatchProps>(
     return {
       onLoadFactValue(fact: IFact) {
         dispatch(loadFactValue.init({ passportAddress: null, fact }));
+      },
+      onLoadIpfsFactValue(fact: IFact) {
+        dispatch(loadIpfsFactValue.init({ passportAddress: null, fact }));
       },
     };
   },
