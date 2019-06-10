@@ -20,7 +20,8 @@ import { IFactValueWrapper } from 'src/state/passport/models';
 import { IState } from 'src/state/rootReducer';
 import './style.scss';
 import { Alert, AlertType } from 'src/components/indicators/Alert';
-import { Share } from 'src/components/pages/PassportChanges/Share/index.tsx';
+import { Share } from 'src/components/pages/PassportChanges/Share';
+import { ActionButton } from 'src/components/pages/PassportChanges/ActionButton';
 import { getShortId } from 'src/helpers';
 
 // #region -------------- Interfaces --------------------------------------------------------------
@@ -80,7 +81,7 @@ class FactsList extends React.PureComponent<IProps> {
           key={factProviderAddress}
         >
           <div className='mh-fact-provider-header'>
-            <span className="fact-provider">{`${translate(t => t.passport.factProvider)}: `}</span>
+            <span className='fact-provider'>{`${translate(t => t.passport.factProvider)}: `}</span>
             {this.renderFactProviderName(factProviderAddress)}
           </div>
 
@@ -254,15 +255,11 @@ class FactsList extends React.PureComponent<IProps> {
     }
 
     return (
-      <div className='mh-button-container'>
-        <button
-          type='button'
-          onClick={() => this.onLoadClick(item)}
-          className='view-value'
-        >
-          {translate(item.dataType === DataType.TxData ? t => t.common.download : t => t.common.view)}
-        </button>
-      </div>
+      <ActionButton
+        onClick={() => this.onLoadClick(item)}
+        className='view-value'
+        text={translate(item.dataType === DataType.TxData ? t => t.common.download : t => t.common.view)}
+      />
     );
   }
 
@@ -280,25 +277,20 @@ class FactsList extends React.PureComponent<IProps> {
       case DataType.Bytes:
       case DataType.TxData:
         return (
-          <div className='mh-button-container'>
-            <button
-              type='button'
-              onClick={() => this.onDownloadBytes(data.value)}
-              className='download'
-            >
-              {translate(t => t.common.download)}
-            </button>
-          </div>
+          <ActionButton
+            onClick={() => this.onDownloadBytes(data.value)}
+            className='download'
+            text={translate(t => t.common.download)}
+          />
         );
 
       case DataType.IPFSHash:
         return (
-          <a
-            href={`${ipfsGatewayUrl}/${value}`}
-            target='_blank'
-          >
-            {value}
-          </a>
+          <ActionButton
+            onClick={() => window.open(`${ipfsGatewayUrl}/${value}`, '_blank')}
+            className='view-value'
+            text={translate(t => t.common.view)}
+          />
         );
 
       case DataType.String:

@@ -20,14 +20,6 @@
       margin-top: $spaceBetweenComponentsLg;
     }
 
-    .mh-button-container {
-      text-align: center;
-
-      @media #{$smDown} {
-        padding-bottom: 25px;
-      }
-    }
-
     table {
       td {
         .mh-loader .mh-spinner::before {
