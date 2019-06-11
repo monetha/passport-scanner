@@ -1,9 +1,9 @@
 @import "vars/index.scss";
 
-.passport-search-button {
+.search-button {
   width: 130px;
-  height: 54px;
-  margin-left: -130px;
+  min-width: 55px;
+  height: 57px;
   background-color: $colorLightBlue;
   border: none;
   border-radius: 0 5px 5px 0;
@@ -12,13 +12,13 @@
   font-size: 16px;
   font-family: $fontFamilyBold;
 
-  &:after {
-    border-bottom-right-radius: unset;
-    border-top-left-radius: unset;
-  }
-
   &:disabled {
     opacity: unset;
+  }
+
+  &:hover {
+    background-color: lighten($color: $colorLightBlue, $amount: 5);
+    cursor: pointer;
   }
 
   @media #{$smDown} {
@@ -27,8 +27,6 @@
     background-size: 25px;
     background-repeat: no-repeat;
     background-position: center;
-    margin-left: -55px;
-    position: absolute;
   }
 
   .search-text {
