@@ -28,7 +28,7 @@ import { routes } from 'src/constants/routes';
 // #region -------------- Interfaces --------------------------------------------------------------
 
 interface ILocalState {
-  popup: any;
+  popups: any;
 }
 
 interface IStateProps {
@@ -48,6 +48,9 @@ export interface IProps extends IStateProps, IDispatchProps {
 // #region -------------- Component ---------------------------------------------------------------
 
 class FactsList extends React.PureComponent<IProps, ILocalState> {
+  public componentDidMount(): void {
+    this.setState({ popups: {} });
+  }
 
   public componentDidUpdate(prevProps: IProps) {
     this.onFactValueLoaded(prevProps);
@@ -327,7 +330,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
 
   private onLoadClick = (fact: IFact) => {
     if (fact.dataType === DataType.IPFSHash) {
-      this.setState({ popup: window.open(routes.Loading, '_blank') });
+      this.setState(({ popups }) => ({ popups: { ...popups, [fact.transactionHash]: window.open(routes.Loading, '_blank') } }));
     }
 
     this.props.onLoadFactValue(fact);
@@ -382,8 +385,8 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
 
       // Data was just fetched. Do action on it
       const { dataType, value } = valueState.data;
-      if (dataType === DataType.IPFSHash) {
-        this.state.popup.location.replace(`${ipfsGatewayUrl}/${value.value}`);
+      if (dataType === DataType.IPFSHash && this.state.popups[txHash]) {
+        this.state.popups[txHash].location.replace(`${ipfsGatewayUrl}/${value.value}`);
         return;
       }
 
