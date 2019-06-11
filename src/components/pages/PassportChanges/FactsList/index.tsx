@@ -23,6 +23,7 @@ import { Alert, AlertType } from 'src/components/indicators/Alert';
 import { Share } from 'src/components/pages/PassportChanges/Share';
 import { ActionButton } from 'src/components/pages/PassportChanges/ActionButton';
 import { getShortId } from 'src/helpers';
+import { PassportOwnedBy } from 'src/components/pages/PassportChanges/PassportOwnedBy';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -36,6 +37,7 @@ interface IDispatchProps {
 
 export interface IProps extends IStateProps, IDispatchProps {
   items: IFact[];
+  passportOwnerAddress: string;
 }
 
 // #endregion
@@ -51,6 +53,7 @@ class FactsList extends React.PureComponent<IProps> {
   public render() {
     return (
       <div className='mh-facts-list'>
+        <PassportOwnedBy passportOwnerAddress={this.props.passportOwnerAddress} />
         {this.renderGroups()}
       </div>
     );

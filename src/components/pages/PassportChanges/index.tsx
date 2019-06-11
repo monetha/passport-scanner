@@ -80,8 +80,7 @@ class PassportChangesPage extends React.Component<IProps> {
     }
     return (
       <div className='mh-list-contents'>
-        <h1>{passportOwnerAddress.data}</h1>
-        <FactsList items={factList.data.facts} />
+        <FactsList items={factList.data.facts} passportOwnerAddress={passportOwnerAddress.data} />
       </div>
     );
   }
