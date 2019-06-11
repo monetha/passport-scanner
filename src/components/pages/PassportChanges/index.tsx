@@ -73,15 +73,14 @@ class PassportChangesPage extends React.Component<IProps> {
   }
 
   private renderList() {
-    const { factList } = this.props;
+    const { factList, passportOwnerAddress } = this.props;
 
     if (this.isLoading() || !factList.data || factList.error) {
       return null;
     }
-    console.log(this.props.passportOwnerAddress);
     return (
       <div className='mh-list-contents'>
-        {/*<h1>{this.props.passportOwnerAddress}</h1>*/}
+        <h1>{passportOwnerAddress.data}</h1>
         <FactsList items={factList.data.facts} />
       </div>
     );
@@ -118,9 +117,9 @@ class PassportChangesPage extends React.Component<IProps> {
   }
 
   private isLoading() {
-    const { factList } = this.props;
+    const { factList, passportOwnerAddress } = this.props;
 
-    return factList.isFetching;
+    return factList.isFetching || passportOwnerAddress.isFetching;
   }
 }
 
