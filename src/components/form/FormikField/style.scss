@@ -3,7 +3,7 @@
 .mh-formik-field {
   &.mh-with-error {
     input {
-      border: 3px solid $colorPinkDark;
+      box-shadow: inset 0 0 0 3px $colorPinkDark;
     }
   }
 

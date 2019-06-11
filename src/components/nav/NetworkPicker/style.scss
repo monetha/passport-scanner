@@ -36,7 +36,7 @@
     color: $colorBlue;
     border: none;
     display: block;
-    font-size: 16px;
+    font-size: $fontSizeMd;
     font-weight: bold;
     width: 100%;
     min-height: 40px;
@@ -60,6 +60,8 @@
     min-height: 40px;
     margin-top: 12px;
     text-align: center;
+    border: 1px solid $colorGrayB2;
+    box-shadow: unset;
   }
 }
 
