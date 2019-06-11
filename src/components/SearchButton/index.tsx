@@ -13,7 +13,7 @@ export class SearchButton extends React.PureComponent<IProps> {
       <button
         type='submit'
         disabled={this.props.disabled}
-        className='mh-btn passport-search-button'
+        className='mh-btn search-button'
       >
         <span className='search-text'>{translate(t => t.common.load)}</span>
       </button>
