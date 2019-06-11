@@ -52,7 +52,7 @@ class NetworkPicker extends React.Component<IProps, IState> {
     return (
       <Tooltip
         position='bottom'
-        distance={-3}
+        distance={-2}
         offset={-70}
         theme='light'
         animateFill={false}
