@@ -8,9 +8,10 @@
   text-align: center;
 
   &.mh-error {
-    background-color: $colorRed;
-    color: $colorWhite;
-    box-shadow: boxShadowGlow($colorRed);
+    color: $colorPinkRed;
+    background-color: $colorPink;
+    padding: 10px;
+    border-radius: 5px;
   }
 
   &.mh-info {

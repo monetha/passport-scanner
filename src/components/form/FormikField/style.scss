@@ -3,13 +3,16 @@
 .mh-formik-field {
   &.mh-with-error {
     input {
-      border-color: $colorRed;
+      border: 3px solid $colorPinkDark;
     }
   }
 
   .mh-error-msg {
-    margin-top: 10px;
-    color: $colorRed;
-    text-shadow: 1px 0 3px $colorWhite;
+    margin-top: 15px  ;
+    color: $colorPinkRed;
+    background-color: $colorPink;
+    display: inline-block;
+    padding: 10px;
+    border-radius: 5px;
   }
 }
