@@ -106,9 +106,10 @@ class FactsListForm extends React.PureComponent<IProps> {
 
     return (
       <Form>
-          <FormikField
-            name='passportAddress'
-          >
+        <FormikField
+          name='passportAddress'
+        >
+          <div className='input-with-button'>
             <TextInput
               name='passportAddress'
               onChange={handleChange}
@@ -122,33 +123,34 @@ class FactsListForm extends React.PureComponent<IProps> {
             >
               {translate(t => t.common.load)}
             </SearchButton>
-          </FormikField>
+          </div>
+        </FormikField>
 
         <ShowAdvanced>
-            <FormikField
+          <FormikField
+            name='startBlock'
+          >
+            <TextInput
               name='startBlock'
-            >
-              <TextInput
-                name='startBlock'
-                onChange={handleChange}
-                value={values.startBlock}
-                disabled={disabled}
-                placeholder={translate(t => t.form.startBlock)}
-              />
-            </FormikField>
+              onChange={handleChange}
+              value={values.startBlock}
+              disabled={disabled}
+              placeholder={translate(t => t.form.startBlock)}
+            />
+          </FormikField>
 
-            <FormikField
+          <FormikField
+            name='factProvider'
+          >
+            <TextInput
               name='factProvider'
-            >
-              <TextInput
-                name='factProvider'
-                onChange={handleChange}
-                value={values.factProvider}
-                disabled={disabled}
-                placeholder={translate(t => t.passport.factProviderAddress)}
-                className='fact-provider-address'
-              />
-            </FormikField>
+              onChange={handleChange}
+              value={values.factProvider}
+              disabled={disabled}
+              placeholder={translate(t => t.passport.factProviderAddress)}
+              className='fact-provider-address'
+            />
+          </FormikField>
         </ShowAdvanced>
       </Form>
     );

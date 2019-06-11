@@ -10,8 +10,20 @@
     cursor: pointer;
     display: flex;
     flex-direction: row;
+    transition: background-color 0.3s;
     margin-top: 10px;
     margin-bottom: 10px;
+    max-width: 258px;
+
+    > div:first-child {
+      flex: auto;
+      max-width: 200px;
+    }
+
+    > div:last-child {
+      display: flex;
+      align-items: center;
+    }
 
     .mh-value {
       color: $colorWhite;
@@ -36,7 +48,7 @@
     color: $colorBlue;
     border: none;
     display: block;
-    font-size: 16px;
+    font-size: $fontSizeMd;
     font-weight: bold;
     width: 100%;
     min-height: 40px;
@@ -60,6 +72,8 @@
     min-height: 40px;
     margin-top: 12px;
     text-align: center;
+    border: 1px solid $colorGrayB2;
+    box-shadow: unset;
   }
 }
 

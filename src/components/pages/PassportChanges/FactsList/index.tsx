@@ -24,8 +24,13 @@ import { Share } from 'src/components/pages/PassportChanges/Share';
 import { ActionButton } from 'src/components/pages/PassportChanges/ActionButton';
 import { getShortId } from 'src/helpers';
 import { PassportOwnedBy } from 'src/components/pages/PassportChanges/PassportOwnedBy';
+import { routes } from 'src/constants/routes';
 
 // #region -------------- Interfaces --------------------------------------------------------------
+
+interface ILocalState {
+  popups: any;
+}
 
 interface IStateProps {
   factValues: { [txHash: string]: IAsyncState<IFactValueWrapper> };
@@ -44,7 +49,10 @@ export interface IProps extends IStateProps, IDispatchProps {
 
 // #region -------------- Component ---------------------------------------------------------------
 
-class FactsList extends React.PureComponent<IProps> {
+class FactsList extends React.PureComponent<IProps, ILocalState> {
+  public componentDidMount(): void {
+    this.setState({ popups: {} });
+  }
 
   public componentDidUpdate(prevProps: IProps) {
     this.onFactValueLoaded(prevProps);
@@ -324,6 +332,10 @@ class FactsList extends React.PureComponent<IProps> {
   }
 
   private onLoadClick = (fact: IFact) => {
+    if (fact.dataType === DataType.IPFSHash) {
+      this.setState(({ popups }) => ({ popups: { ...popups, [fact.transactionHash]: window.open(routes.Loading, '_blank') } }));
+    }
+
     this.props.onLoadFactValue(fact);
   }
 
@@ -376,9 +388,8 @@ class FactsList extends React.PureComponent<IProps> {
 
       // Data was just fetched. Do action on it
       const { dataType, value } = valueState.data;
-      if (dataType === DataType.IPFSHash) {
-        const win = window.open(`${ipfsGatewayUrl}/${value.value}`, '_blank');
-        win.focus();
+      if (dataType === DataType.IPFSHash && this.state.popups[txHash]) {
+        this.state.popups[txHash].location.replace(`${ipfsGatewayUrl}/${value.value}`);
         return;
       }
 

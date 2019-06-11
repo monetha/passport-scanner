@@ -107,19 +107,21 @@ class PassportListForm extends React.PureComponent<IProps> {
         <FormikField
           name='factoryAddress'
         >
-          <TextInput
-            name='factoryAddress'
-            onChange={handleChange}
-            value={values.factoryAddress}
-            placeholder={translate(t => t.form.factoryAddress)}
-            disabled={disabled}
-            className='with-button'
-          />
-          <SearchButton
-            disabled={disabled}
-          >
-            {translate(t => t.common.load)}
-          </SearchButton>
+          <div className='input-with-button'>
+            <TextInput
+              name='factoryAddress'
+              onChange={handleChange}
+              value={values.factoryAddress}
+              placeholder={translate(t => t.form.factoryAddress)}
+              disabled={disabled}
+              className='with-button'
+            />
+            <SearchButton
+              disabled={disabled}
+            >
+              {translate(t => t.common.load)}
+            </SearchButton>
+          </div>
         </FormikField>
 
         <ShowAdvanced>
