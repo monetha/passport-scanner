@@ -60,9 +60,6 @@ function* onGetPassportOwner(action: IAsyncAction<IGetPassportOwnerPayload>) {
 
     yield put(getPassportOwner.success(address));
 
-    const po = new PassportOwnership(web3, passportAddress);
-    po.getOwnerAddress().then(console.log);
-
   } catch (error) {
     yield getServices().createErrorHandler(error)
       .onAnyError(function* (friendlyError) {
