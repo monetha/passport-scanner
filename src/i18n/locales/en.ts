@@ -30,12 +30,13 @@ const translations = validateBaseTranslations({
   common: {
     submit: 'Submit',
     load: 'Load',
+    view: 'View',
     download: 'Download',
     noData: 'No data',
   },
   nav: {
-    passports: 'Passports',
-    passportChanges: 'Passport changes',
+    passportSearch: 'Passport search',
+    passportRegistry: 'Passport registry',
   },
   footer: {
     copyright: '© 2019 Monetha. All rights reserved.',
@@ -44,18 +45,18 @@ const translations = validateBaseTranslations({
     factoryAddress: 'Passport factory address',
     passportAddress: 'Passport address',
     startBlock: 'Start block',
-    selectNetwork: 'Select network',
+    advancedSearch: 'Advanced search',
   },
   ethereum: {
-    network: 'Network',
     ropsten: 'Ropsten',
     mainnet: 'Mainnet',
     customUrl: 'Custom url',
   },
   passport: {
+    passports: 'Passports',
     passportAddress: 'Passport address',
     firstOwnerAddress: 'First owner address',
-    blockNumber: 'Block number',
+    blockNumber: 'Block #',
     txHash: 'Transaction hash',
     factProvider: 'Fact provider',
     factProviderAddress: 'Fact provider address',
@@ -63,6 +64,7 @@ const translations = validateBaseTranslations({
     dataType: 'Data type',
     changeType: 'Change',
     value: 'Value',
+    viewChanges: 'View changes',
     eventTypes: {
       [EventType.Deleted]: 'Deleted',
       [EventType.Updated]: 'Updated',

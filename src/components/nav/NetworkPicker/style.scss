@@ -2,8 +2,8 @@
 
 .mh-network-picker {
   .mh-selected-network-box {
-    padding: 3px 7px;
-    background: $colorBlueB1;
+    padding: 10px 18px;
+    background-color: lighten($color: $colorBlueB1, $amount: 10);
     text-align: left;
     border-radius: $borderRadiusXs;
     font-size: $fontSizeSm;
@@ -11,6 +11,9 @@
     display: flex;
     flex-direction: row;
     transition: background-color 0.3s;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    max-width: 258px;
 
     > div:first-child {
       flex: auto;
@@ -20,31 +23,6 @@
     > div:last-child {
       display: flex;
       align-items: center;
-      padding-left: 10px;
-      padding-right: 5px;
-    }
-
-    .mh-dropdown-indicator {
-      width: 0;
-      height: 0;
-      border-style: solid;
-      border-width: 6px 6px 0 6px;
-      border-color: $colorWhite transparent transparent transparent;
-      transition: transform 0.3s;
-    }
-
-    &.mh-is-open {
-      background-color: lighten($color: $colorBlueB1, $amount: 10);
-
-      .mh-dropdown-indicator {
-        transform: rotateZ(180deg);
-      }
-    }
-
-    .mh-label {
-      color: $colorBlueB2;
-      font-size: 10px;
-      margin-bottom: 2px;
     }
 
     .mh-value {
@@ -62,32 +40,26 @@
 .mh-network-picker-popup-content {
   color: $colorGray;
   font-size: $fontSizeMd;
-  width: 300px;
+  width: 225px;
   max-width: 100%;
 
-  .mh-title {
-    color: $colorBlack;
-    font-family: $fontFamilyBold;
-    text-align: center;
-    margin-bottom: $spaceBetweenComponentsXxs;
-  }
-
   button {
-    background-color: $colorBlue;
-    color: $colorWhite;
+    background-color: $colorWhite;
+    color: $colorBlue;
     border: none;
     display: block;
+    font-size: $fontSizeMd;
+    font-weight: bold;
     width: 100%;
     min-height: 40px;
     cursor: pointer;
     border-radius: $borderRadiusXs;
-    box-shadow: boxShadowGlow($colorBlue);
     transition: opacity 0.3s;
-    margin-bottom: $spaceBetweenComponentsXxs;
+    font-family: $fontFamilyRegular;
 
     &:disabled {
-      opacity: 0.2;
       cursor: default;
+      color: $colorDarkGrayTable;
     }
 
     &:hover:not(:disabled) {
@@ -98,6 +70,10 @@
   input {
     padding: $paddingSm;
     min-height: 40px;
+    margin-top: 12px;
+    text-align: center;
+    border: 1px solid $colorGrayB2;
+    box-shadow: unset;
   }
 }
 

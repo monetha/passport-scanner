@@ -10,9 +10,11 @@ import { getServices } from 'src/ioc/services';
 import { ethNetworkUrls, etherscanUrls } from 'src/constants/api';
 import BigNumber from 'bignumber.js';
 import { Table } from 'src/components/layout/Table';
+import { Share } from 'src/components/pages/PassportChanges/Share';
 import { Alert, AlertType } from 'src/components/indicators/Alert';
 import { createRouteUrl } from 'src/utils/nav';
 import { RouteChildrenProps } from 'react-router';
+import { getShortId } from 'src/helpers';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -38,6 +40,8 @@ class PassportList extends React.PureComponent<IProps> {
 
     return (
       <div className='mh-passport-list'>
+        <h2>{translate(t => t.passport.passports)}</h2>
+
         <Table>
           <Thead>
             <Tr>
@@ -83,9 +87,10 @@ class PassportList extends React.PureComponent<IProps> {
   }
 
   private renderPassportAddress(item: IPassportRef) {
-    const { passportAddress, blockNumber } = item;
+    const { passportAddress: passportAddressOriginal, blockNumber } = item;
+    const passportAddress = getShortId(passportAddressOriginal);
 
-    const url = createRouteUrl(this.props.location, `${routes.PassportChanges}/${passportAddress}`, {
+    const url = createRouteUrl(this.props.location, `${routes.PassportChanges}/${passportAddressOriginal}`, {
       start_block: new BigNumber(blockNumber).toString(10),
     });
 
@@ -97,7 +102,8 @@ class PassportList extends React.PureComponent<IProps> {
   }
 
   private renderOwnerAddress(item: IPassportRef) {
-    const { ownerAddress } = item;
+    const { ownerAddress: ownerAddressOriginal } = item;
+    const ownerAddress =  getShortId(ownerAddressOriginal);
 
     const url = this.getEtherscanUrl();
     if (!url) {
@@ -106,9 +112,10 @@ class PassportList extends React.PureComponent<IProps> {
 
     return (
       <a
-        href={`${url}/address/${ownerAddress}`}
+        href={`${url}/address/${ownerAddressOriginal}`}
         target='_blank'
       >
+        <Share />
         {ownerAddress}
       </a>
     );
@@ -129,13 +136,15 @@ class PassportList extends React.PureComponent<IProps> {
         href={`${url}/block/${decBlockNr}`}
         target='_blank'
       >
+        <Share />
         {decBlockNr}
       </a>
     );
   }
 
   private renderTxHash(item: IPassportRef) {
-    const { txHash } = item;
+    const { txHash: txHashOriginal } = item;
+    const txHash = getShortId(txHashOriginal);
 
     const url = this.getEtherscanUrl();
     if (!url) {
@@ -144,9 +153,10 @@ class PassportList extends React.PureComponent<IProps> {
 
     return (
       <a
-        href={`${url}/tx/${txHash}`}
+        href={`${url}/tx/${txHashOriginal}`}
         target='_blank'
       >
+        <Share />
         {txHash}
       </a>
     );

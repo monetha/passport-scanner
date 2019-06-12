@@ -1,8 +1,12 @@
 @import "vars/index.scss";
 
 .mh-facts-form {
-  .mh-form-buttons {
-    text-align: center;
+  .mh-dropdown-indicator {
+    border-color: $colorBlueB4 transparent transparent transparent;
+  }
+
+  .fact-provider-address {
+    margin-bottom: 8px;
   }
 
   form > div + div {

@@ -10,6 +10,7 @@ import { Tooltip } from 'react-tippy';
 import { TextInput } from 'src/components/form/TextInput';
 import { registerBlockchainServices } from 'src/ioc/bootstrapIOC';
 import queryString from 'query-string';
+import { DropdownIndicator } from 'src/components/DropdownIndicator';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 
@@ -31,7 +32,7 @@ class NetworkPicker extends React.Component<IProps, IState> {
 
     this.state = {
       isOpen: false,
-    }
+    };
   }
 
   public render() {
@@ -50,12 +51,16 @@ class NetworkPicker extends React.Component<IProps, IState> {
 
     return (
       <Tooltip
-        position='bottom center'
+        position='bottom'
+        distance={-2}
+        offset={-70}
+        theme='light'
+        animateFill={false}
         trigger='click'
         open={this.state.isOpen}
         onRequestClose={() => this.onOpenToggle(false)}
         interactive={true}
-        arrow={true}
+        arrow={false}
         hideOnClick={true}
         html={this.renderPopupContents()}
       >
@@ -66,18 +71,11 @@ class NetworkPicker extends React.Component<IProps, IState> {
           onClick={this.onSelectedBoxClick}
         >
           <div>
-            <div className='mh-label'>
-              {translate(t => t.ethereum.network)}
-            </div>
-
             <div className='mh-value'>
               {this.getSelectedNetworkInfo().name}
             </div>
           </div>
-
-          <div>
-            <div className='mh-dropdown-indicator' />
-          </div>
+          <DropdownIndicator isOpened={isOpen} />
         </div>
       </Tooltip>
     );
@@ -128,8 +126,6 @@ class NetworkPicker extends React.Component<IProps, IState> {
 
     return (
       <div className='mh-network-picker-popup-content'>
-        <div className='mh-title'>{translate(t => t.form.selectNetwork)}</div>
-
         <div>
           <button
             type='button'

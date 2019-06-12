@@ -1,0 +1,36 @@
+@import "vars/index.scss";
+
+.search-button {
+  width: 130px;
+  min-width: 55px;
+  background-color: $colorLightBlue;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  color: $colorBlue;
+  box-shadow: 3px 0 0 3px $colorBlue;
+  font-size: $fontSizeMd;
+  font-family: $fontFamilyBold;
+
+  &:disabled {
+    opacity: unset;
+  }
+
+  &:hover {
+    background-color: lighten($color: $colorLightBlue, $amount: 5);
+    cursor: pointer;
+  }
+
+  @media #{$smDown} {
+    width: 55px;
+    background-image: url('~images/search.png');
+    background-size: 25px;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .search-text {
+    @media #{$smDown} {
+      display: none;
+    }
+  }
+}

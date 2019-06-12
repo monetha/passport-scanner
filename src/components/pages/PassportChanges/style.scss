@@ -2,6 +2,15 @@
 
 .mh-passport-changes-page {
   .mh-list {
-    margin-top: $spaceBetweenComponentsMd;
+    margin-top: 0;
+  }
+
+  .facts-list-form .container {
+    max-width: 1300px;
+    width: 100%;
+  }
+
+  .facts-list-header, .facts-list {
+    margin-bottom: 15px;
   }
 }

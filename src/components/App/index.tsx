@@ -8,6 +8,7 @@ import { getServices } from 'src/ioc/services';
 import 'src/style/index.scss';
 import { PassportChangesPage } from '../pages/PassportChanges';
 import { PassportsPage } from '../pages/Passports';
+import { Loader } from '../indicators/Loader';
 import './style.scss';
 
 // #region -------------- Interface -------------------------------------------------------------------
@@ -42,6 +43,7 @@ class App extends React.Component<IProps> {
       <Switch>
         <Route exact path={`${routes.Passports}/:passportFactoryAddress?`} component={PassportsPage} />
         <Route exact path={`${routes.PassportChanges}/:passportAddress?`} component={PassportChangesPage} />
+        <Route exact path={routes.Loading} component={() => <Loader fullArea={true} fullscreen={true} />} />
         <Redirect to={routes.Passports} />
       </Switch>
     );

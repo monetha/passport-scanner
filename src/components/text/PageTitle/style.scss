@@ -1,12 +1,15 @@
 @import "vars/index.scss";
 
 .mh-page-title {
-  font-size: $fontSizeXl;
-  text-align: center;
+  color: $colorLightestBlue;
   font-weight: bold;
   display: block;
-  margin: $spaceBetweenComponentsXxs 0 $spaceBetweenComponentsSm 0;
+  margin: 0 0 20px 0;
+  font-size: $fontSizeLg0;
   word-break: break-word;
   word-wrap: break-word;
-  color: $colorBlack;
+
+  @media #{$smDown} {
+    margin-bottom: 15px;
+  }
 }

@@ -2,15 +2,16 @@ import { Form, Formik } from 'formik';
 import queryString from 'query-string';
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { Button } from 'src/components/form/Button';
 import { FormikField } from 'src/components/form/FormikField';
 import { TextInput } from 'src/components/form/TextInput';
+import { ShowAdvanced } from 'src/components/ShowAdvanced';
 import { translate } from 'src/i18n';
 import * as Yup from 'yup';
 import './style.scss';
 import { getServices } from 'src/ioc/services';
 import { ethNetworkUrls } from 'src/constants/api';
 import { defaultAddresses } from 'src/constants/addresses';
+import { SearchButton } from 'src/components/SearchButton';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -105,37 +106,39 @@ class PassportListForm extends React.PureComponent<IProps> {
       <Form>
         <FormikField
           name='factoryAddress'
-          label={translate(t => t.form.factoryAddress)}
         >
-          <TextInput
-            name='factoryAddress'
-            onChange={handleChange}
-            value={values.factoryAddress}
-            placeholder='0x123456...'
-            disabled={disabled}
-          />
+          <div className='input-with-button'>
+            <TextInput
+              name='factoryAddress'
+              onChange={handleChange}
+              value={values.factoryAddress}
+              placeholder={translate(t => t.form.factoryAddress)}
+              disabled={disabled}
+              className='with-button'
+            />
+            <SearchButton
+              disabled={disabled}
+            >
+              {translate(t => t.common.load)}
+            </SearchButton>
+          </div>
         </FormikField>
 
-        <FormikField
-          name='startBlock'
-          label={translate(t => t.form.startBlock)}
-        >
-          <TextInput
-            name='startBlock'
-            onChange={handleChange}
-            value={values.startBlock}
-            disabled={disabled}
-          />
-        </FormikField>
-
-        <div className='mh-form-buttons'>
-          <Button
-            type='submit'
-            disabled={disabled}
-          >
-            {translate(t => t.common.load)}
-          </Button>
-        </div>
+        <ShowAdvanced>
+          <div className='start-block'>
+            <FormikField
+              name='startBlock'
+            >
+              <TextInput
+                name='startBlock'
+                onChange={handleChange}
+                value={values.startBlock}
+                disabled={disabled}
+                placeholder={translate(t => t.form.startBlock)}
+              />
+            </FormikField>
+          </div>
+        </ShowAdvanced>
       </Form>
     );
   }

@@ -2,7 +2,7 @@
 
 .mh-navbar {
   background-color: $colorBlue;
-  height: 60px;
+  height: 70px;
   display: flex;
   flex-direction: column;
 
@@ -104,16 +104,6 @@
 
     .mh-network-picker {
       width: 100%;
-    }
-
-    .mh-selected-network-box {
-      margin-top: $paddingSm;
-      margin-bottom: $paddingSm;
-
-      > div:first-child {
-        max-width: none;
-        min-width: 0;
-      }
     }
 
     .mh-navbar-item {

@@ -2,12 +2,13 @@ import { Form, Formik } from 'formik';
 import queryString from 'query-string';
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { Button } from 'src/components/form/Button';
 import { FormikField } from 'src/components/form/FormikField';
 import { TextInput } from 'src/components/form/TextInput';
+import { ShowAdvanced } from 'src/components/ShowAdvanced';
 import { translate } from 'src/i18n';
 import * as Yup from 'yup';
 import './style.scss';
+import { SearchButton } from 'src/components/SearchButton';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -102,49 +103,50 @@ class FactsListForm extends React.PureComponent<IProps> {
       <Form>
         <FormikField
           name='passportAddress'
-          label={translate(t => t.form.passportAddress)}
         >
-          <TextInput
-            name='passportAddress'
-            onChange={handleChange}
-            value={values.passportAddress}
-            placeholder='0x123456...'
-            disabled={disabled}
-          />
+          <div className='input-with-button'>
+            <TextInput
+              name='passportAddress'
+              onChange={handleChange}
+              value={values.passportAddress}
+              placeholder='0x123456...'
+              disabled={disabled}
+              className='with-button'
+            />
+            <SearchButton
+              disabled={disabled}
+            >
+              {translate(t => t.common.load)}
+            </SearchButton>
+          </div>
         </FormikField>
 
-        <FormikField
-          name='startBlock'
-          label={translate(t => t.form.startBlock)}
-        >
-          <TextInput
+        <ShowAdvanced>
+          <FormikField
             name='startBlock'
-            onChange={handleChange}
-            value={values.startBlock}
-            disabled={disabled}
-          />
-        </FormikField>
-
-        <FormikField
-          name='factProvider'
-          label={translate(t => t.passport.factProvider)}
-        >
-          <TextInput
-            name='factProvider'
-            onChange={handleChange}
-            value={values.factProvider}
-            disabled={disabled}
-          />
-        </FormikField>
-
-        <div className='mh-form-buttons'>
-          <Button
-            type='submit'
-            disabled={disabled}
           >
-            {translate(t => t.common.load)}
-          </Button>
-        </div>
+            <TextInput
+              name='startBlock'
+              onChange={handleChange}
+              value={values.startBlock}
+              disabled={disabled}
+              placeholder={translate(t => t.form.startBlock)}
+            />
+          </FormikField>
+
+          <FormikField
+            name='factProvider'
+          >
+            <TextInput
+              name='factProvider'
+              onChange={handleChange}
+              value={values.factProvider}
+              disabled={disabled}
+              placeholder={translate(t => t.passport.factProviderAddress)}
+              className='fact-provider-address'
+            />
+          </FormikField>
+        </ShowAdvanced>
       </Form>
     );
   }

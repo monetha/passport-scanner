@@ -8,4 +8,13 @@
   form > div + div {
     margin-top: $spaceBetweenComponentsXs;
   }
+
+  .mh-dropdown-indicator {
+    border-color: $colorBlueB4 transparent transparent transparent;
+  }
+
+  .start-block {
+    margin-top: 13px;
+    padding-bottom: 9px;
+  }
 }

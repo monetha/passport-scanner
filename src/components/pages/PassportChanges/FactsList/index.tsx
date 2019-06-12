@@ -20,8 +20,16 @@ import { IFactValueWrapper } from 'src/state/passport/models';
 import { IState } from 'src/state/rootReducer';
 import './style.scss';
 import { Alert, AlertType } from 'src/components/indicators/Alert';
+import { Share } from 'src/components/pages/PassportChanges/Share';
+import { ActionButton } from 'src/components/pages/PassportChanges/ActionButton';
+import { getShortId } from 'src/helpers';
+import { routes } from 'src/constants/routes';
 
 // #region -------------- Interfaces --------------------------------------------------------------
+
+interface ILocalState {
+  popups: any;
+}
 
 interface IStateProps {
   factValues: { [txHash: string]: IAsyncState<IFactValueWrapper> };
@@ -39,7 +47,10 @@ export interface IProps extends IStateProps, IDispatchProps {
 
 // #region -------------- Component ---------------------------------------------------------------
 
-class FactsList extends React.PureComponent<IProps> {
+class FactsList extends React.PureComponent<IProps, ILocalState> {
+  public componentDidMount(): void {
+    this.setState({ popups: {} });
+  }
 
   public componentDidUpdate(prevProps: IProps) {
     this.onFactValueLoaded(prevProps);
@@ -78,18 +89,18 @@ class FactsList extends React.PureComponent<IProps> {
           key={factProviderAddress}
         >
           <div className='mh-fact-provider-header'>
-            {`${translate(t => t.passport.factProvider)}: `}
+            <span className='fact-provider'>{`${translate(t => t.passport.factProvider)}: `}</span>
             {this.renderFactProviderName(factProviderAddress)}
           </div>
 
           <Table>
             <Thead>
               <Tr>
+                <Th>{translate(t => t.passport.blockNumber)}</Th>
                 <Th>{translate(t => t.passport.key)}</Th>
+                <Th>{translate(t => t.passport.value)}</Th>
                 <Th>{translate(t => t.passport.dataType)}</Th>
                 <Th>{translate(t => t.passport.changeType)}</Th>
-                <Th>{translate(t => t.passport.value)}</Th>
-                <Th>{translate(t => t.passport.blockNumber)}</Th>
                 <Th>{translate(t => t.passport.txHash)}</Th>
               </Tr>
             </Thead>
@@ -115,11 +126,11 @@ class FactsList extends React.PureComponent<IProps> {
   private renderItem(item: IFact) {
     return (
       <Tr>
+        <Td>{this.renderBlockNumber(item)}</Td>
         <Td>{item.key}</Td>
+        <Td>{this.renderValue(item)}</Td>
         <Td>{this.renderDataType(item)}</Td>
         <Td>{this.renderEventType(item)}</Td>
-        <Td>{this.renderValue(item)}</Td>
-        <Td>{this.renderBlockNumber(item)}</Td>
         <Td>{this.renderTxHash(item)}</Td>
       </Tr>
     );
@@ -140,6 +151,7 @@ class FactsList extends React.PureComponent<IProps> {
       <a
         href={`${url}/address/${address}`}
         target='_blank'
+        className='fact-provider-name'
       >
         {name}
       </a>
@@ -175,17 +187,21 @@ class FactsList extends React.PureComponent<IProps> {
     }
 
     return (
-      <a
-        href={`${url}/block/${decBlockNr}`}
-        target='_blank'
-      >
-        {decBlockNr}
-      </a>
+      <>
+        <Share />
+        <a
+          href={`${url}/block/${decBlockNr}`}
+          target='_blank'
+        >
+          {decBlockNr}
+        </a>
+      </>
     );
   }
 
   private renderTxHash(item: IFact) {
-    const { transactionHash } = item;
+    const { transactionHash: transactionHashOriginal } = item;
+    const transactionHash = getShortId(transactionHashOriginal);
 
     const url = this.getEtherscanUrl();
     if (!url) {
@@ -193,12 +209,15 @@ class FactsList extends React.PureComponent<IProps> {
     }
 
     return (
-      <a
-        href={`${url}/tx/${transactionHash}`}
-        target='_blank'
-      >
-        {transactionHash}
-      </a>
+      <>
+        <Share />
+        <a
+          href={`${url}/tx/${transactionHashOriginal}`}
+          target='_blank'
+        >
+          {transactionHash}
+        </a>
+      </>
     );
   }
 
@@ -244,14 +263,11 @@ class FactsList extends React.PureComponent<IProps> {
     }
 
     return (
-      <div className='mh-button-container'>
-        <button
-          type='button'
-          onClick={() => this.onLoadClick(item)}
-        >
-          {translate(t => t.common.load)}
-        </button>
-      </div>
+      <ActionButton
+        onClick={() => this.onLoadClick(item)}
+        className='view-value'
+        text={translate(item.dataType === DataType.TxData ? t => t.common.download : t => t.common.view)}
+      />
     );
   }
 
@@ -269,24 +285,20 @@ class FactsList extends React.PureComponent<IProps> {
       case DataType.Bytes:
       case DataType.TxData:
         return (
-          <div className='mh-button-container'>
-            <button
-              type='button'
-              onClick={() => this.onDownloadBytes(data.value)}
-            >
-              {translate(t => t.common.download)}
-            </button>
-          </div>
+          <ActionButton
+            onClick={() => this.onDownloadBytes(data.value)}
+            className='download'
+            text={translate(t => t.common.download)}
+          />
         );
 
       case DataType.IPFSHash:
         return (
-          <a
-            href={`${ipfsGatewayUrl}/${value}`}
-            target='_blank'
-          >
-            {value}
-          </a>
+          <ActionButton
+            onClick={() => window.open(`${ipfsGatewayUrl}/${value}`, '_blank')}
+            className='view-value'
+            text={translate(t => t.common.view)}
+          />
         );
 
       case DataType.String:
@@ -317,6 +329,10 @@ class FactsList extends React.PureComponent<IProps> {
   }
 
   private onLoadClick = (fact: IFact) => {
+    if (fact.dataType === DataType.IPFSHash) {
+      this.setState(({ popups }) => ({ popups: { ...popups, [fact.transactionHash]: window.open(routes.Loading, '_blank') } }));
+    }
+
     this.props.onLoadFactValue(fact);
   }
 
@@ -369,9 +385,8 @@ class FactsList extends React.PureComponent<IProps> {
 
       // Data was just fetched. Do action on it
       const { dataType, value } = valueState.data;
-      if (dataType === DataType.IPFSHash) {
-        const win = window.open(`${ipfsGatewayUrl}/${value.value}`, '_blank');
-        win.focus();
+      if (dataType === DataType.IPFSHash && this.state.popups[txHash]) {
+        this.state.popups[txHash].location.replace(`${ipfsGatewayUrl}/${value.value}`);
         return;
       }
 
