@@ -15,4 +15,21 @@
     text-transform: uppercase;
     color: $colorGrayB1;
   }
+
+  .full-address {
+    display: inline;
+
+    @media #{$smDown} {
+      display: none;
+    }
+  }
+
+  .shorten-address {
+    display: none;
+
+    @media #{$smDown} {
+      display: block;
+      margin-top: 10px;
+    }
+  }
 }
