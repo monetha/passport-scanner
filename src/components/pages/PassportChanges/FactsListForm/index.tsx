@@ -80,9 +80,6 @@ class FactsListForm extends React.PureComponent<IProps> {
   public componentDidMount() {
     if (this.initialValues.passportAddress) {
       this.onSubmit(this.initialValues);
-      this.props.onLoadPassportOwnerAddress({
-        passportAddress: this.initialValues.passportAddress,
-      });
     }
   }
 
@@ -164,6 +161,10 @@ class FactsListForm extends React.PureComponent<IProps> {
     };
 
     this.props.onSubmit(outputValues);
+
+    this.props.onLoadPassportOwnerAddress({
+      passportAddress: values.passportAddress,
+    });
   }
 }
 
