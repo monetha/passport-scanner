@@ -11,6 +11,7 @@ export const actionTypes = {
   getPassports: get('GET_PASSPORTS'),
   getFacts: get('GET_FACTS'),
   loadFactValue: get('LOAD_FACT_VALUE'),
+  getPassportOwner: get('GET_PASSPORT_OWNER'),
 };
 
 // #endregion
@@ -42,5 +43,11 @@ export interface ILoadFactPayload {
 }
 
 export const loadFactValue = createAsyncAction<ILoadFactPayload, IFactValueWrapper>(actionTypes.loadFactValue);
+
+export interface IGetPassportOwnerPayload {
+  passportAddress: string;
+}
+
+export const getPassportOwner = createAsyncAction<IGetPassportOwnerPayload, string>(actionTypes.getPassportOwner);
 
 // #endregion

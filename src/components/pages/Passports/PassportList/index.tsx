@@ -6,15 +6,14 @@ import './style.scss';
 import { translate } from 'src/i18n';
 import { Link, withRouter } from 'react-router-dom';
 import { routes } from 'src/constants/routes';
-import { getServices } from 'src/ioc/services';
-import { ethNetworkUrls, etherscanUrls } from 'src/constants/api';
 import BigNumber from 'bignumber.js';
 import { Table } from 'src/components/layout/Table';
 import { Share } from 'src/components/pages/PassportChanges/Share';
+import { OwnerAddress } from 'src/components/OwnerAddress';
 import { Alert, AlertType } from 'src/components/indicators/Alert';
 import { createRouteUrl } from 'src/utils/nav';
 import { RouteChildrenProps } from 'react-router';
-import { getShortId } from 'src/helpers';
+import { getShortId, getEtherscanUrl } from 'src/helpers';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -79,7 +78,7 @@ class PassportList extends React.PureComponent<IProps> {
     return (
       <Tr>
         <Td>{this.renderPassportAddress(item)}</Td>
-        <Td>{this.renderOwnerAddress(item)}</Td>
+        <Td><OwnerAddress ownerAddressOriginal={item.ownerAddress} shorten={true} /></Td>
         <Td>{this.renderBlockNumber(item)}</Td>
         <Td>{this.renderTxHash(item)}</Td>
       </Tr>
@@ -101,32 +100,12 @@ class PassportList extends React.PureComponent<IProps> {
     );
   }
 
-  private renderOwnerAddress(item: IPassportRef) {
-    const { ownerAddress: ownerAddressOriginal } = item;
-    const ownerAddress =  getShortId(ownerAddressOriginal);
-
-    const url = this.getEtherscanUrl();
-    if (!url) {
-      return ownerAddress;
-    }
-
-    return (
-      <a
-        href={`${url}/address/${ownerAddressOriginal}`}
-        target='_blank'
-      >
-        <Share />
-        {ownerAddress}
-      </a>
-    );
-  }
-
   private renderBlockNumber(item: IPassportRef) {
     const { blockNumber } = item;
 
     const decBlockNr = new BigNumber(blockNumber, 16).toString(10);
 
-    const url = this.getEtherscanUrl();
+    const url = getEtherscanUrl();
     if (!url) {
       return decBlockNr;
     }
@@ -146,7 +125,7 @@ class PassportList extends React.PureComponent<IProps> {
     const { txHash: txHashOriginal } = item;
     const txHash = getShortId(txHashOriginal);
 
-    const url = this.getEtherscanUrl();
+    const url = getEtherscanUrl();
     if (!url) {
       return txHash;
     }
@@ -160,21 +139,6 @@ class PassportList extends React.PureComponent<IProps> {
         {txHash}
       </a>
     );
-  }
-
-  private getEtherscanUrl() {
-    const { ethNetworkUrl } = getServices();
-
-    switch (ethNetworkUrl) {
-      case ethNetworkUrls.ropsten:
-        return etherscanUrls.ropsten;
-
-      case ethNetworkUrls.mainnet:
-        return etherscanUrls.mainnet;
-
-      default:
-        return null;
-    }
   }
 }
 

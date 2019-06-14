@@ -54,8 +54,10 @@ const translations = validateBaseTranslations({
   },
   passport: {
     passports: 'Passports',
+    passport: 'Passport',
     passportAddress: 'Passport address',
     firstOwnerAddress: 'First owner address',
+    ownedBy: 'Owned by',
     blockNumber: 'Block #',
     txHash: 'Transaction hash',
     factProvider: 'Fact provider',
