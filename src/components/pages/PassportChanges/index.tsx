@@ -10,7 +10,7 @@ import { FormWrapper } from 'src/components/text/FormWrapper';
 import { routes } from 'src/constants/routes';
 import { IAsyncState } from 'src/core/redux/asyncAction';
 import { translate } from 'src/i18n';
-import { getFacts, getPassportOwner, IGetPassportOwnerPayload } from 'src/state/passport/actions';
+import { getFacts, getPassportOwner } from 'src/state/passport/actions';
 import { IFactList } from 'src/state/passport/models';
 import { IState } from 'src/state/rootReducer';
 import { createRouteUrl } from 'src/utils/nav';
@@ -27,7 +27,6 @@ interface IStateProps {
 
 interface IDispatchProps {
   onLoadFacts(values: ISubmitValues);
-  onLoadPassportOwnerAddress(address: IGetPassportOwnerPayload);
 }
 
 interface IProps extends RouteComponentProps<any>, IStateProps, IDispatchProps {
@@ -41,7 +40,7 @@ class PassportChangesPage extends React.Component<IProps> {
   private showErrorsSince = new Date();
 
   public render() {
-    const { onLoadFacts, onLoadPassportOwnerAddress } = this.props;
+    const { onLoadFacts } = this.props;
 
     return (
       <MainTemplate className='mh-passport-changes-page'>
@@ -53,7 +52,6 @@ class PassportChangesPage extends React.Component<IProps> {
               <div className='facts-list-form'>
                 <FactsListForm
                   onSubmit={onLoadFacts}
-                  onLoadPassportOwnerAddress={onLoadPassportOwnerAddress}
                   disabled={this.isLoading()}
                 />
               </div>
@@ -144,9 +142,10 @@ const connected = connect<IStateProps, IDispatchProps, RouteComponentProps<any>,
 
         dispatch(replace(newUrl));
         dispatch(getFacts.init(values));
-      },
-      onLoadPassportOwnerAddress(address: IGetPassportOwnerPayload) {
-        dispatch(getPassportOwner.init(address));
+
+        dispatch(getPassportOwner.init({
+          passportAddress: values.passportAddress,
+        }));
       },
     };
   },

@@ -9,13 +9,11 @@ import { translate } from 'src/i18n';
 import * as Yup from 'yup';
 import './style.scss';
 import { SearchButton } from 'src/components/SearchButton';
-import { IGetPassportOwnerPayload } from 'src/state/passport/actions';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
 export interface IProps extends RouteComponentProps<any> {
   onSubmit(values: ISubmitValues);
-  onLoadPassportOwnerAddress(address: IGetPassportOwnerPayload);
   disabled: boolean;
 }
 
@@ -161,10 +159,6 @@ class FactsListForm extends React.PureComponent<IProps> {
     };
 
     this.props.onSubmit(outputValues);
-
-    this.props.onLoadPassportOwnerAddress({
-      passportAddress: values.passportAddress,
-    });
   }
 }
 
