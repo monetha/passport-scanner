@@ -8,12 +8,11 @@ import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import { DataType, EventType, IFactValue } from 'reputation-sdk';
 import { Loader } from 'src/components/indicators/Loader';
 import { Table } from 'src/components/layout/Table';
-import { etherscanUrls, ethNetworkUrls, ipfsGatewayUrl } from 'src/constants/api';
+import { ipfsGatewayUrl } from 'src/constants/api';
 import { knownFactProviders } from 'src/constants/factProviders';
 import { IAsyncState } from 'src/core/redux/asyncAction';
 import { translate } from 'src/i18n';
 import translations from 'src/i18n/locales/en';
-import { getServices } from 'src/ioc/services';
 import { IFact } from 'src/models/passport';
 import { loadFactValue } from 'src/state/passport/actions';
 import { IFactValueWrapper } from 'src/state/passport/models';
@@ -22,7 +21,7 @@ import './style.scss';
 import { Alert, AlertType } from 'src/components/indicators/Alert';
 import { Share } from 'src/components/pages/PassportChanges/Share';
 import { ActionButton } from 'src/components/pages/PassportChanges/ActionButton';
-import { getShortId } from 'src/helpers';
+import { getShortId, getEtherscanUrl } from 'src/helpers';
 import { PassportOwnedBy } from 'src/components/pages/PassportChanges/PassportOwnedBy';
 import { routes } from 'src/constants/routes';
 
@@ -61,7 +60,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
   public render() {
     return (
       <div className='mh-facts-list'>
-        <PassportOwnedBy passportOwnerAddress={this.props.passportOwnerAddress} />
+        {!!this.props.passportOwnerAddress && <PassportOwnedBy passportOwnerAddress={this.props.passportOwnerAddress} />}
         {this.renderGroups()}
       </div>
     );
@@ -145,7 +144,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       name = knownFactProviders[address.toLowerCase()];
     }
 
-    const url = this.getEtherscanUrl();
+    const url = getEtherscanUrl();
     if (!url) {
       return name;
     }
@@ -184,7 +183,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
 
     const decBlockNr = new BigNumber(blockNumber, 16).toString(10);
 
-    const url = this.getEtherscanUrl();
+    const url = getEtherscanUrl();
     if (!url) {
       return decBlockNr;
     }
@@ -206,7 +205,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
     const { transactionHash: transactionHashOriginal } = item;
     const transactionHash = getShortId(transactionHashOriginal);
 
-    const url = this.getEtherscanUrl();
+    const url = getEtherscanUrl();
     if (!url) {
       return transactionHash;
     }
@@ -222,21 +221,6 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
         </a>
       </>
     );
-  }
-
-  private getEtherscanUrl() {
-    const { ethNetworkUrl } = getServices();
-
-    switch (ethNetworkUrl) {
-      case ethNetworkUrls.ropsten:
-        return etherscanUrls.ropsten;
-
-      case ethNetworkUrls.mainnet:
-        return etherscanUrls.mainnet;
-
-      default:
-        return null;
-    }
   }
 
   // #region -------------- Fact value -------------------------------------------------------------------
@@ -316,7 +300,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
   }
 
   private renderAddressValue(address: string) {
-    const url = this.getEtherscanUrl();
+    const url = getEtherscanUrl();
     if (!url) {
       return address;
     }
