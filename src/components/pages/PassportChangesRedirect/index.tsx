@@ -1,11 +1,17 @@
+import React from 'react';
 import { routes } from 'src/constants/routes';
 import { Redirect } from 'react-router';
-import React from 'react';
+import { createRouteUrl, IParsedQueryString } from 'src/utils/nav';
+import { parse } from 'query-string';
 
 export const PassportChangesRedirect = ({ location }) => {
-  const { pathname, search } = location;
+  const newLocation = { ...location };
+  const { pathname } = newLocation;
   const regex = new RegExp(routes.LegacyPassportChanges);
-  const redirectLocation = `${pathname.replace(regex, routes.Passport)}${search}`;
+  newLocation.pathname = pathname.replace(regex, routes.Passport);
+  const parsedQueryString = parse(newLocation.search);
 
-  return <Redirect from={routes.LegacyPassportChanges} to={redirectLocation} />;
+  const routeUrl = createRouteUrl(newLocation, routes.Passport, parsedQueryString as IParsedQueryString);
+
+  return <Redirect from={routes.LegacyPassportChanges} to={routeUrl} />;
 };
