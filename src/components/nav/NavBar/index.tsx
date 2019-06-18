@@ -7,7 +7,7 @@ import './style.scss';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { translate } from 'src/i18n';
-import { routes } from 'src/constants/routes';
+import { passportPath, passportsPath, routes } from 'src/constants/routes';
 import { Content } from 'src/components/layout/Content';
 import { createRouteUrl } from 'src/utils/nav';
 import { NetworkPicker } from '../NetworkPicker';
@@ -19,6 +19,7 @@ const MenuImg = require('!babel-loader!react-svg-loader?!images/menu.svg').defau
 // #region -------------- Interfaces --------------------------------------------------------------
 
 export interface INavBarLink {
+  reactRouterPath: string;
   title?: string;
   path?: string;
   component?: React.ReactNode;
@@ -214,8 +215,7 @@ class NavBar extends React.PureComponent<IProps, IState> {
 
   private isCurrentRoute = (link: INavBarLink): boolean => {
     const { match } = this.props;
-
-    return match.url.startsWith(link.path);
+    return link.reactRouterPath === match.path;
   }
 
   // #endregion
@@ -243,10 +243,12 @@ const items: INavBarLink[] = [
   {
     title: translate(t => t.nav.passportRegistry),
     path: routes.Passports,
+    reactRouterPath: passportsPath,
   },
   {
     title: translate(t => t.nav.passportSearch),
-    path: routes.PassportChanges,
+    path: routes.LegacyPassportChanges,
+    reactRouterPath: passportPath,
   },
 ];
 
