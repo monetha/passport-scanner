@@ -49,16 +49,23 @@ function* onGetFacts(action: IAsyncAction<IGetFactsPayload>) {
   }
 }
 
-function* onGetPassportOwner(action: IAsyncAction<IGetPassportOwnerPayload>) {
+function* onGetPassportInformation(action: IAsyncAction<IGetPassportOwnerPayload>) {
   try {
     const { passportAddress } = action.payload;
 
     const { web3 } = getServices();
 
     const passportOwnership = new PassportOwnership(web3, passportAddress);
-    const address: string = yield passportOwnership.getOwnerAddress();
 
-    yield put(getPassportOwner.success(address));
+    const passportOwnerAddress: string = yield passportOwnership.getOwnerAddress();
+    const passportPendingOwnerAddress: string = yield passportOwnership.getPendingOwnerAddress();
+    const passportLogicRegistryAddress: string = yield passportOwnership.getPassportLogicRegistryAddress();
+
+    yield put(getPassportOwner.success({
+      passportOwnerAddress,
+      passportPendingOwnerAddress,
+      passportLogicRegistryAddress,
+    }));
 
   } catch (error) {
     yield getServices().createErrorHandler(error)
@@ -138,7 +145,7 @@ function* onLoadFactValue(action: IAsyncAction<ILoadFactPayload>) {
 
 export const factsSaga = [
   takeLatest(getFacts.request.type, onGetFacts),
-  takeLatest(getPassportOwner.request.type, onGetPassportOwner),
+  takeLatest(getPassportOwner.request.type, onGetPassportInformation),
   takeEveryLatest<IAsyncAction<ILoadFactPayload>, any>(
     loadFactValue.request.type, a => `${a.type}_${a.payload.fact.transactionHash}`, onLoadFactValue),
 ];

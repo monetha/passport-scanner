@@ -48,6 +48,12 @@ export interface IGetPassportOwnerPayload {
   passportAddress: string;
 }
 
-export const getPassportOwner = createAsyncAction<IGetPassportOwnerPayload, string>(actionTypes.getPassportOwner);
+export interface IPassportInformation {
+  passportOwnerAddress: string;
+  passportPendingOwnerAddress: string;
+  passportLogicRegistryAddress: string;
+}
+
+export const getPassportOwner = createAsyncAction<IGetPassportOwnerPayload, IPassportInformation>(actionTypes.getPassportOwner);
 
 // #endregion

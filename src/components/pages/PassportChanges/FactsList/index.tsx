@@ -14,7 +14,7 @@ import { IAsyncState } from 'src/core/redux/asyncAction';
 import { translate } from 'src/i18n';
 import translations from 'src/i18n/locales/en';
 import { IFact } from 'src/models/passport';
-import { loadFactValue } from 'src/state/passport/actions';
+import { IPassportInformation, loadFactValue } from 'src/state/passport/actions';
 import { IFactValueWrapper } from 'src/state/passport/models';
 import { IState } from 'src/state/rootReducer';
 import './style.scss';
@@ -22,7 +22,7 @@ import { Alert, AlertType } from 'src/components/indicators/Alert';
 import { Share } from 'src/components/pages/PassportChanges/Share';
 import { ActionButton } from 'src/components/pages/PassportChanges/ActionButton';
 import { getShortId, getEtherscanUrl } from 'src/helpers';
-import { PassportOwnedBy } from 'src/components/pages/PassportChanges/PassportOwnedBy';
+import { PassportInformation } from 'src/components/pages/PassportChanges/PassportInformation';
 import { routes } from 'src/constants/routes';
 
 // #region -------------- Interfaces --------------------------------------------------------------
@@ -41,7 +41,7 @@ interface IDispatchProps {
 
 export interface IProps extends IStateProps, IDispatchProps {
   items: IFact[];
-  passportOwnerAddress: string;
+  passportInformation: IPassportInformation;
 }
 
 // #endregion
@@ -60,7 +60,9 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
   public render() {
     return (
       <div className='mh-facts-list'>
-        {!!this.props.passportOwnerAddress && <PassportOwnedBy passportOwnerAddress={this.props.passportOwnerAddress} />}
+        <PassportInformation
+          passportInformation={this.props.passportInformation}
+        />
         {this.renderGroups()}
       </div>
     );
