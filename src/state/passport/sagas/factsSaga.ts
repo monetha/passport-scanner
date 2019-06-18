@@ -8,7 +8,7 @@ import { IPFSPathReaderClient } from 'src/core/ipfs/IPFSPathReaderClient';
 import { IAsyncAction } from 'src/core/redux/asyncAction';
 import { takeEveryLatest } from 'src/core/redux/saga';
 import { getServices } from 'src/ioc/services';
-import { getFacts, IGetFactsPayload, ILoadFactPayload, loadFactValue, getPassportOwner, IGetPassportOwnerPayload } from '../actions';
+import { getFacts, IGetFactsPayload, ILoadFactPayload, loadFactValue, getPassportInformation, IGetPassportOwnerPayload } from '../actions';
 import { IFactList } from '../models';
 import reverse from 'lodash/reverse';
 
@@ -59,18 +59,18 @@ function* onGetPassportInformation(action: IAsyncAction<IGetPassportOwnerPayload
 
     const passportOwnerAddress: string = yield passportOwnership.getOwnerAddress();
     const passportPendingOwnerAddress: string = yield passportOwnership.getPendingOwnerAddress();
-    const passportLogicRegistryAddress: string = yield passportOwnership.getPassportLogicRegistryAddress();
+    // const passportLogicRegistryAddress: string = yield passportOwnership.getPassportLogicRegistryAddress();
 
-    yield put(getPassportOwner.success({
+    yield put(getPassportInformation.success({
       passportOwnerAddress,
       passportPendingOwnerAddress,
-      passportLogicRegistryAddress,
+      passportLogicRegistryAddress: '',
     }));
 
   } catch (error) {
     yield getServices().createErrorHandler(error)
       .onAnyError(function* (friendlyError) {
-        yield put(getPassportOwner.failure(friendlyError));
+        yield put(getPassportInformation.failure(friendlyError));
       })
       .process();
   }
@@ -145,7 +145,7 @@ function* onLoadFactValue(action: IAsyncAction<ILoadFactPayload>) {
 
 export const factsSaga = [
   takeLatest(getFacts.request.type, onGetFacts),
-  takeLatest(getPassportOwner.request.type, onGetPassportInformation),
+  takeLatest(getPassportInformation.request.type, onGetPassportInformation),
   takeEveryLatest<IAsyncAction<ILoadFactPayload>, any>(
     loadFactValue.request.type, a => `${a.type}_${a.payload.fact.transactionHash}`, onLoadFactValue),
 ];

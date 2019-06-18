@@ -11,7 +11,7 @@ export const actionTypes = {
   getPassports: get('GET_PASSPORTS'),
   getFacts: get('GET_FACTS'),
   loadFactValue: get('LOAD_FACT_VALUE'),
-  getPassportOwner: get('GET_PASSPORT_OWNER'),
+  getPassportInformation: get('GET_PASSPORT_INFORMATION'),
 };
 
 // #endregion
@@ -54,6 +54,6 @@ export interface IPassportInformation {
   passportLogicRegistryAddress: string;
 }
 
-export const getPassportOwner = createAsyncAction<IGetPassportOwnerPayload, IPassportInformation>(actionTypes.getPassportOwner);
+export const getPassportInformation = createAsyncAction<IGetPassportOwnerPayload, IPassportInformation>(actionTypes.getPassportInformation);
 
 // #endregion
