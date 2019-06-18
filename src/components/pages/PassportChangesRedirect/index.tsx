@@ -7,5 +7,5 @@ export const PassportChangesRedirect = ({ location }) => {
   const regex = new RegExp(routes.LegacyPassportChanges);
   const redirectLocation = `${pathname.replace(regex, routes.Passport)}${search}`;
 
-  return <Redirect to={redirectLocation} />;
+  return <Redirect from={routes.LegacyPassportChanges} to={redirectLocation} />;
 };

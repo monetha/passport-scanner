@@ -4,7 +4,7 @@ import MediaQuery from 'react-responsive';
 import { screenQuery } from 'src/constants/screen';
 import SmoothCollapse from 'react-smooth-collapse';
 import './style.scss';
-import { withRouter, RouteComponentProps } from 'react-router';
+import { withRouter, RouteComponentProps, matchPath, RouteProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { translate } from 'src/i18n';
 import { passportPath, passportsPath, routes } from 'src/constants/routes';
@@ -215,8 +215,15 @@ class NavBar extends React.PureComponent<IProps, IState> {
 
   private isCurrentRoute = (link: INavBarLink): boolean => {
     const { match } = this.props;
-    return link.reactRouterPath === match.path;
-  }
+    const { url } = match;
+    const routeProps: RouteProps = {
+      path: link.reactRouterPath,
+      exact: true,
+      strict: false,
+    };
+
+    return matchPath(url, routeProps) !== null;
+  };
 
   // #endregion
 
