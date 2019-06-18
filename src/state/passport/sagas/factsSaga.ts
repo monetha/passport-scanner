@@ -60,7 +60,7 @@ function* onGetPassportInformation(action: IAsyncAction<IGetPassportOwnerPayload
     const passportOwnerAddress: string = yield passportOwnership.getOwnerAddress();
     const passportPendingOwnerAddress: string = yield passportOwnership.getPendingOwnerAddress();
     // const passportLogicRegistryAddress: string = yield passportOwnership.getPassportLogicRegistryAddress();
-
+    // debugger;
     yield put(getPassportInformation.success({
       passportOwnerAddress,
       passportPendingOwnerAddress,

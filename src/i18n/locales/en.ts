@@ -59,6 +59,7 @@ const translations = validateBaseTranslations({
     firstOwnerAddress: 'First owner address',
     ownedBy: 'Owned by',
     pendingOwner: 'Pending owner',
+    passportLogicRegistry: 'Passport logic registry',
     blockNumber: 'Block #',
     txHash: 'Transaction hash',
     factProvider: 'Fact provider',

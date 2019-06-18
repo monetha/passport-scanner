@@ -31,6 +31,10 @@ export class PassportInformation extends React.PureComponent<IProps> {
           title={translate(t => t.passport.pendingOwner)}
           address={this.props.passportInformation.passportPendingOwnerAddress}
         />
+        <PassportInformationItem
+          title={translate(t => t.passport.passportLogicRegistry)}
+          address={this.props.passportInformation.passportLogicRegistryAddress}
+        />
       </div>
     );
   }
