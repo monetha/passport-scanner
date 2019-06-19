@@ -19,7 +19,7 @@ export function createRouteUrl(location: Location, base: string, queryParams?: I
   // Specified ones
   if (queryParams) {
     for (const key in queryParams) {
-      if (typeof queryParams[key] === 'undefined') {
+      if (!queryParams.hasOwnProperty(key)) {
         continue;
       }
 
