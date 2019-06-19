@@ -3,7 +3,11 @@ import queryString from 'query-string';
 
 const persistedParams = ['network'];
 
-export function createRouteUrl(location: Location, base: string, queryParams?: { [key: string]: string }) {
+export interface IParsedQueryString {
+  [key: string]: string;
+}
+
+export function createRouteUrl(location: Location, base: string, queryParams?: IParsedQueryString) {
   const oldParams = queryString.parse(location.search);
   const newParams = {};
 

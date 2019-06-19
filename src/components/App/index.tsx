@@ -2,7 +2,7 @@ import queryString from 'query-string';
 import React from 'react';
 import { Redirect, Route, RouteComponentProps, Switch, withRouter } from 'react-router';
 import { ethNetworkUrls } from 'src/constants/api';
-import { routes } from 'src/constants/routes';
+import { passportPath, passportsPath, routes } from 'src/constants/routes';
 import { registerBlockchainServices } from 'src/ioc/bootstrapIOC';
 import { getServices } from 'src/ioc/services';
 import 'src/style/index.scss';
@@ -10,6 +10,7 @@ import { PassportChangesPage } from '../pages/PassportChanges';
 import { PassportsPage } from '../pages/Passports';
 import { Loader } from '../indicators/Loader';
 import './style.scss';
+import { PassportChangesRedirect } from 'src/components/pages/PassportChangesRedirect';
 
 // #region -------------- Interface -------------------------------------------------------------------
 
@@ -41,8 +42,9 @@ class App extends React.Component<IProps> {
   private renderRoutes = () => {
     return (
       <Switch>
-        <Route exact path={`${routes.Passports}/:passportFactoryAddress?`} component={PassportsPage} />
-        <Route exact path={`${routes.PassportChanges}/:passportAddress?`} component={PassportChangesPage} />
+        <Route exact path={passportsPath} component={PassportsPage} />
+        <Route exact path={`${routes.LegacyPassportChanges}*`} component={PassportChangesRedirect} />
+        <Route exact path={passportPath} component={PassportChangesPage} />
         <Route exact path={routes.Loading} component={() => <Loader fullArea={true} fullscreen={true} />} />
         <Redirect to={routes.Passports} />
       </Switch>

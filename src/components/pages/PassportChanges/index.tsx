@@ -135,7 +135,7 @@ const connected = connect<IStateProps, IDispatchProps, RouteComponentProps<any>,
     return {
       onLoadFacts(values: ISubmitValues) {
 
-        const newUrl = createRouteUrl(ownProps.location, `${routes.PassportChanges}/${values.passportAddress}`, {
+        const newUrl = createRouteUrl(ownProps.location, `${routes.Passport}/${values.passportAddress}`, {
           start_block: values.startBlock && values.startBlock.toString(),
           fact_provider: values.factProviderAddress,
         });
