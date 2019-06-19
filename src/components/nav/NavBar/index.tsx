@@ -223,7 +223,7 @@ class NavBar extends React.PureComponent<IProps, IState> {
     };
 
     return matchPath(url, routeProps) !== null;
-  };
+  }
 
   // #endregion
 
