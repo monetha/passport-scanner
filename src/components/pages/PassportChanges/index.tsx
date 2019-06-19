@@ -10,7 +10,7 @@ import { FormWrapper } from 'src/components/text/FormWrapper';
 import { routes } from 'src/constants/routes';
 import { IAsyncState } from 'src/core/redux/asyncAction';
 import { translate } from 'src/i18n';
-import { getFacts, getPassportOwner } from 'src/state/passport/actions';
+import { getFacts, getPassportInformation, IPassportInformation } from 'src/state/passport/actions';
 import { IFactList } from 'src/state/passport/models';
 import { IState } from 'src/state/rootReducer';
 import { createRouteUrl } from 'src/utils/nav';
@@ -22,7 +22,6 @@ import './style.scss';
 
 interface IStateProps {
   factList: IAsyncState<IFactList>;
-  passportOwnerAddress: IAsyncState<string>;
 }
 
 interface IDispatchProps {
@@ -30,6 +29,7 @@ interface IDispatchProps {
 }
 
 interface IProps extends RouteComponentProps<any>, IStateProps, IDispatchProps {
+  passportInformation: IAsyncState<IPassportInformation>;
 }
 
 // #endregion
@@ -71,14 +71,17 @@ class PassportChangesPage extends React.Component<IProps> {
   }
 
   private renderList() {
-    const { factList, passportOwnerAddress } = this.props;
+    const { factList, passportInformation } = this.props;
 
     if (this.isLoading() || !factList.data || factList.error) {
       return null;
     }
     return (
       <div className='mh-list-contents'>
-        <FactsList items={factList.data.facts} passportOwnerAddress={passportOwnerAddress.data} />
+        <FactsList
+          items={factList.data.facts}
+          passportInformation={passportInformation.data}
+        />
       </div>
     );
   }
@@ -114,9 +117,9 @@ class PassportChangesPage extends React.Component<IProps> {
   }
 
   private isLoading() {
-    const { factList, passportOwnerAddress } = this.props;
+    const { factList, passportInformation } = this.props;
 
-    return factList.isFetching || passportOwnerAddress.isFetching;
+    return factList.isFetching || passportInformation.isFetching;
   }
 }
 
@@ -128,7 +131,7 @@ const connected = connect<IStateProps, IDispatchProps, RouteComponentProps<any>,
   (state) => {
     return {
       factList: state.passport.facts,
-      passportOwnerAddress: state.passport.passportOwnerAddress,
+      passportInformation: state.passport.passportInformation,
     };
   },
   (dispatch, ownProps) => {
@@ -143,7 +146,7 @@ const connected = connect<IStateProps, IDispatchProps, RouteComponentProps<any>,
         dispatch(replace(newUrl));
         dispatch(getFacts.init(values));
 
-        dispatch(getPassportOwner.init({
+        dispatch(getPassportInformation.init({
           passportAddress: values.passportAddress,
         }));
       },
