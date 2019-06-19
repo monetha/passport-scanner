@@ -10,18 +10,20 @@ export interface IProps {
 
 // #endregion
 
+const genesisAccount = '0x0000000000000000000000000000000000000000';
+
 // #region -------------- Component ---------------------------------------------------------------
 
 export class PassportInformationItem extends React.PureComponent<IProps> {
   public render() {
     return (
-      <div>
-        <span className='title'>{this.props.title}</span>
+      <div className='passport-information-item'>
+        <div className='title'>{this.props.title}</div>
         <div className='full-address'>
-          {this.props.address ? <OwnerAddress ownerAddressOriginal={this.props.address} /> : '–'}
+          {this.props.address !== genesisAccount ? <OwnerAddress ownerAddressOriginal={this.props.address} /> : '–'}
         </div>
         <div className='shorten-address'>
-          {this.props.address ? <OwnerAddress ownerAddressOriginal={this.props.address} shorten={true} /> : '–'}
+          {this.props.address !== genesisAccount ? <OwnerAddress ownerAddressOriginal={this.props.address} shorten={true} /> : '–'}
         </div>
       </div>
     );

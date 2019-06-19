@@ -10,26 +10,37 @@
     font-size: 28px;
   }
 
-  .title {
-    margin-right: 130px;
-    text-transform: uppercase;
-    color: $colorGrayB1;
-  }
-
-  .full-address {
-    display: inline;
-
-    @media #{$smDown} {
-      display: none;
+  .passport-information-item {
+    &:not(:last-child) {
+      margin-bottom: 20px;
     }
-  }
 
-  .shorten-address {
-    display: none;
+    .title {
+      display: inline-block;
+      min-width: 30%;
+      text-transform: uppercase;
+      color: $colorGrayB1;
 
-    @media #{$smDown} {
-      display: block;
-      margin-top: 10px;
+      @media #{$mdDown} {
+        min-width: 40%;
+      }
+    }
+
+    .full-address {
+      display: inline;
+
+      @media #{$smDown} {
+        display: none;
+      }
+    }
+
+    .shorten-address {
+      display: none;
+
+      @media #{$smDown} {
+        display: block;
+        margin-top: 10px;
+      }
     }
   }
 }

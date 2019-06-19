@@ -53,18 +53,19 @@ function* onGetPassportInformation(action: IAsyncAction<IGetPassportOwnerPayload
   try {
     const { passportAddress } = action.payload;
 
-    const { web3 } = getServices();
+    const { web3, ethNetworkUrl } = getServices();
 
     const passportOwnership = new PassportOwnership(web3, passportAddress);
+    const reader = new PassportReader(web3, ethNetworkUrl);
 
     const passportOwnerAddress: string = yield passportOwnership.getOwnerAddress();
     const passportPendingOwnerAddress: string = yield passportOwnership.getPendingOwnerAddress();
-    // const passportLogicRegistryAddress: string = yield passportOwnership.getPassportLogicRegistryAddress();
-    // debugger;
+    const passportLogicRegistryAddress: string = yield reader.getPassportLogicRegistryAddress(passportAddress);
+
     yield put(getPassportInformation.success({
       passportOwnerAddress,
       passportPendingOwnerAddress,
-      passportLogicRegistryAddress: '',
+      passportLogicRegistryAddress,
     }));
 
   } catch (error) {
