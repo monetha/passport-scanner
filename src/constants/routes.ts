@@ -1,6 +1,6 @@
 export const routes = {
   Root: '/',
-  Passports: '/passports',
+  Passports: '/registry',
   Passport: '/passport',
   LegacyPassportChanges: '/passport-changes',
   Loading: '/loading',
