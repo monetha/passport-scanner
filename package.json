@@ -62,7 +62,7 @@
         "history": "4.9.0",
         "i18n-js": "^3.2.2",
         "immutable-assign": "^2.1.1",
-        "lodash": "4.17.11",
+        "lodash": "^4.17.14",
         "minimist": "1.2.0",
         "moment": "^2.24.0",
         "query-string": "^6.5.0",
