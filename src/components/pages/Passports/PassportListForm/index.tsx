@@ -61,7 +61,7 @@ class PassportListForm extends React.PureComponent<IProps> {
 
     const queryParams = queryString.parse(props.location.search);
 
-    let startBlock = (queryParams.start_block as string);
+    const startBlock = (queryParams.start_block as string);
 
     if (!passportFactoryAddress) {
       const { ethNetworkUrl } = getServices();
@@ -69,7 +69,6 @@ class PassportListForm extends React.PureComponent<IProps> {
       switch (ethNetworkUrl) {
         case ethNetworkUrls.mainnet:
           passportFactoryAddress = defaultAddresses.mainnet.factory;
-          startBlock = defaultAddresses.mainnet.startBlock.toString();
           break;
 
         case ethNetworkUrls.ropsten:

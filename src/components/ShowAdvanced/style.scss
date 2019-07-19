@@ -5,4 +5,10 @@
   font-size: $fontSizeSm;
   margin-left: 20px;
   margin-top: 13px;
+
+  .advanced-search-text {
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }

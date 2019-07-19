@@ -34,7 +34,7 @@ export class ShowAdvanced extends React.PureComponent<IProps, IState> {
           onClick={() => this.setState(({ isOpened }) => ({ isOpened: !isOpened }))}
           className={`advanced-search ${className || ''}`}
         >
-          {translate(t => t.form.advancedSearch)}
+          <span className='advanced-search-text'>{translate(t => t.form.advancedSearch)}</span>
           <DropdownIndicator isOpened={this.state.isOpened} />
         </div>
         {this.state.isOpened &&

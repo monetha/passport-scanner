@@ -4,6 +4,5 @@ export const defaultAddresses = {
   },
   mainnet: {
     factory: '0x53b21DC502b163Bcf3bD9a68d5db5e8E6110E1CC',
-    startBlock: 7797263,
   },
 };

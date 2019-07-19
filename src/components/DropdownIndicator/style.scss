@@ -11,4 +11,8 @@
   &.is-opened {
     transform: rotateZ(180deg);
   }
+
+  &:hover {
+    cursor: pointer;
+  }
 }
