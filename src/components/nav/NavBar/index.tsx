@@ -254,7 +254,7 @@ const items: INavBarLink[] = [
   },
   {
     title: translate(t => t.nav.passportSearch),
-    path: routes.LegacyPassportChanges,
+    path: routes.Identity,
     reactRouterPath: passportPath,
   },
 ];
