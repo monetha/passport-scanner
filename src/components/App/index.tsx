@@ -43,7 +43,18 @@ class App extends React.Component<IProps> {
     return (
       <Switch>
         <Route exact path={passportsPath} component={PassportsPage} />
-        <Route exact path={`${routes.LegacyPassportChanges}*`} component={PassportChangesRedirect} />
+        <Route exact path={`${routes.LegacyPassportChanges}*`} component={() =>
+          <PassportChangesRedirect
+            from={routes.LegacyPassportChanges}
+            to={routes.Identity}
+            location={this.props.location}
+          />} />
+        <Route exact path={`${routes.LegacyPassport}*`} component={() =>
+          <PassportChangesRedirect
+            from={routes.LegacyPassport}
+            to={routes.Identity}
+            location={this.props.location}
+          />} />
         <Route exact path={passportPath} component={PassportChangesPage} />
         <Route exact path={routes.Loading} component={() => <Loader fullArea={true} fullscreen={true} />} />
         <Redirect to={routes.Passports} />
