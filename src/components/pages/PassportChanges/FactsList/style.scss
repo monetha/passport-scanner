@@ -5,6 +5,7 @@
     margin-bottom: $spaceBetweenComponentsXxs;
     font-family: $fontFamilyRegular;
     font-size: $fontSizeLg;
+    word-break: break-word;
 
     .fact-provider {
       color: $colorDarkGrayTable;
