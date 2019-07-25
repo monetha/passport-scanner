@@ -5,7 +5,7 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
-import { DataType, EventType, IFactValue } from 'reputation-sdk';
+import { DataType, EventType, IFactValue, IHistoryEvent } from 'verifiable-data';
 import { Loader } from 'src/components/indicators/Loader';
 import { Table } from 'src/components/layout/Table';
 import { ipfsGatewayUrl } from 'src/constants/api';
@@ -13,7 +13,6 @@ import { knownFactProviders } from 'src/constants/factProviders';
 import { IAsyncState } from 'src/core/redux/asyncAction';
 import { translate } from 'src/i18n';
 import translations from 'src/i18n/locales/en';
-import { IFact } from 'src/models/passport';
 import { IPassportInformation, loadFactValue } from 'src/state/passport/actions';
 import { IFactValueWrapper } from 'src/state/passport/models';
 import { IState } from 'src/state/rootReducer';
@@ -36,11 +35,11 @@ interface IStateProps {
 }
 
 interface IDispatchProps {
-  onLoadFactValue(fact: IFact);
+  onLoadFactValue(fact: IHistoryEvent);
 }
 
 export interface IProps extends IStateProps, IDispatchProps {
-  items: IFact[];
+  items: IHistoryEvent[];
   passportInformation: IPassportInformation;
 }
 
@@ -127,7 +126,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
     return renderedGroups;
   }
 
-  private renderItem(item: IFact) {
+  private renderItem(item: IHistoryEvent) {
     return (
       <Tr>
         <Td>{this.renderBlockNumber(item)}</Td>
@@ -162,7 +161,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
     );
   }
 
-  private renderDataType(item: IFact) {
+  private renderDataType(item: IHistoryEvent) {
     const transKey = translations.passport.dataTypes[item.dataType];
     if (!transKey) {
       return item.dataType;
@@ -171,7 +170,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
     return translate(t => t.passport.dataTypes[item.dataType]);
   }
 
-  private renderEventType(item: IFact) {
+  private renderEventType(item: IHistoryEvent) {
     const transKey = translations.passport.eventTypes[item.eventType];
     if (!transKey) {
       return item.eventType;
@@ -180,7 +179,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
     return translate(t => t.passport.eventTypes[item.eventType]);
   }
 
-  private renderBlockNumber(item: IFact) {
+  private renderBlockNumber(item: IHistoryEvent) {
     const { blockNumber } = item;
 
     const decBlockNr = new BigNumber(blockNumber, 16).toString(10);
@@ -203,7 +202,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
     );
   }
 
-  private renderTxHash(item: IFact) {
+  private renderTxHash(item: IHistoryEvent) {
     const { transactionHash: transactionHashOriginal } = item;
     const transactionHash = getShortId(transactionHashOriginal);
 
@@ -227,7 +226,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
 
   // #region -------------- Fact value -------------------------------------------------------------------
 
-  private renderValue(item: IFact) {
+  private renderValue(item: IHistoryEvent) {
     if (item.eventType !== EventType.Updated) {
       return null;
     }
@@ -317,7 +316,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
     );
   }
 
-  private onLoadClick = (fact: IFact) => {
+  private onLoadClick = (fact: IHistoryEvent) => {
     if (fact.dataType === DataType.IPFSHash) {
       this.setState(({ popups }) => ({ popups: { ...popups, [fact.transactionHash]: window.open(routes.Loading, '_blank') } }));
     }
@@ -399,7 +398,7 @@ const connected = connect<IStateProps, IDispatchProps>(
   },
   (dispatch) => {
     return {
-      onLoadFactValue(fact: IFact) {
+      onLoadFactValue(fact: IHistoryEvent) {
         dispatch(loadFactValue.init({ passportAddress: null, fact }));
       },
     };

@@ -1,4 +1,4 @@
-import { EventType, DataType } from 'reputation-sdk';
+import { EventType, DataType } from 'verifiable-data';
 
 // tslint:disable:max-line-length
 

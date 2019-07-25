@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
-import { IPassportRef } from 'src/models/passport';
+import { IPassportRef } from 'verifiable-data';
 import './style.scss';
 import { translate } from 'src/i18n';
 import { Link, withRouter } from 'react-router-dom';
@@ -122,7 +122,7 @@ class PassportList extends React.PureComponent<IProps> {
   }
 
   private renderTxHash(item: IPassportRef) {
-    const { txHash: txHashOriginal } = item;
+    const { transactionHash: txHashOriginal } = item;
     const txHash = getShortId(txHashOriginal);
 
     const url = getEtherscanUrl();

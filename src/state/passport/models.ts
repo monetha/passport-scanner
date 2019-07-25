@@ -1,5 +1,4 @@
-import { IPassportRef, IFact } from 'src/models/passport';
-import { DataType, IFactValue } from 'reputation-sdk';
+import { DataType, IFactValue, IPassportRef, IHistoryEvent } from 'verifiable-data';
 
 export interface IPassportList {
   factoryAddress: string;
@@ -10,7 +9,7 @@ export interface IPassportList {
 export interface IFactList {
   passportAddress: string;
   startBlock: number;
-  facts: IFact[];
+  facts: IHistoryEvent[];
 }
 
 export interface IFactValueWrapper<T = any> {

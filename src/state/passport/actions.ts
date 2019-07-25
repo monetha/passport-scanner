@@ -1,7 +1,7 @@
 import { getActionNameCreator } from 'src/core/redux/action';
 import { createAsyncAction } from 'src/core/redux/asyncAction';
 import { IPassportList, IFactList, IFactValueWrapper } from './models';
-import { IFact } from 'src/models/passport';
+import { IHistoryEvent } from 'verifiable-data';
 
 // #region -------------- Action types -------------------------------------------------------------------
 
@@ -39,7 +39,7 @@ export const getFacts = createAsyncAction<IGetFactsPayload, IFactList>(actionTyp
 
 export interface ILoadFactPayload {
   passportAddress: string;
-  fact: IFact;
+  fact: IHistoryEvent;
 }
 
 export const loadFactValue = createAsyncAction<ILoadFactPayload, IFactValueWrapper>(actionTypes.loadFactValue);

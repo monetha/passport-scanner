@@ -1,7 +1,6 @@
 import { BigNumber } from 'bignumber.js';
 import { put, takeLatest } from 'redux-saga/effects';
-import { FactHistoryReader, PassportReader, PassportOwnership } from 'reputation-sdk';
-import { DataType, IHistoryEvent } from 'reputation-sdk/dist/lib/models/IHistoryEvent';
+import { FactHistoryReader, PassportReader, PassportOwnership, DataType, IHistoryEvent } from 'verifiable-data';
 import { ErrorCode } from 'src/core/error/ErrorCode';
 import { createFriendlyError } from 'src/core/error/FriendlyError';
 import { IPFSPathReaderClient } from 'src/core/ipfs/IPFSPathReaderClient';
@@ -18,14 +17,14 @@ function* onGetFacts(action: IAsyncAction<IGetFactsPayload>) {
   try {
     const { passportAddress, startBlock, factProviderAddress } = action.payload;
 
-    const { web3, ethNetworkUrl } = getServices();
+    const { web3 } = getServices();
 
     let startBlockHex;
     if (startBlock) {
       startBlockHex = `0x${new BigNumber(startBlock).toString(16)}`;
     }
 
-    const reader = new PassportReader(web3, ethNetworkUrl);
+    const reader = new PassportReader(web3);
     const facts: IHistoryEvent[] = yield reader.readPassportHistory(passportAddress, {
       startBlock: startBlockHex,
       factProviderAddress: factProviderAddress || undefined,
@@ -53,10 +52,10 @@ function* onGetPassportInformation(action: IAsyncAction<IGetPassportOwnerPayload
   try {
     const { passportAddress } = action.payload;
 
-    const { web3, ethNetworkUrl } = getServices();
+    const { web3 } = getServices();
 
     const passportOwnership = new PassportOwnership(web3, passportAddress);
-    const reader = new PassportReader(web3, ethNetworkUrl);
+    const reader = new PassportReader(web3);
 
     const passportOwnerAddress: string = yield passportOwnership.getOwnerAddress();
     const passportPendingOwnerAddress: string = yield passportOwnership.getPendingOwnerAddress();
