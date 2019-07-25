@@ -106,6 +106,10 @@ function* onLoadFactValue(action: IAsyncAction<ILoadFactPayload>) {
 
       case DataType.IPFSHash:
         factValue = yield reader.getIPFSData(transactionHash, new IPFSPathReaderClient());
+
+        if (Buffer.isBuffer(factValue.value)) {
+          factValue.value = factValue.value.toString('utf8');
+        }
         break;
 
       case DataType.Int:
