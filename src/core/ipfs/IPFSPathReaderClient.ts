@@ -1,4 +1,4 @@
-import { IIPFSClient, IIPFSDag } from 'reputation-sdk';
+import { IIPFSClient, IIPFSDag } from 'verifiable-data';
 import { createFriendlyError } from '../error/FriendlyError';
 import { ErrorCode } from '../error/ErrorCode';
 
