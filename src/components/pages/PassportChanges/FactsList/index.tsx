@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js';
 import groupBy from 'lodash/groupBy';
 import pickBy from 'lodash/pickBy';
 import React, { Fragment } from 'react';
@@ -182,21 +181,19 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
   private renderBlockNumber(item: IHistoryEvent) {
     const { blockNumber } = item;
 
-    const decBlockNr = new BigNumber(blockNumber, 16).toString(10);
-
     const url = getEtherscanUrl();
     if (!url) {
-      return decBlockNr;
+      return blockNumber;
     }
 
     return (
       <>
         <Share />
         <a
-          href={`${url}/block/${decBlockNr}`}
+          href={`${url}/block/${blockNumber}`}
           target='_blank'
         >
-          {decBlockNr}
+          {blockNumber}
         </a>
       </>
     );
