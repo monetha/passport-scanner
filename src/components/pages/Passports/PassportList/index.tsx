@@ -103,20 +103,18 @@ class PassportList extends React.PureComponent<IProps> {
   private renderBlockNumber(item: IPassportRef) {
     const { blockNumber } = item;
 
-    const decBlockNr = new BigNumber(blockNumber, 16).toString(10);
-
     const url = getEtherscanUrl();
     if (!url) {
-      return decBlockNr;
+      return blockNumber;
     }
 
     return (
       <a
-        href={`${url}/block/${decBlockNr}`}
+        href={`${url}/block/${blockNumber}`}
         target='_blank'
       >
         <Share />
-        {decBlockNr}
+        {blockNumber}
       </a>
     );
   }
