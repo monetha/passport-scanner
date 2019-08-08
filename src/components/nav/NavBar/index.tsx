@@ -14,7 +14,7 @@ import { NetworkPicker } from '../NetworkPicker';
 
 const logoImgUrl = require('src/assets/images/logo-white.svg');
 
-const MenuImg = require('!babel-loader!react-svg-loader?!images/menu.svg').default;
+// const MenuImg = require('!babel-loader!react-svg-loader?!images/menu.svg').default;
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -106,7 +106,7 @@ class NavBar extends React.PureComponent<IProps, IState> {
               })}
             >
               <a href='javascript:void(0)' onClick={this.onMobileButtonClick}>
-                <MenuImg />
+                {/*<MenuImg />*/}
               </a>
             </div>
           </div>
