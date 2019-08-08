@@ -76,22 +76,15 @@
     }
 
     .mh-navbar-toggle-button {
-      img {
-        display: block;
-        width: 30px;
+      line-height: 0;
+
+      svg {
         height: 30px;
-        opacity: 0.7;
-        transition: opacity 0.5s;
+        width: 30px;
       }
 
-      &.mh-is-open {
-        img {
-          opacity: 1;
-        }
-      }
-
-      &:hover {
-        cursor: pointer;
+      &.mh-is-open svg {
+        fill: $colorWhite;
       }
     }
 

@@ -13,7 +13,8 @@ import { createRouteUrl } from 'src/utils/nav';
 import { NetworkPicker } from '../NetworkPicker';
 
 const logoImgUrl = require('src/assets/images/logo-white.svg');
-const menuImgWhite = require('src/assets/images/menu-white.svg');
+
+const MenuImg = require('!babel-loader!react-svg-loader?!images/menu.svg').default;
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -103,9 +104,10 @@ class NavBar extends React.PureComponent<IProps, IState> {
                 'mh-navbar-toggle-button': true,
                 'mh-is-open': this.state.isOpen,
               })}
-              onClick={this.onMobileButtonClick}
             >
-              <img src={menuImgWhite} alt='' />
+              <a href='javascript:void(0)' onClick={this.onMobileButtonClick}>
+                <MenuImg />
+              </a>
             </div>
           </div>
 
