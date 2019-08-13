@@ -314,7 +314,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
   }
 
   private onLoadClick = (fact: IHistoryEvent) => {
-    if (fact.dataType === DataType.IPFSHash) {
+    if (fact.dataType === DataType.IPFSHash || fact.dataType === DataType.TxData) {
       this.setState(({ popups }) => ({ popups: { ...popups, [fact.transactionHash]: window.open(routes.Loading, '_blank') } }));
     }
 
@@ -372,6 +372,14 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       const { dataType, value } = valueState.data;
       if (dataType === DataType.IPFSHash && this.state.popups[txHash]) {
         this.state.popups[txHash].location.replace(`${ipfsGatewayUrl}/${value.value}`);
+        return;
+      }
+
+      if (dataType === DataType.TxData) {
+        const wnd: Window = this.state.popups[txHash];
+        const v = value.value;
+        const string = new TextDecoder('utf-8').decode(new Uint8Array(v));
+        wnd.document.write(string);
         return;
       }
 
