@@ -67,7 +67,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
   }
 
   private renderGroups() {
-    const { items } = this.props;
+    const { items, passportInformation } = this.props;
 
     if (!items) {
       return null;
@@ -92,7 +92,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
         >
           <div className='mh-fact-provider-header'>
             <span className='fact-provider'>{`${translate(t => t.passport.factProvider)}: `}</span>
-            {this.renderFactProviderName(factProviderAddress)}
+            {this.renderFactProviderName(factProviderAddress, passportInformation.passportOwnerAddress)}
           </div>
 
           <Table>
@@ -138,10 +138,13 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
     );
   }
 
-  private renderFactProviderName(address: string) {
+  private renderFactProviderName(address: string, passportOwnerAddress: string) {
     let name = address;
-    if (knownFactProviders[address.toLowerCase()]) {
-      name = knownFactProviders[address.toLowerCase()];
+    const lcAddress = address.toLowerCase();
+    if (lcAddress === passportOwnerAddress.toLowerCase()) {
+      name = translate(t => t.passport.owner);
+    } else if (knownFactProviders[lcAddress]) {
+      name = knownFactProviders[lcAddress];
     }
 
     const url = getEtherscanUrl();
