@@ -22,11 +22,17 @@ import { ActionButton } from 'src/components/pages/PassportChanges/ActionButton'
 import { getShortId, getEtherscanUrl } from 'src/helpers';
 import { PassportInformation } from 'src/components/pages/PassportChanges/PassportInformation';
 import { routes } from 'src/constants/routes';
+import Modal from 'react-responsive-modal';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
 interface ILocalState {
   popups: any;
+  modalOpened: boolean;
+  currentTxHash: string;
+  modalContent: {
+    [key: string]: string;
+  };
 }
 
 interface IStateProps {
@@ -47,9 +53,12 @@ export interface IProps extends IStateProps, IDispatchProps {
 // #region -------------- Component ---------------------------------------------------------------
 
 class FactsList extends React.PureComponent<IProps, ILocalState> {
-  public componentDidMount(): void {
-    this.setState({ popups: {} });
-  }
+  public readonly state: Readonly<ILocalState> = {
+    popups: {},
+    modalOpened: false,
+    currentTxHash: '',
+    modalContent: {},
+  };
 
   public componentDidUpdate(prevProps: IProps) {
     this.onFactValueLoaded(prevProps);
@@ -62,6 +71,15 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
           passportInformation={this.props.passportInformation}
         />
         {this.renderGroups()}
+        <Modal
+          open={this.state.modalOpened}
+          onClose={this.toggleModal}
+          center
+        >
+          <pre>
+            {this.state.modalContent[this.state.currentTxHash] || ''}
+          </pre>
+        </Modal>
       </div>
     );
   }
@@ -241,7 +259,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       if (value.data !== undefined) {
         return (
           <div className='mh-value'>
-            {this.renderDownloadedValue(value.data)}
+            {this.renderDownloadedValue(value.data, item.transactionHash)}
           </div>
         );
       }
@@ -256,7 +274,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
     );
   }
 
-  private renderDownloadedValue(data: IFactValueWrapper) {
+  private renderDownloadedValue(data: IFactValueWrapper, transactionHash: string) {
     if (!data || !data.value || data.value.value === undefined || data.value.value === null) {
       return '';
     }
@@ -271,9 +289,12 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       case DataType.TxData:
         return (
           <ActionButton
-            onClick={() => this.onDownloadBytes(data.value)}
+            onClick={() => this.setState({
+              modalOpened: true,
+              currentTxHash: transactionHash,
+            })}
             className='download'
-            text={translate(t => t.common.download)}
+            text={translate(t => t.common.view)}
           />
         );
 
@@ -314,7 +335,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
   }
 
   private onLoadClick = (fact: IHistoryEvent) => {
-    if (fact.dataType === DataType.IPFSHash || fact.dataType === DataType.TxData) {
+    if (fact.dataType === DataType.IPFSHash) {
       this.setState(({ popups }) => ({ popups: { ...popups, [fact.transactionHash]: window.open(routes.Loading, '_blank') } }));
     }
 
@@ -376,16 +397,28 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       }
 
       if (dataType === DataType.TxData) {
-        const wnd: Window = this.state.popups[txHash];
         const v = value.value;
         const string = new TextDecoder('utf-8').decode(new Uint8Array(v));
-        wnd.document.write(string);
+        this.setState(prevState => ({
+          modalOpened: true,
+          currentTxHash: txHash,
+          modalContent: {
+            ...prevState.modalContent,
+            [txHash]: string,
+          },
+        }));
         return;
       }
 
       this.onDownloadBytes(value);
       return;
     }
+  }
+
+  private toggleModal = () => {
+    this.setState(prevState => ({
+      modalOpened: !prevState.modalOpened,
+    }));
   }
 
   // #endregion
