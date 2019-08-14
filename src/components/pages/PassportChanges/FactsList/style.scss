@@ -42,7 +42,8 @@
 
   pre {
     white-space: pre-wrap;
-    overflow-x: scroll;
+    word-break: break-word;
+    word-wrap: break-word;
   }
 
   button {
