@@ -266,7 +266,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
     );
   }
 
-  private renderDownloadedValue(data: IFactValueWrapper, transactionHash: string) {
+  private renderDownloadedValue(data: IFactValueWrapper, txHash: string) {
     if (!data || !data.value || data.value.value === undefined || data.value.value === null) {
       return '';
     }
@@ -283,7 +283,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
           <ActionButton
             onClick={() => this.setState({
               modalOpened: true,
-              currentTxHash: transactionHash,
+              currentTxHash: txHash,
             })}
             className='download'
             text={translate(t => t.common.view)}
