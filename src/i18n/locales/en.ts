@@ -85,6 +85,7 @@ const translations = validateBaseTranslations({
       [DataType.TxData]: 'TX data',
       [DataType.PrivateData]: 'Private data',
     },
+    tooLong: 'Too long to display, truncated. Please download full value.',
   },
 });
 

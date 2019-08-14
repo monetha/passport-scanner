@@ -22,11 +22,17 @@ import { ActionButton } from 'src/components/pages/PassportChanges/ActionButton'
 import { getShortId, getEtherscanUrl } from 'src/helpers';
 import { PassportInformation } from 'src/components/pages/PassportChanges/PassportInformation';
 import { routes } from 'src/constants/routes';
+import Modal from 'react-responsive-modal';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
 interface ILocalState {
   popups: any;
+  modalOpened: boolean;
+  currentTxHash: string;
+  modalContent: {
+    [key: string]: string;
+  };
 }
 
 interface IStateProps {
@@ -47,9 +53,14 @@ export interface IProps extends IStateProps, IDispatchProps {
 // #region -------------- Component ---------------------------------------------------------------
 
 class FactsList extends React.PureComponent<IProps, ILocalState> {
-  public componentDidMount(): void {
-    this.setState({ popups: {} });
-  }
+  public readonly state: Readonly<ILocalState> = {
+    popups: {},
+    modalOpened: false,
+    currentTxHash: '',
+    modalContent: {},
+  };
+
+  private readonly displayFirstNSymbols = 5120;
 
   public componentDidUpdate(prevProps: IProps) {
     this.onFactValueLoaded(prevProps);
@@ -62,6 +73,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
           passportInformation={this.props.passportInformation}
         />
         {this.renderGroups()}
+        {this.renderModal()}
       </div>
     );
   }
@@ -244,7 +256,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       if (value.data !== undefined) {
         return (
           <div className='mh-value'>
-            {this.renderDownloadedValue(value.data)}
+            {this.renderDownloadedValue(value.data, item.transactionHash)}
           </div>
         );
       }
@@ -254,12 +266,12 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       <ActionButton
         onClick={() => this.onLoadClick(item)}
         className='view-value'
-        text={translate(item.dataType === DataType.TxData ? t => t.common.download : t => t.common.view)}
+        text={translate(t => t.common.view)}
       />
     );
   }
 
-  private renderDownloadedValue(data: IFactValueWrapper) {
+  private renderDownloadedValue(data: IFactValueWrapper, txHash: string) {
     if (!data || !data.value || data.value.value === undefined || data.value.value === null) {
       return '';
     }
@@ -274,9 +286,12 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       case DataType.TxData:
         return (
           <ActionButton
-            onClick={() => this.onDownloadBytes(data.value)}
+            onClick={() => this.setState({
+              modalOpened: true,
+              currentTxHash: txHash,
+            })}
             className='download'
-            text={translate(t => t.common.download)}
+            text={translate(t => t.common.view)}
           />
         );
 
@@ -336,13 +351,8 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
     link.click();
   }
 
-  private onFactValueLoaded = (prevProps: IProps) => {
+  private getFilteredFactValues = (props: IProps) => {
     const { factValues } = this.props;
-
-    // No change in fact values? exit
-    if (prevProps.factValues === factValues || !prevProps.factValues) {
-      return;
-    }
 
     // Get fact types that needs action
     const actionableDataTypes = {
@@ -353,34 +363,114 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
 
     const filteredFactValues = pickBy(factValues, v => v.data && actionableDataTypes[v.data.dataType]);
 
-    for (const txHash in filteredFactValues) {
+    return Object.entries(filteredFactValues).filter(([txHash, valueState]) => {
       if (!filteredFactValues.hasOwnProperty(txHash)) {
-        continue;
+        return false;
       }
-
-      const valueState = filteredFactValues[txHash];
 
       // Value must be retrieved
       if (!valueState.data || valueState.isFetching) {
-        continue;
+        return false;
       }
 
       // Value must transition from isFetching state
-      const prevValue = prevProps.factValues[txHash];
+      const prevValue = props.factValues[txHash];
       if (!prevValue || !prevValue.isFetching) {
-        continue;
+        return false;
       }
 
+      return true;
+    }).map(([txHash, valueState]) => ({
+      dataType: valueState.data.dataType,
+      value: valueState.data.value,
+      txHash,
+    }));
+  }
+
+  private onFactValueLoaded = (prevProps: IProps) => {
+    const { factValues } = this.props;
+
+    // No change in fact values? exit
+    if (prevProps.factValues === factValues || !prevProps.factValues) {
+      return;
+    }
+
+    const filteredFactValues = this.getFilteredFactValues(prevProps);
+    filteredFactValues.forEach(({ dataType, value, txHash }) => {
       // Data was just fetched. Do action on it
-      const { dataType, value } = valueState.data;
       if (dataType === DataType.IPFSHash && this.state.popups[txHash]) {
         this.state.popups[txHash].location.replace(`${ipfsGatewayUrl}/${value.value}`);
         return;
       }
 
+      if (dataType === DataType.TxData) {
+        this.setState({
+          modalOpened: true,
+          currentTxHash: txHash,
+        });
+        return;
+      }
+
       this.onDownloadBytes(value);
       return;
+    });
+  }
+
+  private renderModal() {
+    if (!this.state.modalOpened) {
+      return null;
     }
+
+    const factValue = this.props.factValues[this.state.currentTxHash];
+    if (!factValue || !factValue.isFetched || !factValue.data) {
+      return null;
+    }
+
+    let tooLongToDisplay = false;
+
+    let string = new TextDecoder('utf-8').decode(new Uint8Array(factValue.data.value.value));
+    if (string.length > this.displayFirstNSymbols) {
+      string = string.substring(0, this.displayFirstNSymbols);
+      tooLongToDisplay = true;
+    }
+
+    const Download = (
+      <ActionButton
+        onClick={() => this.onDownloadBytes(factValue.data.value)}
+        className='view-value'
+        text={translate(t => t.common.download)}
+      />
+    );
+
+    return (
+      <Modal
+        open={this.state.modalOpened}
+        onClose={this.toggleModal}
+        classNames={{
+          modal: 'mh-modal-container',
+        }}
+        center
+      >
+        {Download}
+
+        <pre>
+          {string}
+        </pre>
+
+        {tooLongToDisplay &&
+        <div>
+          <div title={translate(t => t.passport.tooLong)} className='mh-three-dots'>{' . . . '}</div>
+          {Download}
+        </div>
+        }
+      </Modal>
+    );
+  }
+
+  private toggleModal = () => {
+    this.setState(prevState => ({
+      modalOpened: !prevState.modalOpened,
+    }));
   }
 
   // #endregion
