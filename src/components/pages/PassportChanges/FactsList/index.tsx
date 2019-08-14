@@ -455,9 +455,11 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
         </pre>
 
         {tooLongToDisplay &&
-        <div title={translate(t => t.passport.tooLong)} className='three-dots'>{' . . . '}</div>}
-
-        {Download}
+        <div>
+          <div title={translate(t => t.passport.tooLong)} className='three-dots'>{' . . . '}</div>
+          {Download}
+        </div>
+        }
       </Modal>
     );
   }
