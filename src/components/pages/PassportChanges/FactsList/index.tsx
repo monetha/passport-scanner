@@ -399,20 +399,15 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       }
 
       if (dataType === DataType.TxData) {
-        const v = value.value;
-        const string = new TextDecoder('utf-8').decode(new Uint8Array(v));
-        this.setState(prevState => ({
+        this.setState({
           modalOpened: true,
           currentTxHash: txHash,
-          modalContent: {
-            ...prevState.modalContent,
-            [txHash]: string,
-          },
-        }));
+        });
         return;
       }
 
       this.onDownloadBytes(value);
+      return;
     });
   }
 
@@ -426,22 +421,25 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       return null;
     }
 
+    const string = new TextDecoder('utf-8').decode(new Uint8Array(factValue.data.value.value));
+
     return (
       <Modal
         open={this.state.modalOpened}
         onClose={this.toggleModal}
+        classNames={{
+          modal: 'mh-modal-container',
+        }}
         center
       >
-        <div className='modal-content'>
-          <ActionButton
-            onClick={() => this.onDownloadBytes(factValue.data.value)}
-            className='view-value'
-            text={translate(t => t.common.download)}
-          />
-          <pre>
-              {this.state.modalContent[this.state.currentTxHash] || ''}
-            </pre>
-        </div>
+        <ActionButton
+          onClick={() => this.onDownloadBytes(factValue.data.value)}
+          className='view-value'
+          text={translate(t => t.common.download)}
+        />
+        <pre>
+          {string}
+        </pre>
       </Modal>
     );
   }

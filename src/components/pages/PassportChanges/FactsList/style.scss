@@ -31,3 +31,19 @@
     }
   }
 }
+
+.mh-modal-container {
+  width: 100%;
+
+  .mh-button-container {
+    padding-bottom: 25px;
+  }
+
+  pre {
+    white-space: pre-wrap;
+  }
+
+  button {
+    outline: unset;
+  }
+}
