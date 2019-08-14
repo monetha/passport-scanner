@@ -261,7 +261,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       <ActionButton
         onClick={() => this.onLoadClick(item)}
         className='view-value'
-        text={translate(item.dataType === DataType.TxData ? t => t.common.download : t => t.common.view)}
+        text={translate(t => t.common.view)}
       />
     );
   }
@@ -391,7 +391,6 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
     }
 
     const filteredFactValues = this.getFilteredFactValues(prevProps);
-    console.log(filteredFactValues);
     filteredFactValues.forEach(({ dataType, value, txHash }) => {
       // Data was just fetched. Do action on it
       if (dataType === DataType.IPFSHash && this.state.popups[txHash]) {
@@ -418,6 +417,10 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
   }
 
   private renderModal() {
+    if (!this.state.modalOpened) {
+      return null;
+    }
+
     const factValue = this.props.factValues[this.state.currentTxHash];
     if (!factValue || !factValue.isFetched || !factValue.data) {
       return null;
@@ -431,9 +434,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       >
         <div className='modal-content'>
           <ActionButton
-            onClick={() => {
-              this.onDownloadBytes(factValue.data.value);
-            }}
+            onClick={() => this.onDownloadBytes(factValue.data.value)}
             className='view-value'
             text={translate(t => t.common.download)}
           />
@@ -442,7 +443,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
             </pre>
         </div>
       </Modal>
-    )
+    );
   }
 
   private toggleModal = () => {
