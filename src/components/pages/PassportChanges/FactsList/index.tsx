@@ -346,13 +346,8 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
     link.click();
   }
 
-  private onFactValueLoaded = (prevProps: IProps) => {
+  private getFilteredFactValues = (props: IProps) => {
     const { factValues } = this.props;
-
-    // No change in fact values? exit
-    if (prevProps.factValues === factValues || !prevProps.factValues) {
-      return;
-    }
 
     // Get fact types that needs action
     const actionableDataTypes = {
@@ -363,26 +358,41 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
 
     const filteredFactValues = pickBy(factValues, v => v.data && actionableDataTypes[v.data.dataType]);
 
-    for (const txHash in filteredFactValues) {
+    return Object.entries(filteredFactValues).filter(([txHash, valueState]) => {
       if (!filteredFactValues.hasOwnProperty(txHash)) {
-        continue;
+        return false;
       }
-
-      const valueState = filteredFactValues[txHash];
 
       // Value must be retrieved
       if (!valueState.data || valueState.isFetching) {
-        continue;
+        return false;
       }
 
       // Value must transition from isFetching state
-      const prevValue = prevProps.factValues[txHash];
+      const prevValue = props.factValues[txHash];
       if (!prevValue || !prevValue.isFetching) {
-        continue;
+        return false;
       }
 
+      return true;
+    }).map(([txHash, valueState]) => ({
+      dataType: valueState.data.dataType,
+      value: valueState.data.value,
+      txHash,
+    }));
+  }
+
+  private onFactValueLoaded = (prevProps: IProps) => {
+    const { factValues } = this.props;
+
+    // No change in fact values? exit
+    if (prevProps.factValues === factValues || !prevProps.factValues) {
+      return;
+    }
+
+    const filteredFactValues = this.getFilteredFactValues(prevProps);
+    filteredFactValues.forEach(({ dataType, value, txHash }) => {
       // Data was just fetched. Do action on it
-      const { dataType, value } = valueState.data;
       if (dataType === DataType.IPFSHash && this.state.popups[txHash]) {
         this.state.popups[txHash].location.replace(`${ipfsGatewayUrl}/${value.value}`);
         return;
@@ -403,8 +413,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       }
 
       this.onDownloadBytes(value);
-      return;
-    }
+    });
   }
 
   private renderModal() {
