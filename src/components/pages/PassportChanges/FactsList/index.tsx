@@ -60,6 +60,8 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
     modalContent: {},
   };
 
+  private readonly displayFirstNSymbols = 5120;
+
   public componentDidUpdate(prevProps: IProps) {
     this.onFactValueLoaded(prevProps);
   }
@@ -421,7 +423,21 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       return null;
     }
 
-    const string = new TextDecoder('utf-8').decode(new Uint8Array(factValue.data.value.value));
+    let tooLongToDisplay = false;
+
+    let string = new TextDecoder('utf-8').decode(new Uint8Array(factValue.data.value.value));
+    if (string.length > this.displayFirstNSymbols) {
+      string = string.substring(0, this.displayFirstNSymbols);
+      tooLongToDisplay = true;
+    }
+
+    const Download = (
+      <ActionButton
+        onClick={() => this.onDownloadBytes(factValue.data.value)}
+        className='view-value'
+        text={translate(t => t.common.download)}
+      />
+    );
 
     return (
       <Modal
@@ -432,14 +448,16 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
         }}
         center
       >
-        <ActionButton
-          onClick={() => this.onDownloadBytes(factValue.data.value)}
-          className='view-value'
-          text={translate(t => t.common.download)}
-        />
+        {Download}
+
         <pre>
           {string}
         </pre>
+
+        {tooLongToDisplay &&
+        <div title={translate(t => t.passport.tooLong)} className='three-dots'>{' . . . '}</div>}
+
+        {Download}
       </Modal>
     );
   }

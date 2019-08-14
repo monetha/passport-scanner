@@ -35,8 +35,9 @@
 .mh-modal-container {
   width: 100%;
 
-  .mh-button-container {
+  .mh-button-container, .three-dots {
     padding-bottom: 25px;
+    cursor: pointer;
   }
 
   pre {
