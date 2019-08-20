@@ -22,6 +22,8 @@ import { getShortId, getEtherscanUrl } from 'src/helpers';
 import { PassportInformation } from 'src/components/pages/PassportChanges/PassportInformation';
 import { routes } from 'src/constants/routes';
 import Modal from 'react-responsive-modal';
+import { PrivateDataExchanger } from 'src/components/facts/PrivateDataExchanger';
+import { TextValueViewer } from 'src/components/facts/TextValueViewer';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -58,8 +60,6 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
     txHashInModal: '',
     modalContent: {},
   };
-
-  private readonly displayFirstNSymbols = 5120;
 
   public componentDidUpdate(prevProps: IProps) {
     this.processJustLoadedFacts(prevProps);
@@ -447,11 +447,20 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
 
     switch (factValue.dataType) {
       case DataType.PrivateData:
-        modalContent = this.renderPrivateFactExchanger(factValue);
+        modalContent = (
+          <PrivateDataExchanger
+            factValue={factValue}
+          />
+        );
         break;
 
       default:
-        modalContent = this.renderTextValueViewer(factValue);
+        modalContent = (
+          <TextValueViewer
+            factValue={factValue}
+            onDownload={this.onDownloadBytes}
+          />
+        );
         break;
     }
 
@@ -466,49 +475,6 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       >
         {modalContent}
       </Modal>
-    );
-  }
-
-  private renderPrivateFactExchanger(_factValue: IFactValueWrapper) {
-    return (
-      <div className='mh-data-exchanger'>
-        DATA EXCHANGER
-      </div>
-    );
-  }
-
-  private renderTextValueViewer(factValue: IFactValueWrapper) {
-    let tooLongToDisplay = false;
-
-    let value = new TextDecoder('utf-8').decode(new Uint8Array(factValue.value.value));
-    if (value.length > this.displayFirstNSymbols) {
-      value = value.substring(0, this.displayFirstNSymbols);
-      tooLongToDisplay = true;
-    }
-
-    const downloadButton = (
-      <ActionButton
-        onClick={() => this.onDownloadBytes(factValue.value)}
-        className='mh-view-value'
-        text={translate(t => t.common.download)}
-      />
-    );
-
-    return (
-      <div className='mh-text-value-viewer'>
-        {downloadButton}
-
-        <pre>
-          {value}
-        </pre>
-
-        {tooLongToDisplay &&
-          <div>
-            <div title={translate(t => t.passport.tooLong)} className='mh-three-dots'>{' . . . '}</div>
-            {downloadButton}
-          </div>
-        }
-      </div>
     );
   }
 
