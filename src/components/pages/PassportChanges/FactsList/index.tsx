@@ -449,7 +449,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       case DataType.PrivateData:
         modalContent = (
           <PrivateDataExchanger
-            factValue={factValue}
+            factValue={factValue.value}
           />
         );
         break;

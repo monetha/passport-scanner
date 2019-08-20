@@ -26,6 +26,7 @@ const translations = validateBaseTranslations({
     mustBePositiveNumber: 'Must be a positive number',
     mustBeWholeNumber: 'Must be a whole number',
     tooManyResults: 'Too many results',
+    noAddressInWallet: 'Please select an account in your wallet provider',
   },
   common: {
     submit: 'Submit',
@@ -86,6 +87,9 @@ const translations = validateBaseTranslations({
       [DataType.PrivateData]: 'Private data',
     },
     tooLong: 'Too long to display, truncated. Please download full value.',
+  },
+  exchange: {
+    requestData: 'Request data',
   },
 });
 
