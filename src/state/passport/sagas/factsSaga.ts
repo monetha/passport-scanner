@@ -127,6 +127,10 @@ function* onLoadFactValue(action: IAsyncAction<ILoadFactPayload>) {
         factValue = yield reader.getUint(transactionHash);
         break;
 
+      case DataType.PrivateData:
+        factValue = yield reader.getPrivateDataHashes(transactionHash);
+        break;
+
       default:
         throw createFriendlyError(ErrorCode.NOT_SUPPORTED, `Fact type "${dataType}" `);
     }
