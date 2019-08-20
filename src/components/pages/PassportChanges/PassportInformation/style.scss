@@ -1,6 +1,6 @@
 @import "vars/index.scss";
 
-.passport-owned-by {
+.mh-passport-owned-by {
   border-bottom: 1px $colorGrayB3 solid;
   margin-bottom: 30px;
   padding-bottom: 30px;
@@ -10,12 +10,12 @@
     font-size: 28px;
   }
 
-  .passport-information-item {
+  .mh-passport-information-item {
     &:not(:last-child) {
       margin-bottom: 20px;
     }
 
-    .title {
+    .mh-title {
       display: inline-block;
       min-width: 30%;
       color: $colorGrayB1;
@@ -25,7 +25,7 @@
       }
     }
 
-    .full-address {
+    .mh-full-address {
       display: inline;
 
       @media #{$smDown} {
@@ -33,7 +33,7 @@
       }
     }
 
-    .shorten-address {
+    .mh-shorten-address {
       display: none;
 
       @media #{$smDown} {

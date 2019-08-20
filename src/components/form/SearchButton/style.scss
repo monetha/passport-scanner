@@ -1,6 +1,6 @@
 @import "vars/index.scss";
 
-.search-button {
+.mh-search-button {
   width: 130px;
   min-width: 55px;
   height: 57px;
@@ -29,7 +29,7 @@
     background-position: center;
   }
 
-  .search-text {
+  .mh-search-text {
     @media #{$smDown} {
       display: none;
     }

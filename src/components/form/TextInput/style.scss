@@ -1,6 +1,6 @@
 @import "vars/index.scss";
 
-.ca-text-input {
+.mh-text-input {
   border-radius: $borderRadiusXs;
   border: unset;
   width: 100%;
@@ -21,7 +21,7 @@
     color: $colorGrayB2;
   }
 
-  &.with-button {
+  &.mh-with-button {
     flex-grow:2;
 
     &:focus {

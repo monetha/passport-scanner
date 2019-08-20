@@ -1,11 +1,11 @@
 @import "vars/index.scss";
 
-.with-button {
+.mh-with-button {
   border-radius: 5px 0 0 5px;
   margin: 0;
 }
 
-.view-value, .download {
+.mh-view-value, .mh-download {
   background-color: $colorViewButton;
   border: none;
   font-family: $fontFamilyRegular;
@@ -23,12 +23,11 @@
   }
 }
 
-.view-value, .download {
-  float: left;
+.mh-view-value, .mh-download {
   margin-left: 0;
 }
 
-.input-with-button {
+.mh-input-with-button {
   display:flex;
   flex-direction:row;
 }

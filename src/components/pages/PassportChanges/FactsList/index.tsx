@@ -17,8 +17,8 @@ import { IFactValueWrapper } from 'src/state/passport/models';
 import { IState } from 'src/state/rootReducer';
 import './style.scss';
 import { Alert, AlertType } from 'src/components/indicators/Alert';
-import { Share } from 'src/components/pages/PassportChanges/Share';
-import { ActionButton } from 'src/components/pages/PassportChanges/ActionButton';
+import { Share } from 'src/components/indicators/Share';
+import { ActionButton } from 'src/components/form/ActionButton';
 import { getShortId, getEtherscanUrl } from 'src/helpers';
 import { PassportInformation } from 'src/components/pages/PassportChanges/PassportInformation';
 import { routes } from 'src/constants/routes';
@@ -103,7 +103,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
           key={factProviderAddress}
         >
           <div className='mh-fact-provider-header'>
-            <span className='fact-provider'>{`${translate(t => t.passport.factProvider)}: `}</span>
+            <span className='mh-fact-provider'>{`${translate(t => t.passport.factProvider)}: `}</span>
             {this.renderFactProviderName(factProviderAddress, passportInformation.passportOwnerAddress)}
           </div>
 
@@ -168,7 +168,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       <a
         href={`${url}/address/${address}`}
         target='_blank'
-        className='fact-provider-name'
+        className='mh-fact-provider-name'
       >
         {name}
       </a>
@@ -265,7 +265,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
     return (
       <ActionButton
         onClick={() => this.onLoadClick(item)}
-        className='view-value'
+        className='mh-view-value'
         text={translate(t => t.common.view)}
       />
     );
@@ -290,7 +290,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
               modalOpened: true,
               currentTxHash: txHash,
             })}
-            className='download'
+            className='mh-download'
             text={translate(t => t.common.view)}
           />
         );
@@ -299,7 +299,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
         return (
           <ActionButton
             onClick={() => window.open(`${ipfsGatewayUrl}/${value}`, '_blank')}
-            className='view-value'
+            className='mh-view-value'
             text={translate(t => t.common.view)}
           />
         );
@@ -437,7 +437,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
     const Download = (
       <ActionButton
         onClick={() => this.onDownloadBytes(factValue.data.value)}
-        className='view-value'
+        className='mh-view-value'
         text={translate(t => t.common.download)}
       />
     );

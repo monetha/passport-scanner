@@ -49,7 +49,7 @@ class PassportChangesPage extends React.Component<IProps> {
             <FormWrapper
               header={translate(t => t.nav.passportSearch)}
             >
-              <div className='facts-list-form'>
+              <div className='mh-facts-list-form'>
                 <FactsListForm
                   onSubmit={onLoadFacts}
                   disabled={this.isLoading()}
@@ -57,7 +57,7 @@ class PassportChangesPage extends React.Component<IProps> {
               </div>
             </FormWrapper>
 
-            <div className='facts-list'>
+            <div className='mh-facts-list'>
               <div className='mh-list'>
                 {this.renderLoader()}
                 {this.renderError()}

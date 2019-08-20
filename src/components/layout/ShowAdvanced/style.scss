@@ -1,0 +1,22 @@
+@import "vars/index.scss";
+
+.mh-advanced-search {
+  color: $colorBlueB4;
+  font-size: $fontSizeSm;
+  margin-left: 20px;
+  margin-top: 13px;
+  cursor: pointer;
+  transition: color 0.2s;
+
+  .mh-dropdown-indicator {
+    transition: border-color 0.2s, transform 0.3s;
+  }
+
+  &:hover {
+    color: $colorWhite;
+
+    .mh-dropdown-indicator {
+      border-top-color: $colorWhite;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { OwnerAddress } from 'src/components/OwnerAddress';
+import { OwnerAddress } from 'src/components/text/OwnerAddress';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -17,12 +17,12 @@ const genesisAccount = '0x0000000000000000000000000000000000000000';
 export class PassportInformationItem extends React.PureComponent<IProps> {
   public render() {
     return (
-      <div className='passport-information-item'>
-        <div className='title'>{this.props.title}</div>
-        <div className='full-address'>
+      <div className='mh-passport-information-item'>
+        <div className='mh-title'>{this.props.title}</div>
+        <div className='mh-full-address'>
           {this.props.address !== genesisAccount ? <OwnerAddress ownerAddressOriginal={this.props.address} /> : '–'}
         </div>
-        <div className='shorten-address'>
+        <div className='mh-shorten-address'>
           {this.props.address !== genesisAccount ? <OwnerAddress ownerAddressOriginal={this.props.address} shorten={true} /> : '–'}
         </div>
       </div>

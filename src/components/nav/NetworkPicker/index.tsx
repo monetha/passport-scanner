@@ -10,7 +10,7 @@ import { Tooltip } from 'react-tippy';
 import { TextInput } from 'src/components/form/TextInput';
 import { registerBlockchainServices } from 'src/ioc/bootstrapIOC';
 import queryString from 'query-string';
-import { DropdownIndicator } from 'src/components/DropdownIndicator';
+import { DropdownIndicator } from 'src/components/indicators/DropdownIndicator';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 
