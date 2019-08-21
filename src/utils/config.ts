@@ -4,7 +4,13 @@ import { ErrorCode } from 'src/core/error/ErrorCode';
 import { translate } from 'src/i18n';
 
 export function parseNetworkConfig(): INetworkInfo[] {
-  const networks: INetworkInfo[] = require('../../../networks.default.json').networks;
+  let networks: INetworkInfo[] = require('src/../networks.default.json').networks;
+
+  // If networks.json exists - switch to it
+  const context = require.context('../..', false, /networks\.json$/);
+  if (context.keys().indexOf('./networks.json') !== -1) {
+    networks = context('./networks.json').networks;
+  }
 
   if (!networks) {
     throw createFriendlyError(ErrorCode.INVALID_NETWORK_CONFIG, translate(t => t.errors.invalidNetworkConfig));
