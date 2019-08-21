@@ -4,7 +4,7 @@ import { ErrorHandler } from 'src/core/error/ErrorHandler';
 import { LoggingService } from 'src/core/logging/ConsoleLoggingService';
 import { ILoggingService } from 'src/core/logging/ILoggingService';
 import { IState } from 'src/state/rootReducer';
-import { IServices, registerServices } from './services';
+import { IServices, registerServices, INetworkInfo } from './services';
 import Web3 from 'web3';
 import { ethRpcErrorCodeExtractor } from 'src/core/error/errorCodeExtractors/ethRpcErrorCodeExtractor';
 
@@ -26,7 +26,8 @@ const errorHandlerCreatorFactory = (logger: ILoggingService) => (
   }
 );
 
-export const registerBlockchainServices = (services: IServices, networkUrl: string) => {
-  services.web3 = new Web3(new Web3.providers.HttpProvider(networkUrl));
-  services.ethNetworkUrl = networkUrl;
+export const registerBlockchainServices = (services: IServices, networks: INetworkInfo[], currentNet: INetworkInfo) => {
+  services.web3 = new Web3(new Web3.providers.HttpProvider(currentNet.url));
+  services.allEthNetworks = networks;
+  services.ethNetwork = currentNet;
 };

@@ -30,6 +30,7 @@ const translations = validateBaseTranslations({
     noAddressInWallet: 'Please select an account in your wallet provider',
     transactionDenied: 'Transaction was denied',
     invalidProviderNetwork: 'Please select {{requiredNet}} network in your wallet provider',
+    invalidNetworkConfig: 'Invalid network config file',
   },
   common: {
     submit: 'Submit',

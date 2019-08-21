@@ -5,3 +5,4 @@ dist
 .idea
 .DS_Store
 stats.json
+networks.json
