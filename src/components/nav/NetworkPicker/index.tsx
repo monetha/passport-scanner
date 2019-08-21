@@ -2,7 +2,6 @@ import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import './style.scss';
 import { getServices } from 'src/ioc/services';
-import { ethNetworkUrls } from 'src/constants/api';
 import { translate } from 'src/i18n';
 import classnames from 'classnames';
 import 'react-tippy/dist/tippy.css';
@@ -11,7 +10,6 @@ import { TextInput } from 'src/components/form/TextInput';
 import { registerBlockchainServices } from 'src/ioc/bootstrapIOC';
 import queryString from 'query-string';
 import { DropdownIndicator } from 'src/components/indicators/DropdownIndicator';
-import { getSelectedNetworkInfo } from 'src/utils/network';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 
@@ -73,7 +71,7 @@ class NetworkPicker extends React.Component<IProps, IState> {
         >
           <div>
             <div className='mh-value'>
-              {getSelectedNetworkInfo().name}
+              {getServices().ethNetwork.name}
             </div>
           </div>
           <DropdownIndicator isOpened={isOpen} />
@@ -97,35 +95,26 @@ class NetworkPicker extends React.Component<IProps, IState> {
   // #region -------------- Popup -------------------------------------------------------------------
 
   private renderPopupContents() {
-    const selectedNetInfo = getSelectedNetworkInfo();
+    const { ethNetwork, allEthNetworks } = getServices();
 
     return (
       <div className='mh-network-picker-popup-content'>
-        <div>
-          <button
-            type='button'
-            data-url={ethNetworkUrls.mainnet}
-            disabled={selectedNetInfo.alias === 'mainnet'}
-            onClick={this.onNetworkButtonClick}
-          >
-            {translate(t => t.ethereum.mainnet)}
-          </button>
-        </div>
-
-        <div>
-          <button
-            type='button'
-            data-url={ethNetworkUrls.ropsten}
-            disabled={selectedNetInfo.alias === 'ropsten'}
-            onClick={this.onNetworkButtonClick}
-          >
-            {translate(t => t.ethereum.ropsten)}
-          </button>
-        </div>
+        {allEthNetworks.map(net => (
+          <div key={net.url}>
+            <button
+              type='button'
+              data-url={net.url}
+              disabled={ethNetwork.alias === net.alias}
+              onClick={this.onNetworkButtonClick}
+            >
+              {net.name}
+            </button>
+          </div>
+        ))}
 
         <div>
           <TextInput
-            defaultValue={selectedNetInfo.alias ? undefined : selectedNetInfo.url}
+            defaultValue={ethNetwork.alias ? undefined : ethNetwork.url}
             onBlur={this.onNetworkInputBlur}
             onKeyUp={this.onNetworkInputKeyUp}
             placeholder={`${translate(t => t.ethereum.customUrl)}...`}
@@ -159,26 +148,26 @@ class NetworkPicker extends React.Component<IProps, IState> {
       return;
     }
 
+    const { allEthNetworks } = getServices();
+
     const newUrl = url.trim();
 
-    registerBlockchainServices(getServices(), newUrl);
+    // Try matching with one of pre-configured nets
+    let newNetwork = allEthNetworks.find(n => n.alias === newUrl || n.url === newUrl);
+
+    if (!newNetwork) {
+      newNetwork = {
+        url: newUrl,
+        name: newUrl,
+      };
+    }
+
+    registerBlockchainServices(getServices(), allEthNetworks, newNetwork);
 
     const { location, history } = this.props;
     const newQueryParams = { ...queryString.parse(location.search) };
 
-    switch (newUrl) {
-      case ethNetworkUrls.mainnet:
-        newQueryParams.network = 'mainnet';
-        break;
-
-      case ethNetworkUrls.ropsten:
-        newQueryParams.network = 'ropsten';
-        break;
-
-      default:
-        newQueryParams.network = newUrl;
-        break;
-    }
+    newQueryParams.network = newNetwork.alias || newNetwork.url;
 
     const newSearch = queryString.stringify(newQueryParams);
     const newPageUrl = `${location.pathname}?${newSearch}`;

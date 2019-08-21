@@ -9,8 +9,6 @@ import { translate } from 'src/i18n';
 import * as Yup from 'yup';
 import './style.scss';
 import { getServices } from 'src/ioc/services';
-import { ethNetworkUrls } from 'src/constants/api';
-import { defaultAddresses } from 'src/constants/addresses';
 import { SearchButton } from 'src/components/form/SearchButton';
 
 // #region -------------- Interfaces --------------------------------------------------------------
@@ -64,17 +62,9 @@ class PassportListForm extends React.PureComponent<IProps> {
     const startBlock = (queryParams.start_block as string);
 
     if (!passportFactoryAddress) {
-      const { ethNetworkUrl } = getServices();
+      const { ethNetwork } = getServices();
 
-      switch (ethNetworkUrl) {
-        case ethNetworkUrls.mainnet:
-          passportFactoryAddress = defaultAddresses.mainnet.factory;
-          break;
-
-        case ethNetworkUrls.ropsten:
-          passportFactoryAddress = defaultAddresses.ropsten.factory;
-          break;
-      }
+      passportFactoryAddress = ethNetwork.passportFactory;
     }
 
     this.initialValues = {

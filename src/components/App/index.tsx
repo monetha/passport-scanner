@@ -1,16 +1,16 @@
 import queryString from 'query-string';
 import React from 'react';
 import { Redirect, Route, RouteComponentProps, Switch, withRouter } from 'react-router';
-import { ethNetworkUrls } from 'src/constants/api';
+import { PassportChangesRedirect } from 'src/components/pages/PassportChangesRedirect';
 import { passportPath, passportsPath, routes } from 'src/constants/routes';
 import { registerBlockchainServices } from 'src/ioc/bootstrapIOC';
 import { getServices } from 'src/ioc/services';
 import 'src/style/index.scss';
+import { parseNetworkConfig } from 'src/utils/config';
+import { Loader } from '../indicators/Loader';
 import { PassportChangesPage } from '../pages/PassportChanges';
 import { PassportsPage } from '../pages/Passports';
-import { Loader } from '../indicators/Loader';
 import './style.scss';
-import { PassportChangesRedirect } from 'src/components/pages/PassportChangesRedirect';
 
 // #region -------------- Interface -------------------------------------------------------------------
 
@@ -65,22 +65,27 @@ class App extends React.Component<IProps> {
   private initBlockchainServices() {
     const { location } = this.props;
 
-    // Default is mainnet
-    let network = ethNetworkUrls.mainnet;
+    const networks = parseNetworkConfig();
+
+    let network = networks[0];
 
     // Take from query string if it was passed
     const queryParams = queryString.parse(location.search);
     if (queryParams.network) {
       const queryNetwork = queryParams.network as string;
 
-      if (ethNetworkUrls[queryNetwork]) {
-        network = ethNetworkUrls[queryNetwork];
-      } else {
-        network = queryNetwork;
+      // Try matching with one of pre-configured nets
+      network = networks.find(n => n.alias === queryNetwork || n.url === queryNetwork);
+
+      if (!network) {
+        network = {
+          url: queryNetwork,
+          name: queryNetwork,
+        };
       }
     }
 
-    registerBlockchainServices(getServices(), network);
+    registerBlockchainServices(getServices(), networks, network);
   }
 }
 

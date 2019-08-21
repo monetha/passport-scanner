@@ -11,13 +11,12 @@ import { ErrorCode } from 'src/core/error/ErrorCode';
 import { translate } from 'src/i18n';
 import { sendAndWaitTx } from 'src/utils/tx';
 import Web3 from 'web3';
-import { getSelectedNetworkInfo } from 'src/utils/network';
 
 // #region -------------- Fact value retrieval -------------------------------------------------------------------
 
 function* onProposeExchange(action: IAsyncAction<IProposeDataExchangePayload>) {
   try {
-    const { web3 } = getServices();
+    const { web3, ethNetwork } = getServices();
     const { passportAddress, factProviderAddress, key } = action.payload.factValue;
     const { stake } = action.payload;
 
@@ -38,10 +37,8 @@ function* onProposeExchange(action: IAsyncAction<IProposeDataExchangePayload>) {
     const providerNet = yield providerWeb3.eth.net.getId();
 
     if (appNet !== providerNet) {
-      const appNetInfo = getSelectedNetworkInfo();
-
       throw createFriendlyError(ErrorCode.INVALID_PROVIDER_NETWORK,
-        translate(t => t.errors.invalidProviderNetwork, { requiredNet: appNetInfo.name }));
+        translate(t => t.errors.invalidProviderNetwork, { requiredNet: ethNetwork.name }));
     }
 
     const result = yield exchanger.propose(key, factProviderAddress, stake, requesterAddress, sendAndWaitTx);

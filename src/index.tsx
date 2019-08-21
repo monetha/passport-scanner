@@ -27,6 +27,7 @@ import '!file-loader?name=[name].[ext]&outputPath=assets/fonts/!./assets/fonts/C
 import '!file-loader?name=[name].[ext]&outputPath=assets/fonts/!./assets/fonts/CerebriSans-Bold.ttf';
 import '!file-loader?name=[name].[ext]&outputPath=assets/fonts/!./assets/fonts/CerebriSans-Bold.woff2';
 import '!file-loader?name=[name].[ext]&outputPath=assets/fonts/!./assets/fonts/CerebriSans-Bold.woff';
+import { ErrorBoundary } from './components/indicators/ErrorBoundary';
 
 const history = createBrowserHistory();
 const store = bootstrapRedux({}, history);
@@ -36,11 +37,13 @@ const MOUNT_NODE = document.getElementById('app');
 
 const render = () => {
   ReactDOM.render(
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <App />
-      </ConnectedRouter>
-    </Provider>,
+    <ErrorBoundary>
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <App />
+        </ConnectedRouter>
+      </Provider>
+    </ErrorBoundary>,
     MOUNT_NODE,
   );
 };

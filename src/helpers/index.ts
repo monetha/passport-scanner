@@ -1,5 +1,4 @@
 import { getServices } from 'src/ioc/services';
-import { etherscanUrls, ethNetworkUrls } from 'src/constants/api';
 
 export const getShortId = walletAddress => {
   if (!walletAddress) {
@@ -13,16 +12,7 @@ export const getShortId = walletAddress => {
 };
 
 export const getEtherscanUrl = () => {
-  const { ethNetworkUrl } = getServices();
+  const { ethNetwork } = getServices();
 
-  switch (ethNetworkUrl) {
-    case ethNetworkUrls.ropsten:
-      return etherscanUrls.ropsten;
-
-    case ethNetworkUrls.mainnet:
-      return etherscanUrls.mainnet;
-
-    default:
-      return null;
-  }
+  return ethNetwork.etherscanUrl;
 };
