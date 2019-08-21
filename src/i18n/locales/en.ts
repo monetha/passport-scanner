@@ -29,6 +29,7 @@ const translations = validateBaseTranslations({
     tooManyResults: 'Too many results',
     noAddressInWallet: 'Please select an account in your wallet provider',
     transactionDenied: 'Transaction was denied',
+    invalidProviderNetwork: 'Please select {{requiredNet}} network in your wallet provider',
   },
   common: {
     submit: 'Submit',
@@ -96,9 +97,10 @@ const translations = validateBaseTranslations({
   exchange: {
     requestData: 'Request data',
     proposalDescription: 'This data is private. In order to read it - you have to request digital identity owner to give you access to it. \n\n' +
-      'To request it - click the button below and confirm transaction in your wallet provider. If digital identity owner accepts your request - you will ' +
-      'be able to access the data with the provided password.',
+    'To request it - click the button below and confirm transaction in your wallet provider. If digital identity owner accepts your request - you will ' +
+    'be able to access the data with the provided password.',
     proposalHeader: 'Request private data',
+    proposalInProgressHeader: 'Private data requested',
     proposalForLatestVersionNotice: 'NOTE: The request will be made for the latest version of the data.',
     waitingForAcceptance: 'You have requested access to the data. Waiting for owner to accept your request.',
     exchangeKeyDescription: 'Please save the password provided below. It must be used to unlock data after owner accepts it.',

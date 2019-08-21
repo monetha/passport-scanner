@@ -11,6 +11,7 @@ import { TextInput } from 'src/components/form/TextInput';
 import { registerBlockchainServices } from 'src/ioc/bootstrapIOC';
 import queryString from 'query-string';
 import { DropdownIndicator } from 'src/components/indicators/DropdownIndicator';
+import { getSelectedNetworkInfo } from 'src/utils/network';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 
@@ -72,39 +73,13 @@ class NetworkPicker extends React.Component<IProps, IState> {
         >
           <div>
             <div className='mh-value'>
-              {this.getSelectedNetworkInfo().name}
+              {getSelectedNetworkInfo().name}
             </div>
           </div>
           <DropdownIndicator isOpened={isOpen} />
         </div>
       </Tooltip>
     );
-  }
-
-  private getSelectedNetworkInfo() {
-    const { ethNetworkUrl } = getServices();
-
-    switch (ethNetworkUrl) {
-      case ethNetworkUrls.mainnet:
-        return {
-          url: ethNetworkUrl,
-          name: translate(t => t.ethereum.mainnet),
-          alias: 'mainnet',
-        };
-
-      case ethNetworkUrls.ropsten:
-        return {
-          url: ethNetworkUrl,
-          name: translate(t => t.ethereum.ropsten),
-          alias: 'ropsten',
-        };
-
-      default:
-        return {
-          url: ethNetworkUrl,
-          name: ethNetworkUrl,
-        };
-    }
   }
 
   private onSelectedBoxClick = () => {
@@ -122,7 +97,7 @@ class NetworkPicker extends React.Component<IProps, IState> {
   // #region -------------- Popup -------------------------------------------------------------------
 
   private renderPopupContents() {
-    const selectedNetInfo = this.getSelectedNetworkInfo();
+    const selectedNetInfo = getSelectedNetworkInfo();
 
     return (
       <div className='mh-network-picker-popup-content'>

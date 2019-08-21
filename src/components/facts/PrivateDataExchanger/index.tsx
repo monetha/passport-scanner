@@ -204,6 +204,10 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps> {
 
     return (
       <div>
+        <Header>
+          {translate(t => t.exchange.proposalInProgressHeader)}
+        </Header>
+
         <div className='mh-alerts-container'>
           <Alert type={AlertType.Info}>
             {translate(t => t.exchange.waitingForAcceptance)}

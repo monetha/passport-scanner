@@ -5,11 +5,13 @@ import { getServices } from 'src/ioc/services';
 import { PrivateDataExchanger } from 'verifiable-data';
 import { IProposeDataExchangePayload, proposeDataExchange } from '../actions';
 import { getCanonicalFactKey } from '../reducer';
-import { enableWallet, getCurrentAccountAddress } from 'src/utils/walletProvider';
+import { enableWallet, getCurrentAccountAddress, getProviderInstance } from 'src/utils/walletProvider';
 import { createFriendlyError } from 'src/core/error/FriendlyError';
 import { ErrorCode } from 'src/core/error/ErrorCode';
 import { translate } from 'src/i18n';
 import { sendAndWaitTx } from 'src/utils/tx';
+import Web3 from 'web3';
+import { getSelectedNetworkInfo } from 'src/utils/network';
 
 // #region -------------- Fact value retrieval -------------------------------------------------------------------
 
@@ -28,7 +30,19 @@ function* onProposeExchange(action: IAsyncAction<IProposeDataExchangePayload>) {
       throw createFriendlyError(ErrorCode.NO_ADDRESS_IN_WALLET, translate(t => t.errors.noAddressInWallet));
     }
 
-    // TODO: Check if network matches
+    // Check if wallet provider's network matches the one in app's dropdown
+    const provider = getProviderInstance();
+    const providerWeb3 = new Web3(provider);
+
+    const appNet = yield web3.eth.net.getId();
+    const providerNet = yield providerWeb3.eth.net.getId();
+
+    if (appNet !== providerNet) {
+      const appNetInfo = getSelectedNetworkInfo();
+
+      throw createFriendlyError(ErrorCode.INVALID_PROVIDER_NETWORK,
+        translate(t => t.errors.invalidProviderNetwork, { requiredNet: appNetInfo.name }));
+    }
 
     const result = yield exchanger.propose(key, factProviderAddress, stake, requesterAddress, sendAndWaitTx);
 
