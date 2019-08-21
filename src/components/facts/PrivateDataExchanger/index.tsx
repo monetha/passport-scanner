@@ -164,6 +164,12 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps> {
 
         {this.renderFactInfo()}
 
+        <div className='mh-alerts-container'>
+          <Alert type={AlertType.Info}>
+            {translate(t => t.exchange.proposalForLatestVersionNotice)}
+          </Alert>
+        </div>
+
         <div className='mh-button-container'>
           <Button
             onClick={this.onRequestData}
