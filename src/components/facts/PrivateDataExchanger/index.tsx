@@ -2,7 +2,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'src/components/form/Button';
-import { Alert } from 'src/components/indicators/Alert';
+import { Alert, AlertType } from 'src/components/indicators/Alert';
 import { Loader } from 'src/components/indicators/Loader';
 import { IAsyncState } from 'src/core/redux/asyncAction';
 import { translate } from 'src/i18n';
@@ -17,6 +17,7 @@ import './style.scss';
 import { Description } from 'src/components/text/Description';
 import { Header } from 'src/components/text/Header';
 import { PassportInformationItem } from 'src/components/pages/PassportChanges/PassportInformation/PassportInformationItem';
+import { CodeBlock } from 'src/components/text/CodeBlock';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -47,7 +48,7 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps> {
       <div className='mh-private-data-exchanger'>
         {this.renderLoader()}
         {this.renderAlerts()}
-        {this.renderDataRequest()}
+        {this.renderContent()}
       </div>
     );
   }
@@ -132,11 +133,25 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps> {
 
   // #endregion
 
+  // #region -------------- Content -------------------------------------------------------------------
+
+  private renderContent() {
+    const { proposalStatus } = this.props;
+
+    // Proposal
+    if (!proposalStatus || !proposalStatus.data) {
+      return this.renderDataRequest();
+    }
+
+    // Proposal success
+    return this.renderAcceptanceWaiting();
+  }
+
+  // #endregion
+
   // #region -------------- Request -------------------------------------------------------------------
 
   private renderDataRequest() {
-    const { factValue } = this.props;
-
     return (
       <div>
         <Header>
@@ -147,22 +162,7 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps> {
           {translate(t => t.exchange.proposalDescription)}
         </Description>
 
-        <div className='mh-fact-info'>
-          <PassportInformationItem
-            title={translate(t => t.passport.passportAddress)}
-            address={factValue.passportAddress}
-          />
-
-          <PassportInformationItem
-            title={translate(t => t.passport.factProviderAddress)}
-            address={factValue.factProviderAddress}
-          />
-
-          <PassportInformationItem
-            title={translate(t => t.passport.key)}
-            value={factValue.key}
-          />
-        </div>
+        {this.renderFactInfo()}
 
         <div className='mh-button-container'>
           <Button
@@ -181,6 +181,71 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps> {
     this.alertsSince = new Date();
 
     onRequestData(new BN(0));
+  }
+
+  // #endregion
+
+  // #region -------------- Acceptance -------------------------------------------------------------------
+
+  private renderAcceptanceWaiting() {
+    const { proposalStatus } = this.props;
+
+    if (!proposalStatus || !proposalStatus.data) {
+      return null;
+    }
+
+    const password = Buffer.from(proposalStatus.data.exchangeKey).toString('base64');
+
+    return (
+      <div>
+        <div className='mh-alerts-container'>
+          <Alert type={AlertType.Info}>
+            {translate(t => t.exchange.waitingForAcceptance)}
+          </Alert>
+        </div>
+
+        <div className='mh-exchange-password'>
+          <div className='mh-alerts-container'>
+            <Alert type={AlertType.Warning}>
+              {translate(t => t.exchange.exchangeKeyDescription)}
+            </Alert>
+          </div>
+
+          <CodeBlock textToCopy={password}>
+            {password}
+          </CodeBlock>
+        </div>
+
+        {this.renderFactInfo()}
+      </div>
+    );
+  }
+
+  // #endregion
+
+  // #region -------------- Fact info -------------------------------------------------------------------
+
+  private renderFactInfo() {
+    const { factValue } = this.props;
+
+    return (
+      <div className='mh-fact-info'>
+        <PassportInformationItem
+          title={translate(t => t.passport.passportAddress)}
+          address={factValue.passportAddress}
+        />
+
+        <PassportInformationItem
+          title={translate(t => t.passport.factProviderAddress)}
+          address={factValue.factProviderAddress}
+        />
+
+        <PassportInformationItem
+          title={translate(t => t.passport.key)}
+          value={factValue.key}
+        />
+      </div>
+    );
   }
 
   // #endregion
