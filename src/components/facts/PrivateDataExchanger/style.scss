@@ -1,5 +1,25 @@
 @import "vars/index.scss";
 
 .mh-private-data-exchanger {
+  position: relative;
 
+  .mh-alerts-container {
+    margin-bottom: $spaceBetweenComponentsSm;
+  }
+
+  .mh-button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-bottom: 10px;
+  }
+
+  .mh-fact-info {
+    margin-top: $spaceBetweenComponentsSm;
+    padding-top: $spaceBetweenComponentsSm;
+    padding-bottom: $spaceBetweenComponentsSm;
+    margin-bottom: $spaceBetweenComponentsSm;
+    border-bottom: 1px $colorGrayB3 solid;
+    border-top: 1px $colorGrayB3 solid;
+  }
 }

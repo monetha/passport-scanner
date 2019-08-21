@@ -44,7 +44,7 @@ class PassportList extends React.PureComponent<IProps> {
         <Table>
           <Thead>
             <Tr>
-              <Th>{translate(t => t.passport.passportAddress)}</Th>
+              <Th>{translate(t => t.passport.address)}</Th>
               <Th>{translate(t => t.passport.firstOwnerAddress)}</Th>
               <Th>{translate(t => t.passport.blockNumber)}</Th>
               <Th>{translate(t => t.passport.txHash)}</Th>

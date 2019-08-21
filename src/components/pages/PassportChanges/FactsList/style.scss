@@ -23,7 +23,7 @@
 
     table {
       td {
-        .mh-loader .mh-spinner::before {
+        .mh-loader .mh-spinner-indicator {
           height: 15px;
           width: 15px;
         }
@@ -34,6 +34,7 @@
 
 .mh-modal-container {
   width: 100%;
+  padding-top: 50px;
 
   button {
     outline: unset;

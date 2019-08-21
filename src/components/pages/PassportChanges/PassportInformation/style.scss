@@ -9,37 +9,48 @@
     color: $colorDarkGrayTable;
     font-size: 28px;
   }
+}
 
-  .mh-passport-information-item {
-    &:not(:last-child) {
-      margin-bottom: 20px;
+.mh-passport-information-item {
+  &:not(:last-child) {
+    margin-bottom: 20px;
+  }
+
+  .mh-title {
+    display: inline-block;
+    min-width: 30%;
+    color: $colorGrayB1;
+
+    @media #{$mdDown} {
+      min-width: 40%;
     }
+  }
 
-    .mh-title {
-      display: inline-block;
-      min-width: 30%;
-      color: $colorGrayB1;
+  .mh-value {
+    display: inline-block;
+    word-break: break-word;
+    word-wrap: break-word;
 
-      @media #{$mdDown} {
-        min-width: 40%;
-      }
+    @media #{$smDown} {
+      display: block;
+      margin-top: 10px;
     }
+  }
 
-    .mh-full-address {
-      display: inline;
+  .mh-full-address {
+    display: inline;
 
-      @media #{$smDown} {
-        display: none;
-      }
-    }
-
-    .mh-shorten-address {
+    @media #{$smDown} {
       display: none;
+    }
+  }
 
-      @media #{$smDown} {
-        display: block;
-        margin-top: 10px;
-      }
+  .mh-shorten-address {
+    display: none;
+
+    @media #{$smDown} {
+      display: block;
+      margin-top: 10px;
     }
   }
 }

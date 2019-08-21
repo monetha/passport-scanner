@@ -1,6 +1,7 @@
 import { EventType, DataType } from 'verifiable-data';
 
 // tslint:disable:max-line-length
+// tslint:disable:prefer-template
 
 interface ITranslation {
   [key: string]: string | ITranslation;
@@ -27,6 +28,7 @@ const translations = validateBaseTranslations({
     mustBeWholeNumber: 'Must be a whole number',
     tooManyResults: 'Too many results',
     noAddressInWallet: 'Please select an account in your wallet provider',
+    transactionDenied: 'Transaction was denied',
   },
   common: {
     submit: 'Submit',
@@ -34,6 +36,8 @@ const translations = validateBaseTranslations({
     view: 'View',
     download: 'Download',
     noData: 'No data',
+    txExecutionInProgress: 'Transaction executing in your wallet provider. \nPlease confirm it.',
+    txSuccess: 'Transaction was executed successfully',
   },
   nav: {
     passportSearch: 'Digital identity search',
@@ -56,7 +60,8 @@ const translations = validateBaseTranslations({
   passport: {
     passports: 'Digital identities',
     passport: 'Digital identity',
-    passportAddress: 'Address',
+    address: 'Address',
+    passportAddress: 'Digital identity address',
     firstOwnerAddress: 'First owner address',
     ownedBy: 'Owned by',
     pendingOwner: 'Pending owner',
@@ -90,9 +95,14 @@ const translations = validateBaseTranslations({
   },
   exchange: {
     requestData: 'Request data',
+    proposalDescription: 'This data is private. In order to read it - you have to request digital identity owner to give you access to it. \n\n' +
+      'To request it - click the button below and confirm transaction in your wallet provider. If digital identity owner accepts your request - you will ' +
+      'be able to access the data with the provided password.',
+    proposalHeader: 'Request private data',
   },
 });
 
 export default translations;
 
   // tslint:enable:max-line-length
+  // tslint:enable:prefer-template

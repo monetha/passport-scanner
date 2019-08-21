@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { OwnerAddress } from 'src/components/text/OwnerAddress';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
 export interface IProps {
   title: string;
-  address: string;
+  address?: string;
+  value?: React.ReactNode;
 }
 
 // #endregion
@@ -19,12 +20,21 @@ export class PassportInformationItem extends React.PureComponent<IProps> {
     return (
       <div className='mh-passport-information-item'>
         <div className='mh-title'>{this.props.title}</div>
-        <div className='mh-full-address'>
-          {this.props.address !== genesisAccount ? <OwnerAddress ownerAddressOriginal={this.props.address} /> : '–'}
-        </div>
-        <div className='mh-shorten-address'>
-          {this.props.address !== genesisAccount ? <OwnerAddress ownerAddressOriginal={this.props.address} shorten={true} /> : '–'}
-        </div>
+
+        { this.props.address ? (
+          <Fragment>
+            <div className='mh-full-address'>
+              {this.props.address !== genesisAccount ? <OwnerAddress ownerAddressOriginal={this.props.address} /> : '–'}
+            </div>
+            <div className='mh-shorten-address'>
+              {this.props.address !== genesisAccount ? <OwnerAddress ownerAddressOriginal={this.props.address} shorten={true} /> : '–'}
+            </div>
+          </Fragment>
+        ) : (
+          <div className='mh-value'>
+            {this.props.value}
+          </div>
+        )}
       </div>
     );
   }

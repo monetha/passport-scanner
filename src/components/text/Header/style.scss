@@ -1,0 +1,13 @@
+@import "vars/index.scss";
+
+.mh-header {
+  margin: 0 auto 30px auto;
+  color: $colorBlack;
+  font-weight: bold;
+  display: block;
+  font-size: $fontSizeLg;
+  word-break: break-word;
+  word-wrap: break-word;
+  max-width: 500px;
+  text-align: center;
+}

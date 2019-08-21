@@ -52,7 +52,8 @@ const builder = new ReducerBuilder<IPassportState>()
   .addAsync(getFacts, s => s.facts)
   .addAsync(loadFactValue, s => s.factValues, a => [a.fact.transactionHash])
   .addAsync(getPassportInformation, s => s.passportInformation)
-  .addAsync(proposeDataExchange, s => s.exchangeProposal);
+  .addAsync(proposeDataExchange, s => s.exchangeProposal, a =>
+    [getCanonicalFactKey(a.factValue.passportAddress, a.factValue.factProviderAddress, a.factValue.key)]);
 
 export const passportReducer = createReducer(initialState, builder);
 
