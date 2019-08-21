@@ -1,6 +1,6 @@
 import React from 'react';
 import './style.scss';
-import { Share } from 'src/components/pages/PassportChanges/Share';
+import { Share } from 'src/components/indicators/Share';
 import { getEtherscanUrl, getShortId } from 'src/helpers';
 
 // #region -------------- Interfaces --------------------------------------------------------------

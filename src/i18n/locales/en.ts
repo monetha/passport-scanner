@@ -1,6 +1,7 @@
 import { EventType, DataType } from 'verifiable-data';
 
 // tslint:disable:max-line-length
+// tslint:disable:prefer-template
 
 interface ITranslation {
   [key: string]: string | ITranslation;
@@ -26,6 +27,9 @@ const translations = validateBaseTranslations({
     mustBePositiveNumber: 'Must be a positive number',
     mustBeWholeNumber: 'Must be a whole number',
     tooManyResults: 'Too many results',
+    noAddressInWallet: 'Please select an account in your wallet provider',
+    transactionDenied: 'Transaction was denied',
+    invalidProviderNetwork: 'Please select {{requiredNet}} network in your wallet provider',
   },
   common: {
     submit: 'Submit',
@@ -33,6 +37,8 @@ const translations = validateBaseTranslations({
     view: 'View',
     download: 'Download',
     noData: 'No data',
+    txExecutionInProgress: 'Transaction executing in your wallet provider. \nPlease confirm it.',
+    txSuccess: 'Transaction was executed successfully',
   },
   nav: {
     passportSearch: 'Digital identity search',
@@ -55,7 +61,8 @@ const translations = validateBaseTranslations({
   passport: {
     passports: 'Digital identities',
     passport: 'Digital identity',
-    passportAddress: 'Address',
+    address: 'Address',
+    passportAddress: 'Digital identity address',
     firstOwnerAddress: 'First owner address',
     ownedBy: 'Owned by',
     pendingOwner: 'Pending owner',
@@ -87,8 +94,20 @@ const translations = validateBaseTranslations({
     },
     tooLong: 'Too long to display, truncated. Please download full value.',
   },
+  exchange: {
+    requestData: 'Request data',
+    proposalDescription: 'This data is private. In order to read it - you have to request digital identity owner to give you access to it. \n\n' +
+    'To request it - click the button below and confirm transaction in your wallet provider. If digital identity owner accepts your request - you will ' +
+    'be able to access the data with the provided password.',
+    proposalHeader: 'Request private data',
+    proposalInProgressHeader: 'Private data requested',
+    proposalForLatestVersionNotice: 'NOTE: The request will be made for the latest version of the data.',
+    waitingForAcceptance: 'You have requested access to the data. Waiting for owner to accept your request.',
+    exchangeKeyDescription: 'Please save the password provided below. It must be used to unlock data after owner accepts it.',
+  },
 });
 
 export default translations;
 
   // tslint:enable:max-line-length
+  // tslint:enable:prefer-template

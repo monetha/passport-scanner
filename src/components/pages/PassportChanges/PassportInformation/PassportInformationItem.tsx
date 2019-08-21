@@ -1,11 +1,12 @@
-import React from 'react';
-import { OwnerAddress } from 'src/components/OwnerAddress';
+import React, { Fragment } from 'react';
+import { OwnerAddress } from 'src/components/text/OwnerAddress';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
 export interface IProps {
   title: string;
-  address: string;
+  address?: string;
+  value?: React.ReactNode;
 }
 
 // #endregion
@@ -17,14 +18,23 @@ const genesisAccount = '0x0000000000000000000000000000000000000000';
 export class PassportInformationItem extends React.PureComponent<IProps> {
   public render() {
     return (
-      <div className='passport-information-item'>
-        <div className='title'>{this.props.title}</div>
-        <div className='full-address'>
-          {this.props.address !== genesisAccount ? <OwnerAddress ownerAddressOriginal={this.props.address} /> : '–'}
-        </div>
-        <div className='shorten-address'>
-          {this.props.address !== genesisAccount ? <OwnerAddress ownerAddressOriginal={this.props.address} shorten={true} /> : '–'}
-        </div>
+      <div className='mh-passport-information-item'>
+        <div className='mh-title'>{this.props.title}</div>
+
+        { this.props.address ? (
+          <Fragment>
+            <div className='mh-full-address'>
+              {this.props.address !== genesisAccount ? <OwnerAddress ownerAddressOriginal={this.props.address} /> : '–'}
+            </div>
+            <div className='mh-shorten-address'>
+              {this.props.address !== genesisAccount ? <OwnerAddress ownerAddressOriginal={this.props.address} shorten={true} /> : '–'}
+            </div>
+          </Fragment>
+        ) : (
+          <div className='mh-value'>
+            {this.props.value}
+          </div>
+        )}
       </div>
     );
   }

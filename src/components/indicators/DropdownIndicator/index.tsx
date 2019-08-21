@@ -9,7 +9,7 @@ export class DropdownIndicator extends React.PureComponent<IProps> {
 
   public render() {
     return (
-      <div className={`mh-dropdown-indicator ${this.props.isOpened ? 'is-opened' : ''}`} />
+      <div className={`mh-dropdown-indicator ${this.props.isOpened ? 'mh-is-opened' : ''}`} />
     );
   }
 }

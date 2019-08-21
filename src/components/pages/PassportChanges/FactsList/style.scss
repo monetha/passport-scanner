@@ -7,11 +7,11 @@
     font-size: $fontSizeLg;
     word-break: break-word;
 
-    .fact-provider {
+    .mh-fact-provider {
       color: $colorDarkGrayTable;
     }
 
-    .fact-provider-name {
+    .mh-fact-provider-name {
       word-break: normal;
     }
   }
@@ -23,7 +23,7 @@
 
     table {
       td {
-        .mh-loader .mh-spinner::before {
+        .mh-loader .mh-spinner-indicator {
           height: 15px;
           width: 15px;
         }
@@ -34,17 +34,7 @@
 
 .mh-modal-container {
   width: 100%;
-
-  .mh-button-container, .mh-three-dots {
-    padding-bottom: 25px;
-    cursor: pointer;
-  }
-
-  pre {
-    white-space: pre-wrap;
-    word-break: break-word;
-    word-wrap: break-word;
-  }
+  padding-top: 50px;
 
   button {
     outline: unset;

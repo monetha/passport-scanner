@@ -8,7 +8,7 @@
   transition: transform 0.3s;
   margin: auto 0 auto 10px;
 
-  &.is-opened {
+  &.mh-is-opened {
     transform: rotateZ(180deg);
   }
 

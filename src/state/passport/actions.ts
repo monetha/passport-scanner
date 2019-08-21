@@ -1,7 +1,10 @@
 import { getActionNameCreator } from 'src/core/redux/action';
 import { createAsyncAction } from 'src/core/redux/asyncAction';
 import { IPassportList, IFactList, IFactValueWrapper } from './models';
-import { IHistoryEvent } from 'verifiable-data';
+import { IHistoryEvent, IFactValue } from 'verifiable-data';
+import { IProposeDataExchangeResult } from 'verifiable-data/dist/lib/passport/PrivateDataExchanger';
+import { IPrivateDataHashes } from 'verifiable-data/dist/lib/passport/FactReader';
+import BN from 'bn.js';
 
 // #region -------------- Action types -------------------------------------------------------------------
 
@@ -12,6 +15,7 @@ export const actionTypes = {
   getFacts: get('GET_FACTS'),
   loadFactValue: get('LOAD_FACT_VALUE'),
   getPassportInformation: get('GET_PASSPORT_INFORMATION'),
+  proposeDataExchange: get('PROPOSE_DATA_EXCHANGE'),
 };
 
 // #endregion
@@ -55,5 +59,16 @@ export interface IPassportInformation {
 }
 
 export const getPassportInformation = createAsyncAction<IGetPassportOwnerPayload, IPassportInformation>(actionTypes.getPassportInformation);
+
+// #endregion
+
+// #region -------------- Exchange -------------------------------------------------------------------
+
+export interface IProposeDataExchangePayload {
+  factValue: IFactValue<IPrivateDataHashes>;
+  stake: BN;
+}
+
+export const proposeDataExchange = createAsyncAction<IProposeDataExchangePayload, IProposeDataExchangeResult>(actionTypes.proposeDataExchange);
 
 // #endregion

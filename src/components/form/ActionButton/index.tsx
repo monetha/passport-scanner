@@ -16,7 +16,7 @@ export interface IProps {
 export class ActionButton extends React.PureComponent<IProps> {
   public render() {
     return (
-      <div className='mh-button-container'>
+      <div className='mh-action-button'>
         <button
           type='button'
           onClick={this.props.onClick}

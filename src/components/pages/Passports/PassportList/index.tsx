@@ -8,8 +8,8 @@ import { Link, withRouter } from 'react-router-dom';
 import { routes } from 'src/constants/routes';
 import BigNumber from 'bignumber.js';
 import { Table } from 'src/components/layout/Table';
-import { Share } from 'src/components/pages/PassportChanges/Share';
-import { OwnerAddress } from 'src/components/OwnerAddress';
+import { Share } from 'src/components/indicators/Share';
+import { OwnerAddress } from 'src/components/text/OwnerAddress';
 import { Alert, AlertType } from 'src/components/indicators/Alert';
 import { createRouteUrl } from 'src/utils/nav';
 import { RouteChildrenProps } from 'react-router';
@@ -44,7 +44,7 @@ class PassportList extends React.PureComponent<IProps> {
         <Table>
           <Thead>
             <Tr>
-              <Th>{translate(t => t.passport.passportAddress)}</Th>
+              <Th>{translate(t => t.passport.address)}</Th>
               <Th>{translate(t => t.passport.firstOwnerAddress)}</Th>
               <Th>{translate(t => t.passport.blockNumber)}</Th>
               <Th>{translate(t => t.passport.txHash)}</Th>

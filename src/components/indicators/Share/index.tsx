@@ -7,7 +7,7 @@ export class Share extends React.PureComponent {
 
   public render() {
     return (
-      <div className='share'>
+      <div className='mh-share'>
         <img
           src={require('images/share.png')}
           alt=''

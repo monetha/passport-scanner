@@ -67,6 +67,7 @@
         "moment": "^2.24.0",
         "query-string": "^6.5.0",
         "react": "16.8.6",
+        "react-copy-to-clipboard": "^5.0.1",
         "react-dom": "16.8.6",
         "react-redux": "7.0.3",
         "react-responsive": "^6.1.2",
@@ -80,7 +81,7 @@
         "reduce-reducers": "^1.0.4",
         "redux": "4.0.1",
         "redux-saga": "1.0.2",
-        "verifiable-data": "2.6.4",
+        "verifiable-data": "2.6.6",
         "web3": "1.0.0-beta.55",
         "whatwg-fetch": "3.0.0",
         "yup": "^0.27.0"

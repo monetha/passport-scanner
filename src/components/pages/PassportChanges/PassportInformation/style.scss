@@ -1,6 +1,6 @@
 @import "vars/index.scss";
 
-.passport-owned-by {
+.mh-passport-owned-by {
   border-bottom: 1px $colorGrayB3 solid;
   margin-bottom: 30px;
   padding-bottom: 30px;
@@ -9,37 +9,48 @@
     color: $colorDarkGrayTable;
     font-size: 28px;
   }
+}
 
-  .passport-information-item {
-    &:not(:last-child) {
-      margin-bottom: 20px;
+.mh-passport-information-item {
+  &:not(:last-child) {
+    margin-bottom: 20px;
+  }
+
+  .mh-title {
+    display: inline-block;
+    min-width: 30%;
+    color: $colorGrayB1;
+
+    @media #{$mdDown} {
+      min-width: 40%;
     }
+  }
 
-    .title {
-      display: inline-block;
-      min-width: 30%;
-      color: $colorGrayB1;
+  .mh-value {
+    display: inline-block;
+    word-break: break-word;
+    word-wrap: break-word;
 
-      @media #{$mdDown} {
-        min-width: 40%;
-      }
+    @media #{$smDown} {
+      display: block;
+      margin-top: 10px;
     }
+  }
 
-    .full-address {
-      display: inline;
+  .mh-full-address {
+    display: inline;
 
-      @media #{$smDown} {
-        display: none;
-      }
-    }
-
-    .shorten-address {
+    @media #{$smDown} {
       display: none;
+    }
+  }
 
-      @media #{$smDown} {
-        display: block;
-        margin-top: 10px;
-      }
+  .mh-shorten-address {
+    display: none;
+
+    @media #{$smDown} {
+      display: block;
+      margin-top: 10px;
     }
   }
 }

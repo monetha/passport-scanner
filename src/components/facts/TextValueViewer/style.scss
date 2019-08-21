@@ -1,0 +1,14 @@
+@import "vars/index.scss";
+
+.mh-text-value-viewer {
+  .mh-three-dots {
+    padding-bottom: 25px;
+    cursor: pointer;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    word-wrap: break-word;
+  }
+}

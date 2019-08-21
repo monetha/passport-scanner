@@ -4,14 +4,14 @@ import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { FormikField } from 'src/components/form/FormikField';
 import { TextInput } from 'src/components/form/TextInput';
-import { ShowAdvanced } from 'src/components/ShowAdvanced';
+import { ShowAdvanced } from 'src/components/layout/ShowAdvanced';
 import { translate } from 'src/i18n';
 import * as Yup from 'yup';
 import './style.scss';
 import { getServices } from 'src/ioc/services';
 import { ethNetworkUrls } from 'src/constants/api';
 import { defaultAddresses } from 'src/constants/addresses';
-import { SearchButton } from 'src/components/SearchButton';
+import { SearchButton } from 'src/components/form/SearchButton';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -106,14 +106,14 @@ class PassportListForm extends React.PureComponent<IProps> {
         <FormikField
           name='factoryAddress'
         >
-          <div className='input-with-button'>
+          <div className='mh-input-with-button'>
             <TextInput
               name='factoryAddress'
               onChange={handleChange}
               value={values.factoryAddress}
               placeholder={translate(t => t.form.factoryAddress)}
               disabled={disabled}
-              className='with-button'
+              className='mh-with-button'
             />
             <SearchButton
               disabled={disabled}
@@ -124,7 +124,7 @@ class PassportListForm extends React.PureComponent<IProps> {
         </FormikField>
 
         <ShowAdvanced>
-          <div className='start-block'>
+          <div className='mh-start-block'>
             <FormikField
               name='startBlock'
             >

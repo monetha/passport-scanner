@@ -4,11 +4,11 @@ import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { FormikField } from 'src/components/form/FormikField';
 import { TextInput } from 'src/components/form/TextInput';
-import { ShowAdvanced } from 'src/components/ShowAdvanced';
+import { ShowAdvanced } from 'src/components/layout/ShowAdvanced';
 import { translate } from 'src/i18n';
 import * as Yup from 'yup';
 import './style.scss';
-import { SearchButton } from 'src/components/SearchButton';
+import { SearchButton } from 'src/components/form/SearchButton';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -104,14 +104,14 @@ class FactsListForm extends React.PureComponent<IProps> {
         <FormikField
           name='passportAddress'
         >
-          <div className='input-with-button'>
+          <div className='mh-input-with-button'>
             <TextInput
               name='passportAddress'
               onChange={handleChange}
               value={values.passportAddress}
               placeholder='0x123456...'
               disabled={disabled}
-              className='with-button'
+              className='mh-with-button'
             />
             <SearchButton
               disabled={disabled}
@@ -143,7 +143,7 @@ class FactsListForm extends React.PureComponent<IProps> {
               value={values.factProvider}
               disabled={disabled}
               placeholder={translate(t => t.passport.factProviderAddress)}
-              className='fact-provider-address'
+              className='mh-fact-provider-address'
             />
           </FormikField>
         </ShowAdvanced>

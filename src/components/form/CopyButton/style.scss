@@ -1,0 +1,16 @@
+.mh-copy-button {
+  .mh-copy-image {
+    img {
+      width: 20px;
+      height: 20px;
+      margin-left: 20px;
+      line-height: 0;
+      cursor: pointer;
+    }
+
+    img.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}

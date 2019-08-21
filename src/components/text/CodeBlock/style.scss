@@ -1,0 +1,15 @@
+@import "vars/index.scss";
+
+.mh-code-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px;
+  font-family: 'Courier New', Courier, monospace;
+  border: 1px solid $colorGray;
+  background-color: $colorGrayB3;
+  color: $colorDarkGrayTable;
+  cursor: auto;
+  word-break: break-word;
+  word-wrap: break-word;
+}
