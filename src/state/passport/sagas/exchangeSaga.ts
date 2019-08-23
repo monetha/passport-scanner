@@ -5,11 +5,10 @@ import { getServices } from 'src/ioc/services';
 import { PrivateDataExchanger } from 'verifiable-data';
 import { IProposeDataExchangePayload, proposeDataExchange } from '../actions';
 import { getCanonicalFactKey } from '../reducer';
-import { enableWallet, getCurrentAccountAddress, getProviderInstance } from 'src/utils/walletProvider';
+import { enableWallet, getCurrentAccountAddress, getProviderInstance, sendAndWaitTx } from 'wallet-provider';
 import { createFriendlyError } from 'src/core/error/FriendlyError';
 import { ErrorCode } from 'src/core/error/ErrorCode';
 import { translate } from 'src/i18n';
-import { sendAndWaitTx } from 'src/utils/tx';
 import Web3 from 'web3';
 
 // #region -------------- Fact value retrieval -------------------------------------------------------------------
