@@ -82,6 +82,7 @@
         "redux": "4.0.1",
         "redux-saga": "1.0.2",
         "verifiable-data": "2.6.6",
+        "wallet-provider": "git+https://github.com/monetha/wallet-provider.git",
         "web3": "1.0.0-beta.55",
         "whatwg-fetch": "3.0.0",
         "yup": "^0.27.0"
