@@ -6,6 +6,7 @@ import { OwnerAddress } from 'src/components/text/OwnerAddress';
 export interface IProps {
   title: string;
   address?: string;
+  addressTitle?: string;
   value?: React.ReactNode;
 }
 
@@ -17,24 +18,26 @@ const genesisAccount = '0x0000000000000000000000000000000000000000';
 
 export class PassportInformationItem extends React.PureComponent<IProps> {
   public render() {
+    const { address, addressTitle, value, title } = this.props;
+
     return (
       <div className='mh-passport-information-item'>
-        <div className='mh-title'>{this.props.title}</div>
+        <div className='mh-title'>{title}</div>
 
-        { this.props.address ? (
+        {address ? (
           <Fragment>
             <div className='mh-full-address'>
-              {this.props.address !== genesisAccount ? <OwnerAddress ownerAddressOriginal={this.props.address} /> : '–'}
+              {address !== genesisAccount ? <OwnerAddress ownerAddressOriginal={address} title={addressTitle} /> : '–'}
             </div>
             <div className='mh-shorten-address'>
-              {this.props.address !== genesisAccount ? <OwnerAddress ownerAddressOriginal={this.props.address} shorten={true} /> : '–'}
+              {address !== genesisAccount ? <OwnerAddress ownerAddressOriginal={address} title={addressTitle} shorten={true} /> : '–'}
             </div>
           </Fragment>
         ) : (
-          <div className='mh-value'>
-            {this.props.value}
-          </div>
-        )}
+            <div className='mh-value'>
+              {value}
+            </div>
+          )}
       </div>
     );
   }

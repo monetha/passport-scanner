@@ -3,7 +3,7 @@ import { IState } from 'src/state/rootReducer';
 import { ILoggingService } from 'src/core/logging/ILoggingService';
 import { ErrorHandler } from 'src/core/error/ErrorHandler';
 import Web3 from 'web3';
-import { Address } from 'cluster';
+import { Address } from 'verifiable-data';
 
 let registeredServices: IServices = null;
 
@@ -22,6 +22,7 @@ export interface INetworkInfo {
   alias?: string;
   etherscanUrl?: string;
   passportFactory?: Address;
+  factProviderRegistry?: Address;
 }
 
 /**

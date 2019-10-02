@@ -1,9 +1,9 @@
-import { IAsyncState, AsyncState } from 'src/core/redux/asyncAction';
-import { IPassportList, IFactList, IFactValueWrapper } from './models';
-import { ReducerBuilder, createReducer } from 'src/core/redux/ReducerBuilder';
-import { getPassports, getFacts, loadFactValue, getPassportInformation, IPassportInformation, proposeDataExchange } from './actions';
+import { AsyncState, IAsyncState } from 'src/core/redux/asyncAction';
+import { createReducer, ReducerBuilder } from 'src/core/redux/ReducerBuilder';
+import { Address, IFactProviderInfo } from 'verifiable-data';
 import { IProposeDataExchangeResult } from 'verifiable-data/dist/lib/passport/PrivateDataExchanger';
-import { Address } from 'verifiable-data';
+import { getFacts, getPassportInformation, getPassports, IPassportInformation, loadFactProviderInfo, loadFactValue, proposeDataExchange } from './actions';
+import { IFactList, IFactValueWrapper, IPassportList } from './models';
 
 // #region -------------- State -------------------------------------------------------------------
 
@@ -33,6 +33,11 @@ export interface IPassportState {
    * Data proposal statuses, indexed by canonical fact keys
    */
   exchangeProposal: { [canonicalFactKey: string]: IAsyncState<IProposeDataExchangeResult> };
+
+  /**
+   * Fact provider informations
+   */
+  factProviderInfos: { [address: string]: IAsyncState<IFactProviderInfo, any> };
 }
 
 const initialState: IPassportState = {
@@ -41,6 +46,7 @@ const initialState: IPassportState = {
   factValues: {},
   passportInformation: new AsyncState(),
   exchangeProposal: {},
+  factProviderInfos: {},
 };
 
 // #endregion
@@ -53,7 +59,8 @@ const builder = new ReducerBuilder<IPassportState>()
   .addAsync(loadFactValue, s => s.factValues, a => [a.fact.transactionHash])
   .addAsync(getPassportInformation, s => s.passportInformation)
   .addAsync(proposeDataExchange, s => s.exchangeProposal, a =>
-    [getCanonicalFactKey(a.factValue.passportAddress, a.factValue.factProviderAddress, a.factValue.key)]);
+    [getCanonicalFactKey(a.factValue.passportAddress, a.factValue.factProviderAddress, a.factValue.key)])
+  .addAsync(loadFactProviderInfo, e => e.factProviderInfos, a => [a]);
 
 export const passportReducer = createReducer(initialState, builder);
 
