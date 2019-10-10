@@ -97,9 +97,12 @@ const translations = validateBaseTranslations({
   },
   exchange: {
     requestData: 'Request data',
+    generateQr: 'Generate QR',
+    dismiss: 'Dismiss',
     proposalDescription: 'This data is private. In order to read it - you have to request digital identity owner to give you access to it. \n\n' +
     'To request it - click the button below and confirm transaction in your wallet provider. If digital identity owner accepts your request - you will ' +
     'be able to access the data with the provided password.',
+    showQr: 'Show this QR to the person who wants to read this private data entry.',
     proposalHeader: 'Request private data',
     proposalInProgressHeader: 'Private data requested',
     proposalForLatestVersionNotice: 'NOTE: The request will be made for the latest version of the data.',
