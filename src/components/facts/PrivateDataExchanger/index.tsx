@@ -241,7 +241,7 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps, ILocalSta
           {translate(t => t.exchange.showQr)}
         </Description>
 
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '35px' }}>
+        <div className='mh-qr-code-wrapper'>
           <QRCode value={this.state.qrContent} size={320} />
         </div>
 
