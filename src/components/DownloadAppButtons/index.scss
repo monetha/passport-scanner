@@ -1,0 +1,48 @@
+.mh-download-app-buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+
+  .btn {
+    min-width: 176px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 24px;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 10px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: normal;
+    border: solid 1px white;
+
+    &::after {
+      border-radius: 100px;
+    }
+  }
+
+  .btn-black {
+    color: white;
+    background-color: black;
+  }
+
+  .btn-white {
+    color: black;
+    box-shadow: none;
+
+    &:hover:not(:disabled) {
+      color: black;
+    }
+  }
+
+  img {
+    margin-right: 14px;
+  }
+
+  .btn-title {
+    font-size: 16px;
+  }
+}

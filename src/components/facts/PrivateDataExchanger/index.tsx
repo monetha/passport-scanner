@@ -19,6 +19,7 @@ import { Header } from 'src/components/text/Header';
 import { PassportInformationItem } from 'src/components/pages/PassportChanges/PassportInformation/PassportInformationItem';
 import { CodeBlock } from 'src/components/text/CodeBlock';
 import QRCode from 'qrcode.react';
+import { DownloadAppButtons } from 'src/components/DownloadAppButtons';
 
 export interface IFactSelector {
   passport: Address;
@@ -200,13 +201,13 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps, ILocalSta
           {translate(t => t.exchange.proposalDescription)}
         </Description>
 
-        {this.renderFactInfo()}
-
         <div className='mh-alerts-container'>
           <Alert type={AlertType.Info}>
             {translate(t => t.exchange.proposalForLatestVersionNotice)}
           </Alert>
         </div>
+
+        {this.renderFactInfo()}
 
         <div className='mh-button-container'>
           <Button
@@ -217,7 +218,7 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps, ILocalSta
           <Button
             onClick={this.onGenerateQr}
           >
-            {translate(t => t.exchange.generateQr)}
+            {translate(t => t.exchange.requestWithApp)}
           </Button>
         </div>
       </div>
@@ -243,21 +244,9 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps, ILocalSta
           <QRCode value={this.state.qrContent} size={320} />
         </div>
 
-        <div className='mh-button-container'>
-          <Button
-            onClick={this.onDismissQr}
-          >
-            {translate(t => t.exchange.dismiss)}
-          </Button>
-        </div>
+        <DownloadAppButtons />
       </div>
     );
-  }
-
-  private onDismissQr = () => {
-    this.setState({
-      qrContent: '',
-    });
   }
 
   private onGenerateQr = () => {
