@@ -76,6 +76,7 @@ const translations = validateBaseTranslations({
     txHash: 'Transaction hash',
     factProvider: 'Data source',
     factProviderAddress: 'Data source address',
+    factProviderWebsite: 'Data source website',
     key: 'Key',
     dataType: 'Data type',
     changeType: 'Change',

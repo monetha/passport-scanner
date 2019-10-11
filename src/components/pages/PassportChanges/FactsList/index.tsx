@@ -3,11 +3,10 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
-import { DataType, EventType, IFactValue, IHistoryEvent } from 'verifiable-data';
+import { DataType, EventType, IFactValue, IHistoryEvent, IFactProviderInfo } from 'verifiable-data';
 import { Loader } from 'src/components/indicators/Loader';
 import { Table } from 'src/components/layout/Table';
 import { ipfsGatewayUrl } from 'src/constants/api';
-import { knownFactProviders } from 'src/constants/factProviders';
 import { IAsyncState } from 'src/core/redux/asyncAction';
 import { translate } from 'src/i18n';
 import translations from 'src/i18n/locales/en';
@@ -24,6 +23,7 @@ import { routes } from 'src/constants/routes';
 import Modal from 'react-responsive-modal';
 import { PrivateDataExchanger } from 'src/components/facts/PrivateDataExchanger';
 import { TextValueViewer } from 'src/components/facts/TextValueViewer';
+import { FactProviderInfoLoader } from 'src/components/facts/FactProviderInfoLoader';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -156,13 +156,27 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
   }
 
   private renderFactProviderName(address: string, passportOwnerAddress: string) {
-    let name = address;
-    const lcAddress = address.toLowerCase();
+    return (
+      <FactProviderInfoLoader
+        factProviderAddress={address}
+        dataForChildren={passportOwnerAddress}
+      >
+        {this.renderLoadedFactProviderName}
+      </FactProviderInfoLoader>
+    );
+  }
 
-    if (lcAddress === passportOwnerAddress.toLowerCase()) {
+  private renderLoadedFactProviderName(
+    factProviderInfo: IAsyncState<IFactProviderInfo>,
+    factProviderAddress: string,
+    ownerAddress: string,
+  ) {
+    let name;
+
+    if (factProviderAddress.toLowerCase() === ownerAddress.toLowerCase()) {
       name = translate(t => t.passport.owner);
-    } else if (knownFactProviders[lcAddress]) {
-      name = knownFactProviders[lcAddress];
+    } else if (factProviderInfo && factProviderInfo.data) {
+      name = factProviderInfo.data.name;
     }
 
     const url = getEtherscanUrl();
@@ -172,11 +186,11 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
 
     return (
       <a
-        href={`${url}/address/${address}`}
+        href={`${url}/address/${factProviderAddress}`}
         target='_blank'
         className='mh-fact-provider-name'
       >
-        {name}
+        {name || factProviderAddress}
       </a>
     );
   }

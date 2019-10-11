@@ -8,6 +8,7 @@ import { getEtherscanUrl, getShortId } from 'src/helpers';
 export interface IProps {
   ownerAddressOriginal: string;
   shorten?: boolean;
+  title?: string;
 }
 
 // #endregion
@@ -16,7 +17,7 @@ export interface IProps {
 
 export class OwnerAddress extends React.PureComponent<IProps> {
   public render() {
-    const { ownerAddressOriginal, shorten } = this.props;
+    const { ownerAddressOriginal, shorten, title } = this.props;
     let ownerAddress = ownerAddressOriginal;
     if (shorten) {
       ownerAddress =  getShortId(ownerAddressOriginal);
@@ -24,7 +25,7 @@ export class OwnerAddress extends React.PureComponent<IProps> {
 
     const url = getEtherscanUrl();
     if (!url) {
-      return ownerAddress;
+      return title || ownerAddress;
     }
 
     return (
@@ -33,7 +34,7 @@ export class OwnerAddress extends React.PureComponent<IProps> {
         target='_blank'
       >
         <Share />
-        {ownerAddress}
+        {title || ownerAddress}
       </a>
     );
   }

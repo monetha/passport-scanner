@@ -1,5 +1,5 @@
 import BN from 'bn.js';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'src/components/form/Button';
 import { Alert, AlertType } from 'src/components/indicators/Alert';
@@ -10,7 +10,7 @@ import { proposeDataExchange } from 'src/state/passport/actions';
 import { getCanonicalFactKey } from 'src/state/passport/reducer';
 import { IState } from 'src/state/rootReducer';
 import { AlertInfo, getAlertsFromStatuses } from 'src/utils/alert';
-import { Address, IFactValue } from 'verifiable-data';
+import { IFactValue, IFactProviderInfo, Address } from 'verifiable-data';
 import { IPrivateDataHashes } from 'verifiable-data/dist/lib/passport/FactReader';
 import { IProposeDataExchangeResult } from 'verifiable-data/dist/lib/passport/PrivateDataExchanger';
 import './style.scss';
@@ -18,6 +18,7 @@ import { Description } from 'src/components/text/Description';
 import { Header } from 'src/components/text/Header';
 import { PassportInformationItem } from 'src/components/pages/PassportChanges/PassportInformation/PassportInformationItem';
 import { CodeBlock } from 'src/components/text/CodeBlock';
+import { FactProviderInfoLoader } from '../FactProviderInfoLoader';
 import QRCode from 'qrcode.react';
 import { DownloadAppButtons } from 'src/components/DownloadAppButtons';
 
@@ -321,16 +322,49 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps, ILocalSta
           address={factValue.passportAddress}
         />
 
-        <PassportInformationItem
-          title={translate(t => t.passport.factProviderAddress)}
-          address={factValue.factProviderAddress}
-        />
+        <FactProviderInfoLoader factProviderAddress={factValue.factProviderAddress}>
+          {this.renderFactProviderInfo}
+        </FactProviderInfoLoader>
 
         <PassportInformationItem
           title={translate(t => t.passport.key)}
           value={factValue.key}
         />
       </div>
+    );
+  }
+
+  private renderFactProviderInfo(factProviderInfo: IAsyncState<IFactProviderInfo>, factProviderAddress: string) {
+    let name: string = null;
+    let website: string = null;
+
+    if (factProviderInfo && factProviderInfo.data) {
+      name = factProviderInfo.data.name;
+      website = factProviderInfo.data.website;
+    }
+
+    return (
+      <Fragment>
+        <PassportInformationItem
+          title={translate(t => t.passport.factProvider)}
+          address={factProviderAddress}
+          addressTitle={name}
+        />
+
+        {website && (
+          <PassportInformationItem
+            title={translate(t => t.passport.factProviderWebsite)}
+            value={(
+              <a
+                href={website}
+                target='_blank'
+              >
+                {website}
+              </a>
+            )}
+          />
+        )}
+      </Fragment>
     );
   }
 

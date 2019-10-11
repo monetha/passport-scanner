@@ -5,14 +5,16 @@
       "alias": "mainnet",
       "url": "https://mainnet.infura.io/v3/1f09dda6cce44da68213cacb1ea9bb90",
       "etherscanUrl": "https://etherscan.io",
-      "passportFactory": "0x53b21DC502b163Bcf3bD9a68d5db5e8E6110E1CC"
+      "passportFactory": "0x53b21DC502b163Bcf3bD9a68d5db5e8E6110E1CC",
+      "factProviderRegistry": "0xD4666f08A40dFD0945Cac5aB83fF04625a60664C"
     },
     {
       "name": "Ropsten",
       "alias": "ropsten",
       "url": "https://ropsten.infura.io/v3/1f09dda6cce44da68213cacb1ea9bb90",
       "etherscanUrl": "https://ropsten.etherscan.io",
-      "passportFactory": "0x35Cb95Db8E6d56D1CF8D5877EB13e9EE74e457F2"
+      "passportFactory": "0x35Cb95Db8E6d56D1CF8D5877EB13e9EE74e457F2",
+      "factProviderRegistry": "0xf9dbC37BBdC68E0Ba03185F1877059C595DcF083"
     }
   ]
 }
