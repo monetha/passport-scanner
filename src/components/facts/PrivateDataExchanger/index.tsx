@@ -10,7 +10,7 @@ import { proposeDataExchange } from 'src/state/passport/actions';
 import { getCanonicalFactKey } from 'src/state/passport/reducer';
 import { IState } from 'src/state/rootReducer';
 import { AlertInfo, getAlertsFromStatuses } from 'src/utils/alert';
-import { IFactValue, IFactProviderInfo } from 'verifiable-data';
+import { IFactValue, IFactProviderInfo, Address } from 'verifiable-data';
 import { IPrivateDataHashes } from 'verifiable-data/dist/lib/passport/FactReader';
 import { IProposeDataExchangeResult } from 'verifiable-data/dist/lib/passport/PrivateDataExchanger';
 import './style.scss';
@@ -19,11 +19,37 @@ import { Header } from 'src/components/text/Header';
 import { PassportInformationItem } from 'src/components/pages/PassportChanges/PassportInformation/PassportInformationItem';
 import { CodeBlock } from 'src/components/text/CodeBlock';
 import { FactProviderInfoLoader } from '../FactProviderInfoLoader';
+import QRCode from 'qrcode.react';
+import { DownloadAppButtons } from 'src/components/DownloadAppButtons';
+
+export interface IFactSelector {
+  passport: Address;
+  factProvider: Address;
+  key: string;
+}
+
+export const getEncodedPrivateDataRequestUri = (selector: IFactSelector) => {
+  const { passport, factProvider, key } = selector;
+
+  const params = {
+    passaddr: passport,
+    factprovideraddr: factProvider,
+    factkey: key,
+  };
+
+  const paramsStr = Object
+    .keys(params)
+    .map(param => `${param}=${params[param]}`)
+    .join('&');
+
+  return `mth:share-fact?${paramsStr}`;
+};
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
 interface IStateProps {
   proposalStatus: IAsyncState<IProposeDataExchangeResult>;
+  factSelector: IFactSelector;
 }
 
 interface IDispatchProps {
@@ -34,6 +60,10 @@ export interface IProps {
   factValue: IFactValue<IPrivateDataHashes>;
 }
 
+interface ILocalState {
+  qrContent: string;
+}
+
 interface ICombinedProps extends IStateProps, IDispatchProps, IProps {
 }
 
@@ -41,7 +71,11 @@ interface ICombinedProps extends IStateProps, IDispatchProps, IProps {
 
 // #region -------------- Component ---------------------------------------------------------------
 
-class PrivateDataExchanger extends React.PureComponent<ICombinedProps> {
+class PrivateDataExchanger extends React.PureComponent<ICombinedProps, ILocalState> {
+  public readonly state: Readonly<ILocalState> = {
+    qrContent: '',
+  };
+
   private alertsSince = new Date();
 
   public render() {
@@ -50,6 +84,7 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps> {
         {this.renderLoader()}
         {this.renderAlerts()}
         {this.renderContent()}
+        {this.renderQrCode()}
       </div>
     );
   }
@@ -153,6 +188,10 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps> {
   // #region -------------- Request -------------------------------------------------------------------
 
   private renderDataRequest() {
+    if (this.state.qrContent) {
+      return null;
+    }
+
     return (
       <div>
         <Header>
@@ -163,13 +202,13 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps> {
           {translate(t => t.exchange.proposalDescription)}
         </Description>
 
-        {this.renderFactInfo()}
-
         <div className='mh-alerts-container'>
           <Alert type={AlertType.Info}>
             {translate(t => t.exchange.proposalForLatestVersionNotice)}
           </Alert>
         </div>
+
+        {this.renderFactInfo()}
 
         <div className='mh-button-container'>
           <Button
@@ -177,9 +216,46 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps> {
           >
             {translate(t => t.exchange.requestData)}
           </Button>
+          <Button
+            onClick={this.onGenerateQr}
+          >
+            {translate(t => t.exchange.requestWithApp)}
+          </Button>
         </div>
       </div>
     );
+  }
+
+  private renderQrCode() {
+    if (!this.state.qrContent) {
+      return null;
+    }
+
+    return (
+      <div>
+        <Header>
+          {translate(t => t.exchange.proposalHeader)}
+        </Header>
+
+        <Description>
+          {translate(t => t.exchange.showQr)}
+        </Description>
+
+        <div className='mh-qr-code-wrapper'>
+          <QRCode value={this.state.qrContent} size={320} />
+        </div>
+
+        <DownloadAppButtons />
+      </div>
+    );
+  }
+
+  private onGenerateQr = () => {
+    const qrContent = getEncodedPrivateDataRequestUri(this.props.factSelector);
+
+    this.setState({
+      qrContent,
+    });
   }
 
   private onRequestData = () => {
@@ -304,8 +380,15 @@ const connected = connect<IStateProps, IDispatchProps, IProps, IState>(
     const { passportAddress, factProviderAddress, key } = ownProps.factValue;
     const canonicalKey = getCanonicalFactKey(passportAddress, factProviderAddress, key);
 
+    const factSelector: IFactSelector = {
+      passport: passportAddress,
+      factProvider: factProviderAddress,
+      key,
+    };
+
     return {
       proposalStatus: state.passport.exchangeProposal[canonicalKey],
+      factSelector,
     };
   },
   (dispatch, ownProps) => {

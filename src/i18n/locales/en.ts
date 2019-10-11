@@ -40,6 +40,9 @@ const translations = validateBaseTranslations({
     noData: 'No data',
     txExecutionInProgress: 'Transaction executing in your wallet provider. \nPlease confirm it.',
     txSuccess: 'Transaction was executed successfully',
+    availableOn: 'Available on',
+    appStore: 'App Store',
+    googlePlay: 'Google Play',
   },
   nav: {
     passportSearch: 'Digital identity search',
@@ -97,10 +100,11 @@ const translations = validateBaseTranslations({
     tooLong: 'Too long to display, truncated. Please download full value.',
   },
   exchange: {
-    requestData: 'Request data',
-    proposalDescription: 'This data is private. In order to read it - you have to request digital identity owner to give you access to it. \n\n' +
-    'To request it - click the button below and confirm transaction in your wallet provider. If digital identity owner accepts your request - you will ' +
-    'be able to access the data with the provided password.',
+    requestData: 'Request with Metamask',
+    requestWithApp: 'Request with Monetha app',
+    dismiss: 'Dismiss',
+    proposalDescription: 'This data is private. In order to read it - you have to request digital identity owner to give you access to it.',
+    showQr: 'Scan this QR code with the Monetha app',
     proposalHeader: 'Request private data',
     proposalInProgressHeader: 'Private data requested',
     proposalForLatestVersionNotice: 'NOTE: The request will be made for the latest version of the data.',
