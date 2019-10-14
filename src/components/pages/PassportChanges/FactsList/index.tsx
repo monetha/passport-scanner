@@ -1,29 +1,28 @@
 import groupBy from 'lodash/groupBy';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import Modal from 'react-responsive-modal';
 import { Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
-import { DataType, EventType, IFactValue, IHistoryEvent, IFactProviderInfo } from 'verifiable-data';
+import { FactProviderInfoLoader } from 'src/components/facts/FactProviderInfoLoader';
+import { PrivateDataExchanger } from 'src/components/facts/PrivateDataExchanger';
+import { TextValueViewer } from 'src/components/facts/TextValueViewer';
+import { ActionButton } from 'src/components/form/ActionButton';
+import { Alert, AlertType } from 'src/components/indicators/Alert';
 import { Loader } from 'src/components/indicators/Loader';
+import { Share } from 'src/components/indicators/Share';
 import { Table } from 'src/components/layout/Table';
 import { ipfsGatewayUrl } from 'src/constants/api';
+import { routes } from 'src/constants/routes';
 import { IAsyncState } from 'src/core/redux/asyncAction';
+import { getEtherscanUrl, getShortId } from 'src/helpers';
 import { translate } from 'src/i18n';
 import translations from 'src/i18n/locales/en';
 import { IPassportInformation, loadFactValue } from 'src/state/passport/actions';
 import { IFactValueWrapper } from 'src/state/passport/models';
 import { IState } from 'src/state/rootReducer';
+import { DataType, EventType, IFactProviderInfo, IFactValue, IHistoryEvent } from 'verifiable-data';
 import './style.scss';
-import { Alert, AlertType } from 'src/components/indicators/Alert';
-import { Share } from 'src/components/indicators/Share';
-import { ActionButton } from 'src/components/form/ActionButton';
-import { getShortId, getEtherscanUrl } from 'src/helpers';
-import { PassportInformation } from 'src/components/pages/PassportChanges/PassportInformation';
-import { routes } from 'src/constants/routes';
-import Modal from 'react-responsive-modal';
-import { PrivateDataExchanger } from 'src/components/facts/PrivateDataExchanger';
-import { TextValueViewer } from 'src/components/facts/TextValueViewer';
-import { FactProviderInfoLoader } from 'src/components/facts/FactProviderInfoLoader';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -68,14 +67,22 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
   public render() {
     return (
       <div className='mh-facts-list'>
-        <PassportInformation
-          passportInformation={this.props.passportInformation}
-        />
+        {this.renderHeader()}
         {this.renderGroups()}
         {this.renderModal()}
       </div>
     );
   }
+
+  // #region -------------- Header -------------------------------------------------------------------
+
+  private renderHeader() {
+    return (
+      <h2>{translate(t => t.passport.factChanges)}</h2>
+    );
+  }
+
+  // #endregion
 
   // #region -------------- Table fact provider groups -------------------------------------------------------------------
 

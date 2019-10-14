@@ -17,6 +17,7 @@ import { createRouteUrl } from 'src/utils/nav';
 import { FactsList } from './FactsList';
 import { FactsListForm, ISubmitValues } from './FactsListForm';
 import './style.scss';
+import { PassportInformation } from './PassportInformation';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 
@@ -57,16 +58,32 @@ class PassportChangesPage extends React.Component<IProps> {
               </div>
             </FormWrapper>
 
-            <div className='mh-facts-list'>
-              <div className='mh-list'>
-                {this.renderLoader()}
-                {this.renderError()}
-                {this.renderList()}
-              </div>
+            {this.renderPassportInfo()}
+
+            <div className='mh-list'>
+              {this.renderLoader()}
+              {this.renderError()}
+              {this.renderList()}
             </div>
           </div>
         </Content>
       </MainTemplate>
+    );
+  }
+
+  private renderPassportInfo() {
+    const { passportInformation } = this.props;
+
+    if (this.isLoading() || !passportInformation || !passportInformation.data || passportInformation.error) {
+      return null;
+    }
+
+    return (
+      <div className='mh-pass-info-container'>
+        <PassportInformation
+          passportInformation={passportInformation.data}
+        />
+      </div>
     );
   }
 
@@ -76,13 +93,12 @@ class PassportChangesPage extends React.Component<IProps> {
     if (this.isLoading() || !factList.data || factList.error) {
       return null;
     }
+
     return (
-      <div className='mh-list-contents'>
-        <FactsList
-          items={factList.data.facts}
-          passportInformation={passportInformation.data}
-        />
-      </div>
+      <FactsList
+        items={factList.data.facts}
+        passportInformation={passportInformation.data}
+      />
     );
   }
 

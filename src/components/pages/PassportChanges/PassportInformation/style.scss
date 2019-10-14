@@ -1,13 +1,12 @@
 @import "vars/index.scss";
 
-.mh-passport-owned-by {
-  border-bottom: 1px $colorGrayB3 solid;
-  margin-bottom: 30px;
-  padding-bottom: 30px;
+.mh-passport-information {
+  @include panel;
 
   h2 {
     color: $colorDarkGrayTable;
     font-size: 28px;
+    margin-top: 0;
   }
 }
 

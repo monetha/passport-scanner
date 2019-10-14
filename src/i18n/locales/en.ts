@@ -82,6 +82,7 @@ const translations = validateBaseTranslations({
     changeType: 'Change',
     value: 'Value',
     viewChanges: 'View changes',
+    factChanges: 'Data entry changes',
     eventTypes: {
       [EventType.Deleted]: 'Deleted',
       [EventType.Updated]: 'Updated',

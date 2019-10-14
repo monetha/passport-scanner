@@ -1,13 +1,7 @@
 @import "vars/index.scss";
 
-.mh-facts-list {
-  padding: 20px;
-}
-
 .mh-passport-list, .mh-facts-list {
-  padding: 20px 20px 5px   20px;
-  background-color: $colorWhite;
-  border-radius: 5px;
+  @include panel;
 
   a {
     word-break: break-all;
@@ -19,5 +13,16 @@
 
   h2, tbody {
     color: $colorDarkGrayTable;
+  }
+}
+
+
+.mh-facts-list {
+  h2 {
+    font-size: 28px;
+
+    @media #{$mdUp} {
+      margin-bottom: 40px;
+    }
   }
 }

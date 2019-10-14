@@ -1,0 +1,7 @@
+@import './colors.scss';
+
+@mixin panel {
+  padding: $paddingMd;
+  border-radius: $borderRadiusXs;
+  background-color: $colorWhite;
+}

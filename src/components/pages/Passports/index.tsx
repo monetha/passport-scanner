@@ -76,9 +76,7 @@ class PassportsPage extends React.Component<IProps> {
     }
 
     return (
-      <div className='mh-list-contents'>
-        <PassportList items={passportList.data.passportRefs} />
-      </div>
+      <PassportList items={passportList.data.passportRefs} />
     );
   }
 

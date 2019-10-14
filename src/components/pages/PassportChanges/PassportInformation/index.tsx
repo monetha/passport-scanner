@@ -21,7 +21,7 @@ export class PassportInformation extends React.PureComponent<IProps> {
     }
 
     return (
-      <div className='mh-passport-owned-by'>
+      <div className='mh-passport-information'>
         <h2>{translate(t => t.passport.passport)}</h2>
         <PassportInformationItem
           title={translate(t => t.passport.ownedBy)}
