@@ -181,7 +181,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
 
     const url = getEtherscanUrl();
     if (!url) {
-      return name;
+      return name || factProviderAddress;
     }
 
     return (
