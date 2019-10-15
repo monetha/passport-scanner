@@ -1,6 +1,7 @@
 import groupBy from 'lodash/groupBy';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import MediaQuery from 'react-responsive';
 import Modal from 'react-responsive-modal';
 import { Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
@@ -14,6 +15,7 @@ import { Share } from 'src/components/indicators/Share';
 import { Table } from 'src/components/layout/Table';
 import { ipfsGatewayUrl } from 'src/constants/api';
 import { routes } from 'src/constants/routes';
+import { screenQuery } from 'src/constants/screen';
 import { IAsyncState } from 'src/core/redux/asyncAction';
 import { getEtherscanUrl, getShortId } from 'src/helpers';
 import { translate } from 'src/i18n';
@@ -23,6 +25,10 @@ import { IFactValueWrapper } from 'src/state/passport/models';
 import { IState } from 'src/state/rootReducer';
 import { DataType, EventType, IFactProviderInfo, IFactValue, IHistoryEvent } from 'verifiable-data';
 import './style.scss';
+import { Button } from 'src/components/form/Button';
+import { DropdownIndicator } from 'src/components/indicators/DropdownIndicator';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenSquare, faMinusSquare } from '@fortawesome/free-solid-svg-icons';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -33,6 +39,7 @@ interface ILocalState {
   modalContent: {
     [key: string]: string;
   };
+  expandedChanges: Set<string>;
 }
 
 interface IStateProps {
@@ -58,6 +65,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
     modalOpened: false,
     txHashInModal: '',
     modalContent: {},
+    expandedChanges: new Set<string>(),
   };
 
   public componentDidUpdate(prevProps: IProps) {
@@ -74,11 +82,35 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
     );
   }
 
+  private isChangeExpanded(txHash: string) {
+    const { expandedChanges } = this.state;
+
+    return expandedChanges.has(txHash);
+  }
+
+  private toggleChangeExpansion = (txHash: string) => {
+    const { expandedChanges } = this.state;
+
+    const setCopy = new Set(expandedChanges);
+
+    if (setCopy.has(txHash)) {
+      setCopy.delete(txHash);
+    } else {
+      setCopy.add(txHash);
+    }
+
+    this.setState({
+      expandedChanges: setCopy,
+    });
+  }
+
   // #region -------------- Header -------------------------------------------------------------------
 
   private renderHeader() {
     return (
-      <h2>{translate(t => t.passport.factChanges)}</h2>
+      <div>
+        <h2>{translate(t => t.passport.factChanges)}</h2>
+      </div>
     );
   }
 
@@ -115,41 +147,85 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
             {this.renderFactProviderName(factProviderAddress, passportInformation.passportOwnerAddress)}
           </div>
 
-          <Table>
-            <Thead>
-              <Tr>
-                <Th>{translate(t => t.passport.blockNumber)}</Th>
-                <Th>{translate(t => t.passport.key)}</Th>
-                <Th>{translate(t => t.passport.value)}</Th>
-                <Th>{translate(t => t.passport.dataType)}</Th>
-                <Th>{translate(t => t.passport.changeType)}</Th>
-                <Th>{translate(t => t.passport.txHash)}</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {facts.map(f => (
-                <Fragment key={f.transactionHash}>
-                  {this.renderItem(f)}
-                </Fragment>
-              ))}
-            </Tbody>
-          </Table>
+          <MediaQuery query={screenQuery.responsiveTableDesktop}>
+            {this.renderDesktopTable(facts)}
+          </MediaQuery>
+
+          <MediaQuery query={screenQuery.responsiveTableMobile}>
+            {this.renderMobileTable(facts)}
+          </MediaQuery>
         </div>
       ));
     }
 
     if (renderedGroups.length === 0) {
-      return <Alert type={AlertType.Info}>{translate(t => t.common.noData)}</Alert>;
+      return (
+        <div>
+          <Alert type={AlertType.Info}>{translate(t => t.common.noData)}</Alert>
+        </div>
+      );
     }
 
     return renderedGroups;
+  }
+
+  private renderDesktopTable(facts: IHistoryEvent[]) {
+    return (
+      <div className='mh-desktop-table-container'>
+        <Table>
+          <Thead>
+            <Tr>
+              <Th>{translate(t => t.passport.blockNumber)}</Th>
+              <Th>{translate(t => t.passport.key)}</Th>
+              <Th>{translate(t => t.passport.value)}</Th>
+              <Th>{translate(t => t.passport.dataType)}</Th>
+              <Th>{translate(t => t.passport.changeType)}</Th>
+              <Th>{translate(t => t.passport.txHash)}</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {facts.map(f => (
+              <Fragment key={f.transactionHash}>
+                {this.renderDesktopItem(f)}
+              </Fragment>
+            ))}
+          </Tbody>
+        </Table>
+      </div>
+    );
+  }
+
+  private renderMobileTable(facts: IHistoryEvent[]) {
+    return (
+      <div className='mh-mobile-table-container'>
+        <Table>
+          <Thead>
+            <Tr>
+              <Th><span className='mh-hidden'>{translate(t => t.passport.key)}</span></Th>
+              <Th><span className='mh-hidden'>{translate(t => t.passport.value)}</span></Th>
+              <Th>{translate(t => t.passport.dataType)}</Th>
+              <Th>{translate(t => t.passport.changeType)}</Th>
+              <Th>{translate(t => t.passport.blockNumber)}</Th>
+              <Th>{translate(t => t.passport.txHash)}</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {facts.map(f => (
+              <Fragment key={f.transactionHash}>
+                {this.renderMobileItem(f)}
+              </Fragment>
+            ))}
+          </Tbody>
+        </Table>
+      </div>
+    );
   }
 
   // #endregion
 
   // #region -------------- Row columns-------------------------------------------------------------------
 
-  private renderItem(item: IHistoryEvent) {
+  private renderDesktopItem(item: IHistoryEvent) {
     return (
       <Tr>
         <Td>{this.renderBlockNumber(item)}</Td>
@@ -160,6 +236,62 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
         <Td>{this.renderTxHash(item)}</Td>
       </Tr>
     );
+  }
+
+  private renderMobileItem(item: IHistoryEvent) {
+    const isExpanded = this.isChangeExpanded(item.transactionHash);
+    const visibilityClass = isExpanded ? '' : 'mh-hidden';
+
+    const expander = (
+      <Button
+        data-txhash={item.transactionHash}
+        className='mh-expander-button'
+        onClick={this.onExpanderClick}
+      >
+        {isExpanded ?
+          translate(t => t.common.seeLess) :
+          translate(t => t.common.seeMore)
+        }
+
+        <DropdownIndicator
+          isOpened={isExpanded}
+        />
+      </Button>
+    );
+
+    return (
+      <Tr>
+        <Td className='mh-mobile-field-key'>
+          <div>
+            <div className='mh-text'>{item.key}</div>
+            <div className='mh-icon'>
+              {item.eventType === EventType.Deleted ?
+                <FontAwesomeIcon className='mh-deleted-icon' icon={faMinusSquare} /> :
+                <FontAwesomeIcon className='mh-updated-icon' icon={faPenSquare} />}
+            </div>
+          </div>
+        </Td>
+        <Td className='mh-mobile-field-value'>
+          {this.renderValue(item, translate(t => t.common.viewValue))}
+
+          {!isExpanded && expander}
+        </Td>
+        <Td className={visibilityClass}>{this.renderDataType(item)}</Td>
+        <Td className={visibilityClass}>{this.renderEventType(item)}</Td>
+        <Td className={visibilityClass}>{this.renderBlockNumber(item)}</Td>
+        <Td className={visibilityClass}>
+          {this.renderTxHash(item)}
+
+          {isExpanded && expander}
+        </Td>
+      </Tr>
+    );
+  }
+
+  private onExpanderClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const txHash = e.currentTarget.dataset.txhash as string;
+
+    this.toggleChangeExpansion(txHash);
   }
 
   private renderFactProviderName(address: string, passportOwnerAddress: string) {
@@ -267,7 +399,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
 
   // #region -------------- Fact value column -------------------------------------------------------------------
 
-  private renderValue(event: IHistoryEvent) {
+  private renderValue(event: IHistoryEvent, label?: string) {
     if (event.eventType !== EventType.Updated) {
       return null;
     }
@@ -285,7 +417,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       if (value.data !== undefined) {
         return (
           <div className='mh-value'>
-            {this.renderDownloadedValue(value.data, event)}
+            {this.renderDownloadedValue(value.data, event, label)}
           </div>
         );
       }
@@ -295,12 +427,12 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       <ActionButton
         onClick={() => this.onLoadClick(event)}
         className='mh-view-value'
-        text={translate(t => t.common.view)}
+        text={label || translate(t => t.common.view)}
       />
     );
   }
 
-  private renderDownloadedValue(data: IFactValueWrapper, event: IHistoryEvent) {
+  private renderDownloadedValue(data: IFactValueWrapper, event: IHistoryEvent, label?: string) {
     if (!data || !data.value || data.value.value === undefined || data.value.value === null) {
       return '';
     }
@@ -321,7 +453,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
               txHashInModal: event.transactionHash,
             })}
             className='mh-download'
-            text={translate(t => t.common.view)}
+            text={label || translate(t => t.common.view)}
           />
         );
 
@@ -330,7 +462,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
           <ActionButton
             onClick={() => window.open(`${ipfsGatewayUrl}/${value}`, '_blank')}
             className='mh-view-value'
-            text={translate(t => t.common.view)}
+            text={label || translate(t => t.common.view)}
           />
         );
 

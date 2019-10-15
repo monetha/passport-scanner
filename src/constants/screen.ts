@@ -9,6 +9,8 @@ export const screenSize = {
   xlUp: 1200,
   vMdDown: 800,
   vMdUp: 801,
+  responsiveTableMobileDown: 640,
+  responsiveTableDesktopUp: 641,
 };
 
 export const screenQuery = {
@@ -22,4 +24,6 @@ export const screenQuery = {
   xlUp: `(min-width: ${screenSize.xlUp}px)`,
   vMdDown: `(max-height: ${screenSize.vMdDown}px)`,
   vMdUp: `(min-height: ${screenSize.vMdUp}px)`,
+  responsiveTableDesktop: `(min-width: ${screenSize.responsiveTableDesktopUp}px)`,
+  responsiveTableMobile: `(max-width: ${screenSize.responsiveTableMobileDown}px)`,
 };

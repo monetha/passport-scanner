@@ -36,6 +36,7 @@ const translations = validateBaseTranslations({
     submit: 'Submit',
     load: 'Load',
     view: 'View',
+    viewValue: 'View value',
     download: 'Download',
     noData: 'No data',
     txExecutionInProgress: 'Transaction executing in your wallet provider. \nPlease confirm it.',
@@ -43,6 +44,8 @@ const translations = validateBaseTranslations({
     availableOn: 'Available on',
     appStore: 'App Store',
     googlePlay: 'Google Play',
+    seeLess: 'See less',
+    seeMore: 'See more',
   },
   nav: {
     passportSearch: 'Digital identity search',

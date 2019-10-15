@@ -7,6 +7,10 @@
     color: $colorDarkGrayTable;
     font-size: 28px;
     margin-top: 0;
+
+    @media #{$smDown} {
+      font-size: 24px;
+    }
   }
 }
 
@@ -38,6 +42,7 @@
 
   .mh-full-address {
     display: inline;
+    word-break: break-all;
 
     @media #{$smDown} {
       display: none;
@@ -46,6 +51,7 @@
 
   .mh-shorten-address {
     display: none;
+    word-break: break-all;
 
     @media #{$smDown} {
       display: block;

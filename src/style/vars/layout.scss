@@ -25,6 +25,9 @@ $smOnly: "(min-width: 576px) and (max-width: 767px)";
 $mdOnly: "(min-width: 768px) and (max-width: 991px)";
 $lgOnly: "(min-width: 992px) and (max-width: 1199px)";
 
+$responsiveTableDesktop: "(min-width: 641px)";
+$responsiveTableMobile: "(max-width: 640px)";
+
 $minInputSize: 50px;
 
 @function boxShadowXs($color) {

@@ -9,22 +9,19 @@
   background-color: $colorViewButton;
   border: none;
   font-family: $fontFamilyRegular;
+  font-size: 14px;
   padding: 5px 10px;
   border-radius: 5px;
-  margin-left: 5px;
   cursor: pointer;
   transition: opacity 0.3s;
   word-wrap: normal;
   word-break: normal;
   color: $colorBlue;
+  margin-left: 0;
 
   &:hover {
     opacity: 0.5;
   }
-}
-
-.mh-view-value, .mh-download {
-  margin-left: 0;
 }
 
 .mh-input-with-button {

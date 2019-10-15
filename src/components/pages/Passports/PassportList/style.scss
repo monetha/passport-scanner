@@ -15,14 +15,3 @@
     color: $colorDarkGrayTable;
   }
 }
-
-
-.mh-facts-list {
-  h2 {
-    font-size: 28px;
-
-    @media #{$mdUp} {
-      margin-bottom: 40px;
-    }
-  }
-}

@@ -1,11 +1,38 @@
 @import "vars/index.scss";
 
 .mh-facts-list {
+  padding: 25px 0 25px 0 !important;
+
+  > * {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  h2 {
+    font-size: 28px;
+
+    @media #{$mdUp} {
+      margin-bottom: 40px;
+    }
+
+    @media #{$smDown} {
+      font-size: 24px;
+    }
+  }
+
   .mh-fact-provider-header {
     margin-bottom: $spaceBetweenComponentsXxs;
     font-family: $fontFamilyRegular;
     font-size: $fontSizeLg;
     word-break: break-word;
+
+    @media #{$smDown} {
+      font-size: $fontSizeLg0;
+    }
+
+    @media #{$responsiveTableMobile} {
+      text-align: center;
+    }
 
     .mh-fact-provider {
       color: $colorDarkGrayTable;
@@ -17,15 +44,125 @@
   }
 
   .mh-fact-group {
+    @media #{$responsiveTableMobile} {
+      margin-top: $spaceBetweenComponentsMd;
+    }
+
     + .mh-fact-group {
-      margin-top: $spaceBetweenComponentsLg;
+      margin-top: $spaceBetweenComponentsMd;
+
+      @media #{$responsiveTableMobile} {
+        padding-top: $spaceBetweenComponentsMd;
+        border-top: 1px solid $colorGrayB3;
+      }
     }
 
     table {
       td {
+        vertical-align: middle;
+
+        @media #{$responsiveTableDesktop} {
+          .mh-action-button {
+            padding-right: 10px;
+          }
+        }
+
         .mh-loader .mh-spinner-indicator {
           height: 15px;
           width: 15px;
+        }
+      }
+    }
+  }
+
+  .mh-hidden {
+    display: none;
+  }
+
+  .mh-expander-button {
+    width: 100%;
+    min-height: 0;
+    box-shadow: none;
+    text-align: center;
+    margin-top: 20px;
+    background-color: rgba($colorGrayB3, 0.3);
+    color: $colorGray;
+    border-radius: $borderRadiusXs;
+    font-family: $fontFamilyRegular;
+    font-weight: normal;
+    padding: 5px 10px;
+
+    &:hover {
+      color: $colorGray;
+    }
+
+    .mh-dropdown-indicator {
+      border-color: $colorGrayB1 transparent transparent transparent;
+    }
+  }
+
+  .mh-view-value, .mh-download {
+    width: 100%;
+  }
+
+  .mh-mobile-table-container .responsiveTable {
+    overflow: visible;
+
+    tr {
+      @include panel;
+
+      padding: 15px;
+      box-shadow: boxShadowSm($colorBlack);
+      border: 1px solid rgba($colorGrayB3, 0.8);
+    }
+
+    td {
+      &.pivoted:last-child {
+        padding-bottom: 0 !important;
+      }
+
+      &.mh-mobile-field-key.pivoted {
+        font-family: $fontFamilyBold;
+        font-size: 18px;
+        padding: 0 !important;
+        text-align: center;
+        margin-bottom: 10px;
+        word-wrap: break-word;
+        word-break: break-word;
+
+        > div {
+          display: flex;
+          flex-direction: row;
+          align-items: flex-start;
+
+          .mh-text {
+            flex: auto;
+          }
+
+          .mh-icon {
+            padding-left: 5px;
+            color: $colorGrayB1;
+          }
+
+          .mh-updated-icon {
+            color: rgba(desaturate($colorGreen, 40), 0.7);
+          }
+
+          .mh-deleted-icon {
+            color: rgba(desaturate($colorRed, 70), 0.5);
+          }
+        }
+      }
+
+      &.mh-mobile-field-value.pivoted {
+        padding: 0 !important;
+
+        .mh-action-button {
+          margin-bottom: 10px;
+        }
+
+        .mh-expander-button {
+          margin-top: 0;
         }
       }
     }
