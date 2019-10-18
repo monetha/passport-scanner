@@ -11,6 +11,7 @@ import { Loader } from '../indicators/Loader';
 import { PassportChangesPage } from '../pages/PassportChanges';
 import { PassportsPage } from '../pages/Passports';
 import './style.scss';
+import { DataExchangeRedirect } from 'src/components/pages/DataExchangeRedirect';
 
 // #region -------------- Interface -------------------------------------------------------------------
 
@@ -57,6 +58,12 @@ class App extends React.Component<IProps> {
           />} />
         <Route exact path={passportPath} component={PassportChangesPage} />
         <Route exact path={routes.Loading} component={() => <Loader fullArea={true} fullscreen={true} />} />
+        <Route exact path={routes.DataExchange} component={() => (
+          <DataExchangeRedirect
+            from={routes.DataExchange}
+            location={this.props.location}
+          />
+        )} />
         <Redirect to={routes.Passports} />
       </Switch>
     );

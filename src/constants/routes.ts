@@ -5,6 +5,7 @@ export const routes = {
   LegacyPassportChanges: '/passport-changes',
   Identity: '/identity',
   Loading: '/loading',
+  DataExchange: '/data-exchange/propose',
 };
 
 export const passportsPath = `${routes.Passports}/:passportFactoryAddress?`;
