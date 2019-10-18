@@ -157,6 +157,7 @@ const connected = connect<IStateProps, IDispatchProps, RouteComponentProps<any>,
         const newUrl = createRouteUrl(ownProps.location, `${routes.Identity}/${values.passportAddress}`, {
           start_block: values.startBlock && values.startBlock.toString(),
           fact_provider: values.factProviderAddress,
+          fact_key: values.factKey,
         });
 
         dispatch(replace(newUrl));

@@ -21,12 +21,14 @@ interface IFormValues {
   passportAddress: string;
   startBlock: string;
   factProvider: string;
+  factKey?: string;
 }
 
 export interface ISubmitValues {
   passportAddress: string;
   startBlock: number;
   factProviderAddress: string;
+  factKey?: string;
 }
 
 // #endregion
@@ -67,11 +69,13 @@ class FactsListForm extends React.PureComponent<IProps> {
 
     const startBlock = (queryParams.start_block as string);
     const factProvider = (queryParams.fact_provider as string);
+    const factKey = (queryParams.fact_key as string);
 
     this.initialValues = {
       passportAddress: passportAddress || '',
       startBlock: startBlock || '',
       factProvider: factProvider || '',
+      factKey: factKey || '',
     };
   }
 
@@ -156,6 +160,7 @@ class FactsListForm extends React.PureComponent<IProps> {
       passportAddress: values.passportAddress.trim().toLowerCase(),
       startBlock: values.startBlock.trim() ? parseInt(values.startBlock, undefined) : null,
       factProviderAddress: values.factProvider.trim().toLowerCase(),
+      factKey: values.factKey && values.factKey.trim().toLowerCase(),
     };
 
     this.props.onSubmit(outputValues);

@@ -101,6 +101,21 @@ module.exports = (options) => ({
           },
         },
       },
+      {
+        test: /apple-app-site-association$/,
+        use: [
+          'file-loader?name=[name]',
+          {
+            loader: 'string-replace-loader',
+            options: {
+              multiple: [
+                { search: '${MTH_IOS_APP_TEAM_ID}', replace: process.env.MTH_IOS_APP_TEAM_ID || '4FFAR863F8' },
+                { search: '${MTH_IOS_APP_BUNDLE_ID}', replace: process.env.MTH_IOS_APP_BUNDLE_ID || 'com.monetha.app' },
+              ]
+            }
+          },
+        ],
+      },
     ],
   },
   plugins: options.plugins.concat([

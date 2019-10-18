@@ -11,6 +11,9 @@ import { ConnectedRouter } from 'connected-react-router';
 // Load favicon
 require('images/favicon.ico');
 
+// Import apple app associated paths
+import './apple-app-site-association';
+
 // Load fonts
 import '!file-loader?name=[name].[ext]&outputPath=assets/fonts/!./assets/fonts/CerebriSans-Medium.ttf';
 import '!file-loader?name=[name].[ext]&outputPath=assets/fonts/!./assets/fonts/CerebriSans-Medium.woff2';

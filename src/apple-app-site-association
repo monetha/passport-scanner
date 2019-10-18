@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "${MTH_IOS_APP_TEAM_ID}.${MTH_IOS_APP_BUNDLE_ID}",
+        "paths": [ "/data-exchange/propose" ]
+      }
+    ]
+  }
+}
