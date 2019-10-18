@@ -42,6 +42,7 @@ SOURCE_DIR=$1
 
 source <(aws sts assume-role --role-arn $AWS_IAM_ROLE_ARN --role-session-name deploy-to-S3-$AWS_S3_BUCKET_NAME | jq -r '.Credentials | @sh "export AWS_SESSION_TOKEN=\(.SessionToken)\nexport AWS_ACCESS_KEY_ID=\(.AccessKeyId)\nexport AWS_SECRET_ACCESS_KEY=\(.SecretAccessKey)"')
 echo "Deploying to AWS S3 bucket $AWS_S3_BUCKET_NAME"
+aws s3 sync $SOURCE_DIR s3://$AWS_S3_BUCKET_NAME --exclude "*" --include "apple-app-site-association" --content-type application/json --metadata-directive REPLACE --only-show-errors
 aws s3 sync $SOURCE_DIR s3://$AWS_S3_BUCKET_NAME --exclude "*.html" --cache-control "public, max-age=604800" --only-show-errors
 aws s3 sync $SOURCE_DIR s3://$AWS_S3_BUCKET_NAME --exclude "*" --include "*.html" --cache-control "public, no-cache, must-revalidate, proxy-revalidate, max-age=0" --only-show-errors
 aws s3 sync $SOURCE_DIR s3://$AWS_S3_BUCKET_NAME --delete
