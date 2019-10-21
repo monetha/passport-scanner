@@ -38,7 +38,6 @@ export interface IGetFactsPayload {
   passportAddress: string;
   startBlock: number;
   factProviderAddress: string;
-  factKey?: string;
 }
 
 export const getFacts = createAsyncAction<IGetFactsPayload, IFactList>(actionTypes.getFacts);

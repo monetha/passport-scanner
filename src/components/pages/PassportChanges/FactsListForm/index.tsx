@@ -160,7 +160,6 @@ class FactsListForm extends React.PureComponent<IProps> {
       passportAddress: values.passportAddress.trim().toLowerCase(),
       startBlock: values.startBlock.trim() ? parseInt(values.startBlock, undefined) : null,
       factProviderAddress: values.factProvider.trim().toLowerCase(),
-      factKey: values.factKey && values.factKey.trim().toLowerCase(),
     };
 
     this.props.onSubmit(outputValues);

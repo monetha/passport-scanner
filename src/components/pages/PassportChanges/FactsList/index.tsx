@@ -28,7 +28,9 @@ import './style.scss';
 import { Button } from 'src/components/form/Button';
 import { DropdownIndicator } from 'src/components/indicators/DropdownIndicator';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenSquare, faMinusSquare } from '@fortawesome/free-solid-svg-icons';
+import { faMinusSquare, faPenSquare } from '@fortawesome/free-solid-svg-icons';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { parse } from 'query-string';
 
 // #region -------------- Interfaces --------------------------------------------------------------
 
@@ -50,9 +52,10 @@ interface IDispatchProps {
   onLoadFactValue(fact: IHistoryEvent);
 }
 
-export interface IProps extends IStateProps, IDispatchProps {
+export interface IProps extends IStateProps, IDispatchProps, RouteComponentProps {
   items: IHistoryEvent[];
   passportInformation: IPassportInformation;
+  factKey?: string;
 }
 
 // #endregion
@@ -404,7 +407,7 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       return null;
     }
 
-    const { factValues } = this.props;
+    const { factValues, factKey } = this.props;
     const value = factValues[event.transactionHash];
 
     if (value) {
@@ -421,6 +424,11 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
           </div>
         );
       }
+    }
+
+    if (event.dataType === DataType.PrivateData && factKey === event.key) {
+      this.props.onLoadFactValue(event);
+      return null;
     }
 
     return (
@@ -644,10 +652,12 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
 
 // #region -------------- Connect -------------------------------------------------------------------
 
-const connected = connect<IStateProps, IDispatchProps>(
-  (state: IState) => {
+const connected = withRouter(connect<IStateProps, IDispatchProps>(
+  (state: IState, ownProps: IProps) => {
+    const parsed: any = parse(ownProps.location.search);
     return {
       factValues: state.passport.factValues,
+      factKey: parsed.fact_key || '',
     };
   },
   (dispatch) => {
@@ -657,7 +667,7 @@ const connected = connect<IStateProps, IDispatchProps>(
       },
     };
   },
-)(FactsList);
+)(FactsList));
 
 export { connected as FactsList };
 

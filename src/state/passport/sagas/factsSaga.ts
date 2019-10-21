@@ -15,7 +15,7 @@ import reverse from 'lodash/reverse';
 
 function* onGetFacts(action: IAsyncAction<IGetFactsPayload>) {
   try {
-    const { passportAddress, startBlock, factProviderAddress, factKey: key } = action.payload;
+    const { passportAddress, startBlock, factProviderAddress } = action.payload;
 
     const { web3 } = getServices();
 
@@ -28,7 +28,6 @@ function* onGetFacts(action: IAsyncAction<IGetFactsPayload>) {
     const facts: IHistoryEvent[] = yield reader.readPassportHistory(passportAddress, {
       startBlock: startBlockHex,
       factProviderAddress: factProviderAddress || undefined,
-      key: key || undefined,
     });
 
     const sortedFacts = reverse(facts);
