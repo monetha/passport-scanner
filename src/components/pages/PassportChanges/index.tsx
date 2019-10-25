@@ -18,7 +18,6 @@ import { FactsList } from './FactsList';
 import { FactsListForm, ISubmitValues } from './FactsListForm';
 import './style.scss';
 import { PassportInformation } from './PassportInformation';
-import { parse } from 'query-string';
 
 // #region -------------- Interfaces -------------------------------------------------------------------
 
@@ -32,7 +31,6 @@ interface IDispatchProps {
 
 interface IProps extends RouteComponentProps<any>, IStateProps, IDispatchProps {
   passportInformation: IAsyncState<IPassportInformation>;
-  factKey?: string;
 }
 
 // #endregion
@@ -153,18 +151,16 @@ const connected = connect<IStateProps, IDispatchProps, RouteComponentProps<any>,
     };
   },
   (dispatch, ownProps) => {
-    const parsed: any = parse(ownProps.location.search);
     return {
       onLoadFacts(values: ISubmitValues) {
         const queryParams: any = {
           start_block: values.startBlock && values.startBlock.toString(),
           fact_provider: values.factProviderAddress,
+          fact_key: values.factKey,
         };
-        if (parsed.fact_key) {
-          queryParams.fact_key = parsed.fact_key;
-        }
+
         const newUrl = createRouteUrl(ownProps.location, `${routes.Identity}/${values.passportAddress}`, queryParams);
-        console.log('newUrl', newUrl);
+
         dispatch(replace(newUrl));
         dispatch(getFacts.init(values));
 

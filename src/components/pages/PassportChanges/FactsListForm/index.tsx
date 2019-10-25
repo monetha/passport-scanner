@@ -59,6 +59,7 @@ const validationSchema = Yup.object().shape({
 
 class FactsListForm extends React.PureComponent<IProps> {
   private initialValues: IFormValues;
+  private setFieldValue;
 
   public constructor(props: IProps) {
     super(props);
@@ -75,7 +76,7 @@ class FactsListForm extends React.PureComponent<IProps> {
       passportAddress: passportAddress || '',
       startBlock: startBlock || '',
       factProvider: factProvider || '',
-      factKey: factKey || '',
+      factKey,
     };
   }
 
@@ -100,8 +101,10 @@ class FactsListForm extends React.PureComponent<IProps> {
     );
   }
 
-  private renderForm = ({ handleChange, values }) => {
+  private renderForm = ({ handleChange, values, setFieldValue }) => {
     const { disabled } = this.props;
+
+    this.setFieldValue = setFieldValue;
 
     return (
       <Form>
@@ -160,9 +163,16 @@ class FactsListForm extends React.PureComponent<IProps> {
       passportAddress: values.passportAddress.trim().toLowerCase(),
       startBlock: values.startBlock.trim() ? parseInt(values.startBlock, undefined) : null,
       factProviderAddress: values.factProvider.trim().toLowerCase(),
+      factKey: values.factKey && values.factKey.trim(),
     };
 
     this.props.onSubmit(outputValues);
+
+    // Clear factKey after submission, because it is only possible to pass
+    // fact key initially through url param and not any form field
+    if (this.setFieldValue) {
+      this.setFieldValue('factKey', null);
+    }
   }
 }
 

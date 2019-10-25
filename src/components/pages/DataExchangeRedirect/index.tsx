@@ -25,26 +25,29 @@ export const DataExchangeRedirect = ({ location, from }: IProps) => {
 
   const factSelector: IFactSelector = parse(search);
 
-  const formValues: any = {
+  const newQueryParams: any = {
     network: factSelector.network || '',
   };
 
+  // No pass addr? Redirect to identity search
   const passportAddress = factSelector.passaddr;
   if (!web3.utils.isAddress(passportAddress)) {
-    return <Redirect from={from} to={createRouteUrl(location, routes.Identity, formValues as IParsedQueryString)} />;
+    return (
+      <Redirect from={from} to={createRouteUrl(location, routes.Identity, newQueryParams as IParsedQueryString)} />
+    );
   }
 
-  const base = `${routes.Identity}/${passportAddress}`;
+  // Otherwise go to concrete identity
+  const concretePassPath = `${routes.Identity}/${passportAddress}`;
 
   const factProvider = factSelector.factprovideraddr;
-  if (!web3.utils.isAddress(factProvider)) {
-    return <Redirect from={from} to={createRouteUrl(location, base, formValues as IParsedQueryString)} />;
+  if (web3.utils.isAddress(factProvider)) {
+    newQueryParams.fact_provider = factProvider;
   }
 
-  formValues.fact_provider = factProvider;
-  formValues.fact_key = factSelector.factkey || '';
+  newQueryParams.fact_key = factSelector.factkey || '';
 
-  const routeUrl = createRouteUrl(location, base, formValues as IParsedQueryString);
-
-  return <Redirect from={from} to={routeUrl} />;
+  return (
+    <Redirect from={from} to={createRouteUrl(location, concretePassPath, newQueryParams as IParsedQueryString)} />
+  );
 };

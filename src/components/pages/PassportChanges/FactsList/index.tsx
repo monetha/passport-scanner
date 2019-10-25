@@ -426,9 +426,9 @@ class FactsList extends React.PureComponent<IProps, ILocalState> {
       }
     }
 
-    if (event.dataType === DataType.PrivateData && factKey === event.key) {
+    // Preload fact with specified key
+    if (factKey === event.key && event.eventType === EventType.Updated) {
       this.props.onLoadFactValue(event);
-      return null;
     }
 
     return (
