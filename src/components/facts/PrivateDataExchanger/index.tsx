@@ -21,6 +21,8 @@ import { CodeBlock } from 'src/components/text/CodeBlock';
 import { FactProviderInfoLoader } from '../FactProviderInfoLoader';
 import QRCode from 'qrcode.react';
 import { DownloadAppButtons } from 'src/components/DownloadAppButtons';
+import { getServices } from 'src/ioc/services';
+import { routes } from 'src/constants/routes';
 
 export interface IFactSelector {
   passport: Address;
@@ -31,18 +33,24 @@ export interface IFactSelector {
 export const getEncodedPrivateDataRequestUri = (selector: IFactSelector) => {
   const { passport, factProvider, key } = selector;
 
-  const params = {
+  const params: any = {
     passaddr: passport,
     factprovideraddr: factProvider,
     factkey: key,
   };
+
+  // Network
+  const network = getServices().ethNetwork;
+  if (network.alias !== 'mainnet') {
+    params.network = network.alias || network.url;
+  }
 
   const paramsStr = Object
     .keys(params)
     .map(param => `${param}=${params[param]}`)
     .join('&');
 
-  return `mth:share-fact?${paramsStr}`;
+  return `${window.location.origin}${routes.DataExchange}?${paramsStr}`;
 };
 
 // #region -------------- Interfaces --------------------------------------------------------------
@@ -61,7 +69,7 @@ export interface IProps {
 }
 
 interface ILocalState {
-  qrContent: string;
+  showQR: boolean;
 }
 
 interface ICombinedProps extends IStateProps, IDispatchProps, IProps {
@@ -73,7 +81,7 @@ interface ICombinedProps extends IStateProps, IDispatchProps, IProps {
 
 class PrivateDataExchanger extends React.PureComponent<ICombinedProps, ILocalState> {
   public readonly state: Readonly<ILocalState> = {
-    qrContent: '',
+    showQR: false,
   };
 
   private alertsSince = new Date();
@@ -188,7 +196,7 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps, ILocalSta
   // #region -------------- Request -------------------------------------------------------------------
 
   private renderDataRequest() {
-    if (this.state.qrContent) {
+    if (this.state.showQR) {
       return null;
     }
 
@@ -226,10 +234,26 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps, ILocalSta
     );
   }
 
+  private renderProposalLink() {
+    const link = getEncodedPrivateDataRequestUri(this.props.factSelector);
+
+    return (
+      <div className='mh-proposal-link-container'>
+        <div className='mh-title'>{translate(t => t.exchange.proposalLinkLabel)}</div>
+
+        <CodeBlock textToCopy={link} compact>
+          {link}
+        </CodeBlock>
+      </div>
+    );
+  }
+
   private renderQrCode() {
-    if (!this.state.qrContent) {
+    if (!this.state.showQR) {
       return null;
     }
+
+    const link = getEncodedPrivateDataRequestUri(this.props.factSelector);
 
     return (
       <div>
@@ -242,7 +266,7 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps, ILocalSta
         </Description>
 
         <div className='mh-qr-code-wrapper'>
-          <QRCode value={this.state.qrContent} size={320} />
+          <QRCode value={link} size={320} />
         </div>
 
         <DownloadAppButtons />
@@ -251,10 +275,8 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps, ILocalSta
   }
 
   private onGenerateQr = () => {
-    const qrContent = getEncodedPrivateDataRequestUri(this.props.factSelector);
-
     this.setState({
-      qrContent,
+      showQR: true,
     });
   }
 
@@ -313,7 +335,7 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps, ILocalSta
   // #region -------------- Fact info -------------------------------------------------------------------
 
   private renderFactInfo() {
-    const { factValue } = this.props;
+    const { factValue, proposalStatus } = this.props;
 
     return (
       <div className='mh-fact-info'>
@@ -330,6 +352,11 @@ class PrivateDataExchanger extends React.PureComponent<ICombinedProps, ILocalSta
           title={translate(t => t.passport.key)}
           value={factValue.key}
         />
+
+        {/* Render url link only when proposal is not made yet */}
+        {(!proposalStatus || !proposalStatus.data) &&
+          this.renderProposalLink()
+        }
       </div>
     );
   }

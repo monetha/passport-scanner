@@ -12,4 +12,15 @@
   cursor: auto;
   word-break: break-word;
   word-wrap: break-word;
+
+  &.mh-compact {
+    padding: 15px 20px;
+
+    .mh-contents {
+      white-space: nowrap;
+      flex: auto;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
 }

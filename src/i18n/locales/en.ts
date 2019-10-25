@@ -114,6 +114,7 @@ const translations = validateBaseTranslations({
     proposalForLatestVersionNotice: 'NOTE: The request will be made for the latest version of the data.',
     waitingForAcceptance: 'You have requested access to the data. Waiting for owner to accept your request.',
     exchangeKeyDescription: 'Please save the password provided below. It must be used to unlock data after owner accepts it.',
+    proposalLinkLabel: 'Url to access this request form',
   },
 });
 
