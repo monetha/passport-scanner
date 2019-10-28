@@ -47,7 +47,7 @@ export const getEncodedPrivateDataRequestUri = (selector: IFactSelector) => {
 
   const paramsStr = Object
     .keys(params)
-    .map(param => `${param}=${params[param]}`)
+    .map(param => `${param}=${encodeURIComponent(params[param])}`)
     .join('&');
 
   return `${window.location.origin}${routes.DataExchange}?${paramsStr}`;
