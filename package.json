@@ -63,7 +63,7 @@
         "i18n-js": "^3.2.2",
         "immutable-assign": "^2.1.1",
         "lodash": "^4.17.14",
-        "minimist": "1.2.0",
+        "minimist": "1.2.3",
         "moment": "^2.24.0",
         "qrcode.react": "^0.9.3",
         "query-string": "^6.5.0",
